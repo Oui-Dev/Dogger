@@ -17,6 +17,7 @@ function App() {
         >
           Learn React
         </a>
+        <i class="bi bi-bootstrap-reboot"></i>
       </header>
     </div>
   );
