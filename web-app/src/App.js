@@ -18,7 +18,7 @@ function App() {
     <div>
         <section className="min-h-screen">
             <Navbar />
-            <div className="max-w-6xl mx-auto px-4 mt-10">
+            <div className="max-w-6xl mx-auto px-4 mt-6 md:mt-8 lg:mt-10">
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/projects" element={<ProjectsList />} />

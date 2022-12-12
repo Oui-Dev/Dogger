@@ -19,55 +19,53 @@ export default function Table({ ...props }) {
     }
 
     return (
-        <div className="mt-8 flex flex-col">
-            <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                    { hasData() &&
-                        <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                            <table className="min-w-full divide-y divide-gray-300">
-                                <thead className="bg-dogger-orange-400 text-white">
-                                    <tr>
-                                        { props.tableTitles.map((title, index) => (
-                                            <th scope="col" className="custom_th" key={index}>
-                                                {title}
-                                            </th>
+        <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                { hasData() &&
+                    <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                        <table className="min-w-full divide-y divide-gray-300">
+                            <thead className="bg-dogger-orange-400 text-white">
+                                <tr>
+                                    { props.tableTitles.map((title, index) => (
+                                        <th scope="col" className="custom_th" key={index}>
+                                            {title}
+                                        </th>
+                                    ))}
+                                    { hasActions() &&
+                                        <th
+                                            scope="col"
+                                            className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                            Actions
+                                        </th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-200 bg-white">
+                                { props.data.map((item, index) => (
+                                    <tr key={index}>
+                                        { props.tableKeys.map((key, index) => (
+                                            <td className="custom_td" key={index}>
+                                                {item[key]}
+                                            </td>
                                         ))}
                                         { hasActions() &&
-                                            <th
-                                                scope="col"
-                                                className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                                Actions
-                                            </th>
+                                            <td className="custom_actions">
+                                                {props.actions.map((action, index) => (
+                                                    <div className="action_btn" key={index}>
+                                                        {/* <Link to={action.link} className="hover:text-red-500">
+                                                            {action.icon}
+                                                        </Link> */}
+                                                    </div>
+                                                ))}
+                                            </td>
                                         }
                                     </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-200 bg-white">
-                                    { props.data.map((item, index) => (
-                                        <tr key={index}>
-                                            { props.tableKeys.map((key, index) => (
-                                                <td className="custom_td" key={index}>
-                                                    {item[key]}
-                                                </td>
-                                            ))}
-                                            { hasActions() &&
-                                                <td className="custom_actions">
-                                                    {props.actions.map((action, index) => (
-                                                        <div className="action_btn" key={index}>
-                                                            {/* <Link to={action.link} className="hover:text-red-500">
-                                                                {action.icon}
-                                                            </Link> */}
-                                                        </div>
-                                                    ))}
-                                                </td>
-                                            }
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    }
-                    { !hasData() && <div>No values to display.</div> }
-                </div>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                { !hasData() && <div>No values to display.</div> }
             </div>
         </div>
     );
