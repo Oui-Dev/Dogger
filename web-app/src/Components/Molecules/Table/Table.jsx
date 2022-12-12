@@ -17,6 +17,9 @@ export default function Table({ ...props }) {
     const hasActions = () => {
         return props.actions.length > 0;
     }
+    const actionHover = (action) => {
+        return action.hover ?? 'hover:text-red-500';
+    }
 
     return (
         <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -50,11 +53,11 @@ export default function Table({ ...props }) {
                                         ))}
                                         { hasActions() &&
                                             <td className="custom_actions">
-                                                {props.actions.map((action, index) => (
-                                                    <div className="action_btn" key={index}>
-                                                        {/* <Link to={action.link} className="hover:text-red-500">
+                                                {props.actions.map(action => (
+                                                    <div className="action_btn" key={action.name}>
+                                                        <Link to={action.link} className={actionHover(action)}>
                                                             {action.icon}
-                                                        </Link> */}
+                                                        </Link>
                                                     </div>
                                                 ))}
                                             </td>
