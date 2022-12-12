@@ -1,4 +1,4 @@
-import StatsCard from "../Components/Atoms/StatsCard";
+import StatsCard from "../Components/Molecules/StatsCard";
 import { BsFillPeopleFill, BsFillExclamationCircleFill, BsBag } from "react-icons/bs";
 
 export default function Home() {

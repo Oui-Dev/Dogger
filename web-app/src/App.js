@@ -2,8 +2,8 @@ import React from 'react';
 import { Route, Routes } from "react-router-dom";
 import './App.scss';
 // Components
-import Navbar from './Components/Atoms/Navbar/Navbar';
-import Footer from './Components/Atoms/Footer';
+import Navbar from './Components/Molecules/Navbar/Navbar';
+import Footer from './Components/Molecules/Footer';
 // Pages
 import Home from './Pages/Home';
 import ProjectsList from './Pages/Projects/List';
@@ -18,7 +18,7 @@ function App() {
     <div>
         <section className="min-h-screen">
             <Navbar />
-            <div className="max-w-6xl mx-auto px-4 mt-8">
+            <div className="max-w-6xl mx-auto px-4 mt-10">
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/projects" element={<ProjectsList />} />
