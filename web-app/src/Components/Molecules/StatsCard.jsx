@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function StatsCard ({ ...props }) {
     const bgIconClass = () => {
-        return `flex justify-center items-center ${props.iconBg} p-2 rounded-full w-10 h-10 text-white text-xl`;
+        return `flex justify-center items-center ${props.iconBg ?? 'bg-dogger-orange-500'} p-2 rounded-full w-10 h-10 text-white text-xl`;
     }
     const isNegative = () => {
         return props.percentage < 0;
