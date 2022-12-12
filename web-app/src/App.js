@@ -15,18 +15,20 @@ import Profile from './Pages/Profile';
 
 function App() {
   return (
-    <div className="App">
+    <div>
         <section className="min-h-screen">
             <Navbar />
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/projects" element={<ProjectsList />} />
-                <Route path="/projects/add" element={<ProjectsAdd />} />
-                <Route path="/projects/edit" element={<ProjectsEdit />} />
-                <Route path="/errors" element={<ErrorsList />} />
-                <Route path="/errors/details" element={<ErrorsDetails />} />
-                <Route path="/profile" element={<Profile />} />
-            </Routes>
+            <div className="max-w-6xl mx-auto px-4 mt-8">
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/projects" element={<ProjectsList />} />
+                    <Route path="/projects/add" element={<ProjectsAdd />} />
+                    <Route path="/projects/edit" element={<ProjectsEdit />} />
+                    <Route path="/errors" element={<ErrorsList />} />
+                    <Route path="/errors/details" element={<ErrorsDetails />} />
+                    <Route path="/profile" element={<Profile />} />
+                </Routes>
+            </div>
         </section>
         <Footer />
     </div>
