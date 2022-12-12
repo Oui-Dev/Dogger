@@ -11,6 +11,7 @@ import ProjectsAdd from './Pages/Projects/Add';
 import ProjectsEdit from './Pages/Projects/Edit';
 import ErrorsList from './Pages/Errors/List';
 import ErrorsDetails from './Pages/Errors/Details';
+import Profile from './Pages/Profile';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
                 <Route path="/projects/edit" element={<ProjectsEdit />} />
                 <Route path="/errors" element={<ErrorsList />} />
                 <Route path="/errors/details" element={<ErrorsDetails />} />
+                <Route path="/profile" element={<Profile />} />
             </Routes>
         </section>
         <Footer />

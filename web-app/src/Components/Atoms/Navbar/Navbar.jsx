@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from "react-router-dom"
 import logo from '../../../images/logo.png';
 import { BsList, BsX } from "react-icons/bs";
 import './Navbar.scss';
@@ -34,28 +35,28 @@ function Navbar() {
             {/* Laptop */}
             <nav className="hidden lg:flex">
                 <div className="logo-side">
-                    <a href="/">
+                    <Link to="/">
                         <img src={logo} className="w-14" alt="Logo Dogger" />
-                    </a>
+                    </Link>
                 </div>
 
                 <div className="menu-side">
-                    <a href="">Projects</a>
-                    <a href="">Errors</a>
-                    <a href="">Profile</a>
+                    <Link to="/projects">Projects</Link>
+                    <Link to="/errors">Errors</Link>
+                    <Link to="/profile">Profile</Link>
                 </div>
 
                 <div className="button-side">
-                    <a href="" className="menu-button">Déconnexion</a>
+                    <Link to="" className="menu-button">Déconnexion</Link>
                 </div>
             </nav>
 
             {/* Tablet and mobile */}
             <nav className="flex lg:hidden">
                 <div className="logo-side">
-                    <a href="/">
+                    <Link to="/">
                         <img src={logo} className="w-10 md:w-12" alt="Logo Dogger" />
-                    </a>
+                    </Link>
                 </div>
 
                 <div className="button-side">
@@ -65,12 +66,12 @@ function Navbar() {
                 <div className="absolute top-16 -mt-px right-0 z-10 w-screen max-w-lg">
                     <div className={`overflow-hidden shadow-lg rounded-b-lg border-t border-lockanda-gray ${isOpen ? "" : "reduced"}`} id="sidebar">
                         <div className="relative grid gap-6 px-5 py-5 text-sm md:text-base">
-                            <a href="">Projects</a>
-                            <a href="">Errors</a>
-                            <a href="">Profile</a>
+                            <Link to="/projects">Projects</Link>
+                            <Link to="/errors">Errors</Link>
+                            <Link to="/profile">Profile</Link>
                         </div>
                         <div className="px-5 py-5 grid grid-cols-2 gap-5">
-                            <a href="" className="menu-button orange">Déconnexion</a>
+                            <Link to="" className="menu-button orange">Déconnexion</Link>
                         </div>
                     </div>
                 </div>
