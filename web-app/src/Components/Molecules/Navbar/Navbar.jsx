@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import logo from '../../../images/logo.png';
 import { BsList, BsX } from "react-icons/bs";
 import './Navbar.scss';
@@ -41,9 +41,9 @@ function Navbar() {
                 </div>
 
                 <div className="menu-side">
-                    <Link to="/projects">Projects</Link>
-                    <Link to="/errors">Errors</Link>
-                    <Link to="/profile">Profile</Link>
+                    <NavLink to="/projects" className={({ isActive }) => (isActive ? 'text-dogger-orange-500' : '')}>Projects</NavLink>
+                    <NavLink to="/errors" className={({ isActive }) => (isActive ? 'text-dogger-orange-500' : '')}>Errors</NavLink>
+                    <NavLink to="/profile" className={({ isActive }) => (isActive ? 'text-dogger-orange-500' : '')}>Profile</NavLink>
                 </div>
 
                 <div className="button-side">
@@ -66,9 +66,9 @@ function Navbar() {
                 <div className="absolute top-16 -mt-px right-0 z-10 w-screen max-w-lg">
                     <div className={`overflow-hidden shadow-lg rounded-b-lg border-t border-lockanda-gray ${isOpen ? "" : "reduced"}`} id="sidebar">
                         <div className="relative grid gap-6 px-5 py-5 text-sm md:text-base">
-                            <Link to="/projects">Projects</Link>
-                            <Link to="/errors">Errors</Link>
-                            <Link to="/profile">Profile</Link>
+                            <NavLink to="/projects" className={({ isActive }) => (isActive ? 'text-dogger-orange-500' : '')}>Projects</NavLink>
+                            <NavLink to="/errors" className={({ isActive }) => (isActive ? 'text-dogger-orange-500' : '')}>Errors</NavLink>
+                            <NavLink to="/profile" className={({ isActive }) => (isActive ? 'text-dogger-orange-500' : '')}>Profile</NavLink>
                         </div>
                         <div className="px-5 py-5 grid grid-cols-2 gap-5">
                             <Link to="" className="menu-button orange">Déconnexion</Link>

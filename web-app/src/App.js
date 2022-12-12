@@ -21,11 +21,15 @@ function App() {
             <div className="max-w-6xl mx-auto px-4 mt-6 md:mt-8 lg:mt-10">
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/projects" element={<ProjectsList />} />
-                    <Route path="/projects/add" element={<ProjectsAdd />} />
-                    <Route path="/projects/edit/:id" element={<ProjectsEdit />} />
-                    <Route path="/errors" element={<ErrorsList />} />
-                    <Route path="/errors/details/:id" element={<ErrorsDetails />} />
+                    <Route path="/projects">
+                        <Route index element={<ProjectsList />} />
+                        <Route path="add" element={<ProjectsAdd />} />
+                        <Route path="edit/:id" element={<ProjectsEdit />} />
+                    </Route>
+                    <Route path="/errors">
+                        <Route index element={<ErrorsList />} />
+                        <Route path="details/:id" element={<ErrorsDetails />} />
+                    </Route>
                     <Route path="/profile" element={<Profile />} />
                 </Routes>
             </div>
