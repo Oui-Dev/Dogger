@@ -25,13 +25,9 @@ function Navbar() {
         let color = `rgb(${255/y}, ${255/y}, ${255/y})`;
         navbar.style.backgroundColor = color;
         sidebar.style.backgroundColor = color;
-        
-        if (window.scrollY > 10) {
-            setNavbarBg('dark')
-        } else {
-            setNavbarBg('light')
-        }
-    }
+
+        setNavbarBg(window.scrollY > 10 ? 'dark' : 'light');
+    };
 
     return (
         <header className={navBarBg}>
@@ -63,7 +59,7 @@ function Navbar() {
                 </div>
 
                 <div className="button-side">
-                    { isOpen ? <BsX onClick={switchState()} /> : <BsList onClick={switchState()} /> }
+                    { isOpen ? <BsX onClick={switchState()} className="text-2xl" /> : <BsList onClick={switchState()} className="text-2xl" /> }
                 </div>
 
                 <div className="absolute top-16 -mt-px right-0 z-10 w-screen max-w-lg">
