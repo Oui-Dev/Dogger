@@ -3,9 +3,9 @@ import { BsFillPeopleFill, BsFillExclamationCircleFill, BsBag } from "react-icon
 
 export default function Home() {
     const items = [
-        { title: "Projects", value: "1", icon: <BsBag />, iconBg: "bg-blue-500", clickable: true, percentage: 0 },
-        { title: "Errors", value: "1", icon: <BsFillExclamationCircleFill />, iconBg: "bg-red-500", clickable: true, percentage: '-10' },
-        { title: "Users", value: "1", icon: <BsFillPeopleFill />, iconBg: "bg-green-500", clickable: true, percentage: '+50' },
+        { title: "Projects", value: "1", icon: <BsBag />, iconBg: "bg-blue-500", clickable: true, percentage: 0, path: "/projects" },
+        { title: "Errors", value: "1", icon: <BsFillExclamationCircleFill />, iconBg: "bg-red-500", clickable: true, percentage: '-10', path: "/errors" },
+        { title: "Users", value: "1", icon: <BsFillPeopleFill />, iconBg: "bg-green-500", clickable: false, percentage: '+50' },
     ];
 
     return (
