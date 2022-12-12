@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+table {
+    th.custom_th {
+        @apply py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6;
+    }
+
+    td.custom_td {
+        @apply whitespace-nowrap px-4 py-4 text-sm text-gray-500 sm:pl-6;
+    }
+
+    td.custom_actions {
+        @apply relative whitespace-nowrap py-4 pl-3 pr-4 sm:pr-6 flex justify-end gap-3;
+        
+        .action_btn {
+            @apply p-2 bg-gray-100 rounded-md flex items-center justify-center;
+        }
+    }
+}
