@@ -18,7 +18,7 @@ export default function Table({ ...props }) {
         return props.actions.length > 0;
     }
     const actionHover = (action) => {
-        return action.hover ?? 'hover:text-red-500';
+        return action.hover ?? 'hover:text-dogger-orange-400';
     }
 
     return (

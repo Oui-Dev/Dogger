@@ -1,5 +1,5 @@
 import Table from '../../Components/Molecules/Table/Table';
-import { BsPencilSquare, BsTrash } from 'react-icons/bs';
+import { BsPencilSquare, BsTrash, BsReceipt } from 'react-icons/bs';
 
 export default function ErrorsList() {
     const data = [
@@ -14,8 +14,9 @@ export default function ErrorsList() {
             tableKeys={['project', 'date', 'code', 'status']}
             data={data}
             actions={[
-                { name: 'Edit', link: '/projects/edit', icon: <BsPencilSquare />, hover: 'hover:text-dogger-orange-400' },
-                { name: 'Delete', link: '/projects/delete', icon: <BsTrash /> }
+                { name: 'Show', link: '/projects/details', icon: <BsReceipt /> },
+                { name: 'Edit', link: '/projects/edit', icon: <BsPencilSquare /> },
+                { name: 'Delete', link: '/projects/delete', icon: <BsTrash />, hover: 'hover:text-red-500' }
             ]}
         />
     );

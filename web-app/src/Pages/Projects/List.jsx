@@ -14,8 +14,8 @@ export default function ProjectsList() {
             tableKeys={['name', 'created_at']}
             data={data}
             actions={[
-                { name: 'Edit', link: '/projects/edit', icon: <BsPencilSquare />, hover: 'hover:text-dogger-orange-400' },
-                { name: 'Delete', link: '/projects/delete', icon: <BsTrash /> }
+                { name: 'Edit', link: '/projects/edit', icon: <BsPencilSquare /> },
+                { name: 'Delete', link: '/projects/delete', icon: <BsTrash />, hover: 'hover:text-red-500' }
             ]}
         />
     );
