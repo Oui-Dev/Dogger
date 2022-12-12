@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+header {
+    @apply sticky top-0 w-full z-10 bg-white text-dogger-gray;
+
+    nav {
+        @apply justify-between items-center max-w-7xl h-16 mx-auto px-4 md:px-10;
+
+        a:hover {
+            @apply text-dogger-orange-500;
+        }
+    
+        .logo-side {
+            @screen lg {
+                width: 295px;
+            }
+        }
+    
+        .menu-side {
+            @apply flex items-center gap-8 justify-center;
+        }
+    
+        .button-side {
+            @apply flex items-center gap-3 md:gap-6 justify-end;
+            @screen lg {
+                width: 295px;
+            }
+
+            i {
+                @apply text-2xl relative cursor-pointer;
+            }
+        }
+    
+        .button-side .menu-button, #sidebar .menu-button {
+            @apply inline-flex items-center justify-center rounded border border-transparent bg-black text-white px-3 md:px-6 py-1 text-xs md:text-base font-medium shadow-sm hover:bg-dogger-orange-500;
+            &.orange {
+                @apply bg-dogger-orange-500 text-white;
+            }
+        }
+
+        #sidebar {
+            @apply bg-white;
+            opacity: 1;
+            pointer-events: all;
+            transition: opacity 400ms ease 0ms;
+
+            &.reduced {
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 400ms ease 0ms;
+            }
+        }
+    }
+
+    // Scrolled navbar
+    &.dark {
+        @apply bg-black text-white;
+        .button-side .menu-button {
+            @apply bg-dogger-orange-500 hover:bg-white hover:text-black;
+        }
+
+        #sidebar .menu-button {
+            @apply bg-white text-black;
+        }
+    }
+}
