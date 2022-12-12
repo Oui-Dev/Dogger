@@ -59,7 +59,7 @@ function Navbar() {
                 </div>
 
                 <div className="button-side">
-                    { isOpen ? <BsX onClick={switchState()} className="text-2xl" /> : <BsList onClick={switchState()} className="text-2xl" /> }
+                    { isOpen ? <BsX onClick={switchState()} /> : <BsList onClick={switchState()} /> }
                 </div>
 
                 <div className="absolute top-16 -mt-px right-0 z-10 w-screen max-w-lg">
