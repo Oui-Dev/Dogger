@@ -4,6 +4,6 @@ export default function ErrorsDetails() {
     const { id } = useParams();
 
     return (
-        <div></div>
+        <div>{ id }</div>
     );
 };

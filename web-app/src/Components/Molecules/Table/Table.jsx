@@ -1,15 +1,12 @@
-import { useEffect } from 'react';
 import { Link } from "react-router-dom";
 import './Table.scss';
 
 export default function Table({ ...props }) {
-    useEffect(() => {
-        if (props.tableTitles.length !== props.tableKeys.length) {
-            throw new Error(
-                "The number of table titles and table keys must be the same."
-            );
-        }
-    }, []);
+    if (props.tableTitles.length !== props.tableKeys.length) {
+        throw new Error(
+            "The number of table titles and table keys must be the same."
+        );
+    }
 
     const hasData = () => {
         return props.data.length > 0;
@@ -25,7 +22,7 @@ export default function Table({ ...props }) {
         <section>
             {/* Table (smallest breakpoint only) */}
             <div className="shadow rounded-lg md:hidden">
-                <ul role="list" className="mt-4 divide-y divide-gray-200 overflow-hidden shadow rounded-lg md:hidden">
+                <ul className="mt-4 divide-y divide-gray-200 overflow-hidden shadow rounded-lg md:hidden">
                     {props.data.map((item, index) => (
                         <li key={index} className="flex items-center bg-white px-4 py-4 hover:bg-gray-50">
                             <div className="flex gap-4 justify-between items-center w-full divide-x divide-gray-200">
