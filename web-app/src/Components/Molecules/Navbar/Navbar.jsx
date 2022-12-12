@@ -64,7 +64,7 @@ function Navbar() {
                 </div>
 
                 <div className="absolute top-16 -mt-px right-0 z-10 w-screen max-w-lg">
-                    <div className={`overflow-hidden shadow-lg rounded-b-lg border-t border-lockanda-gray ${isOpen ? "" : "reduced"}`} id="sidebar">
+                    <div className={`overflow-hidden shadow-lg rounded-b-lg ${isOpen ? "" : "reduced"}`} id="sidebar">
                         <div className="relative grid gap-6 px-5 py-5 text-sm md:text-base">
                             <NavLink to="/projects" className={({ isActive }) => (isActive ? 'text-dogger-orange-500' : '')}>Projects</NavLink>
                             <NavLink to="/errors" className={({ isActive }) => (isActive ? 'text-dogger-orange-500' : '')}>Errors</NavLink>

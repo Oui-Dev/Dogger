@@ -41,15 +41,13 @@ header {
         }
 
         #sidebar {
-            @apply bg-white;
-            opacity: 1;
+            @apply bg-white border-t border-dogger-light-gray max-h-screen;
             pointer-events: all;
-            transition: opacity 400ms ease 0ms;
+            transition: max-height 600ms ease 0ms;
 
             &.reduced {
-                opacity: 0;
-                pointer-events: none;
-                transition: opacity 400ms ease 0ms;
+                @apply border-none max-h-0 pointer-events-none;
+                transition: max-height 200ms ease 0ms;
             }
         }
     }
