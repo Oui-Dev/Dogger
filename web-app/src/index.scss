@@ -15,10 +15,6 @@ code {
 }
 
 * {
-    @apply focus:outline-none;
-}
-
-form * {
     @apply focus:outline-dogger-orange-500;
 }
 
@@ -45,6 +41,10 @@ form * {
 }
 
 form {
+    * {
+        @apply focus:outline-none;
+    }
+
     input, textarea,
     input[type='password'],
     input[type='number'],

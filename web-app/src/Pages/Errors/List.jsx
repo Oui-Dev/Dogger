@@ -14,7 +14,7 @@ export default function ErrorsList() {
     return (
         <>
         <div className="flex justify-between mb-4">
-            <select name="" id="">
+            <select name="" id="" className="capitalize">
                 <option value="All">All</option>
                 {projects.map((item, index) => (
                     <option value={item} key={index}>{item}</option>
