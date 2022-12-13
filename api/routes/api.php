@@ -34,7 +34,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     ], function () {
         Route::post('/create', 'create');
         Route::put('/status/{error}', 'updateStatus');
-        Route::delete('/assign/{error}', 'assignTo');
+        Route::put('/assign/{error}', 'assignTo');
     });
 
     // Users
