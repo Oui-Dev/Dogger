@@ -22,6 +22,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         'prefix' => 'projects',
         'controller' => ProjectsController::class
     ], function () {
+        Route::get('/', 'list');
         Route::post('/create', 'create');
         Route::put('/edit/{project}', 'update');
         Route::delete('/delete/{project}', 'delete');
@@ -32,6 +33,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         'prefix' => 'errors',
         'controller' => ErrorsController::class
     ], function () {
+        Route::get('/', 'list');
         Route::post('/create', 'create');
         Route::put('/status/{error}', 'updateStatus');
         Route::put('/assign/{error}', 'assignTo');
@@ -42,6 +44,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         'prefix' => 'users',
         'controller' => UsersController::class
     ], function () {
+        Route::get('/current', 'current');
         Route::post('/create', 'create');
         Route::put('/edit', 'update');
         Route::delete('/delete', 'delete');

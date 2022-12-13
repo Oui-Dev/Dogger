@@ -9,6 +9,15 @@ use App\Models\User;
 
 class UsersController extends Controller
 {
+    public function current() {
+        $user = request()->user();
+
+        return response()->json([
+            'state' => 'success',
+            'user' => $user,
+        ]);
+    }
+    
     public function create() {
         $data = request()->validate([
             'lastname' => ['required', 'string', 'max:255'],
