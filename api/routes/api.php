@@ -1,6 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\API\ErrorsController;
+use App\Http\Controllers\API\ProjectsController;
+use App\Http\Controllers\API\UsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +16,34 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    // Projects
+    Route::group([
+        'prefix' => 'projects',
+        'controller' => ProjectsController::class
+    ], function () {
+        Route::post('/create', 'create');
+        Route::put('/edit/{project}', 'update');
+        Route::delete('/delete/{project}', 'delete');
+    });
+
+    // Errors
+    Route::group([
+        'prefix' => 'errors',
+        'controller' => ErrorsController::class
+    ], function () {
+        Route::post('/create', 'create');
+        Route::put('/status/{error}', 'updateStatus');
+        Route::delete('/assign/{error}', 'assignTo');
+    });
+
+    // Users
+    Route::group([
+        'prefix' => 'users',
+        'controller' => UsersController::class
+    ], function () {
+        Route::post('/create', 'create');
+        Route::put('/edit', 'update');
+        Route::delete('/delete', 'delete');
+    });
 });
