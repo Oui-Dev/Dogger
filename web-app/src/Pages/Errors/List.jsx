@@ -20,7 +20,7 @@ export default function ErrorsList() {
                     <option value={item} key={index}>{item}</option>
                 ))}
             </select>
-            <Link to="/projects/add" className="bg-dogger-orange-400 hover:bg-dogger-orange-500 text-white font-bold py-2 px-4 rounded-md">Add project</Link>
+            <Link to="/projects/add" className="bg-dogger-orange-400 hover:bg-dogger-orange-500 text-white font-semibold py-2 px-4 rounded-md">Add project</Link>
         </div>
         <Table
             tableTitles={['Project', 'Date', 'Code', 'Status']}
