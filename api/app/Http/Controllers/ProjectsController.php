@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Traits\ApiErrorTrait;
 use App\Models\Project;
 
 class ProjectsController extends Controller
 {
+    use ApiErrorTrait;
+
     public function list() {
         $currentUser = request()->user();
         $projects = Project::where('user_id', $currentUser->id)->get();
@@ -35,12 +38,7 @@ class ProjectsController extends Controller
     }
 
     public function update(Project $project) {
-        if($project->user_id !== request()->user()->id) {
-            return response()->json([
-                'state' => 'error',
-                'message' => 'You are not allowed to access to this ressource.',
-            ], 403);
-        }
+        $this->hasAccess($project->user_id);
 
         $data = request()->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -55,12 +53,7 @@ class ProjectsController extends Controller
     }
 
     public function delete(Project $project) {
-        if($project->user_id !== request()->user()->id) {
-            return response()->json([
-                'state' => 'error',
-                'message' => 'You are not allowed to access to this ressource.',
-            ], 403);
-        }
+        $this->hasAccess($project->user_id);
 
         $project->delete();
 

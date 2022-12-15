@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Traits\ApiErrorTrait;
 use App\Models\Error;
 
 class ErrorsController extends Controller
 {
+    use ApiErrorTrait;
+
     public function list() {
         $currentUser = request()->user();
         $errors = Error::where('user_id', $currentUser->id)->get();
@@ -43,12 +46,7 @@ class ErrorsController extends Controller
     }
 
     public function updateStatus(Error $error) {
-        if($error->project()->user_id !== request()->user()->id) {
-            return response()->json([
-                'state' => 'error',
-                'message' => 'You are not allowed to access to this ressource.',
-            ], 403);
-        }
+        $this->hasAccess($error->project()->user_id);
 
         $data = request()->validate([
             'status' => ['required', 'integer', 'min:0', 'max:3'],
@@ -59,12 +57,7 @@ class ErrorsController extends Controller
     }
 
     public function assignTo(Error $error) {
-        if($error->project()->user_id !== request()->user()->id) {
-            return response()->json([
-                'state' => 'error',
-                'message' => 'You are not allowed to access to this ressource.',
-            ], 403);
-        }
+        $this->hasAccess($error->project()->user_id);
 
         $data = request()->validate([
             'email' => ['required','email:rfc,dns,spoof','max:255'],
