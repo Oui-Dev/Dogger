@@ -9,7 +9,7 @@ export default function ProjectsList() {
     const [data, setData] = useState([]);
     // in the future, we will get the token from redux
     const config = {
-        headers: { Authorization: `Bearer 1|CXGj2BlZaAhLXenPRuuFetll6ywfwwshiAqTO3mS` }
+        headers: { Authorization: `Bearer 1|EG4Ki7WSGQCgoGONlQMAN16AJXrW9P1C8VwEvwxZ` }
     };
 
     useEffect(() => {
