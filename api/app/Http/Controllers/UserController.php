@@ -1,11 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
-use App\Models\User;
 
 class UsersController extends Controller
 {
@@ -15,26 +13,6 @@ class UsersController extends Controller
         return response()->json([
             'state' => 'success',
             'user' => $user,
-        ]);
-    }
-    
-    public function create() {
-        $data = request()->validate([
-            'lastname' => ['required', 'string', 'max:255'],
-            'firstname' => ['required', 'string', 'max:255'],
-            'email' => ['required','email:rfc,dns,spoof','max:255', Rule::unique('users')],
-            'password' => ['required', 'confirmed', Password::min(8)->letters()->mixedCase()->numbers()],
-        ]);
-
-        $user = User::create([
-            'email' => $data['email'],
-            'password' => $data['password'],
-            'firstname' => $data['firstname'],
-            'lastname' => $data['lastname'],
-        ]);
-
-        return response()->json([
-            'state' => 'success',
         ]);
     }
 
