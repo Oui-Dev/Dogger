@@ -9,7 +9,7 @@ export default function Tbody({ ...props }) {
                 <tr key={index}>
                     { props.tableKeys.map((key, index) => (
                         <td className="custom_td" key={index}>
-                            {item[key]}
+                            {props.formatedDate(item[key])}
                         </td>
                     ))}
                     { props.hasActions &&

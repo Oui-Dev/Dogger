@@ -6,7 +6,10 @@ export default function Li({ ...props }) {
                     <div className="flex gap-4 justify-between items-center w-full divide-x divide-gray-200">
                         <div className="grid gap-3 text-sm text-gray-500">
                             { props.tableKeys.map((key, index) => (
-                                <span key={index}><span className="font-medium text-gray-900 capitalize">{key} : </span>{item[key]}</span>
+                                <span key={index}>
+                                    <span className="font-medium text-gray-900 capitalize">{key} : </span>
+                                    {props.formatedDate(item[key])}
+                                </span>
                             ))}
                         </div>
                         { props.hasActions &&
