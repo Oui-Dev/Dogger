@@ -1,4 +1,6 @@
 import Avatar from '../Components/Atoms/Avatar'
+import Button from '../Components/Atoms/Button'
+import Modal from '../Components/Organism/Modal'
 
 export default function Profile() {
 	return (
@@ -7,7 +9,7 @@ export default function Profile() {
 				<form action="#" method="POST">
 					<div className="overflow-hidden shadow sm:rounded-md">
 						<div className="bg-white px-4 py-5 sm:p-6">
-							<Avatar/>
+							<Avatar />
 							<div className="grid grid-cols-6 gap-6">
 								<div className="col-span-6 sm:col-span-3">
 									<label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
@@ -17,6 +19,7 @@ export default function Profile() {
 										type="text"
 										name="firstName"
 										id="firstName"
+										autoComplete='given-name'
 									/>
 								</div>
 
@@ -28,6 +31,7 @@ export default function Profile() {
 										type="text"
 										name="lastName"
 										id="lastName"
+										autoComplete='family-name'
 									/>
 								</div>
 
@@ -39,6 +43,7 @@ export default function Profile() {
 										type="text"
 										name="email"
 										id="email"
+										autoComplete='email'
 									/>
 								</div>
 
@@ -50,6 +55,7 @@ export default function Profile() {
 										type="password"
 										name="old_password"
 										id="old_password"
+										autoComplete='current-password'
 									/>
 								</div>
 
@@ -61,6 +67,7 @@ export default function Profile() {
 										type="password"
 										name="password"
 										id="password"
+										autoComplete='new-password'
 									/>
 								</div>
 
@@ -72,20 +79,15 @@ export default function Profile() {
 										type="password"
 										name="password_confirmation"
 										id="password_confirmation"
+										autoComplete='new-password'
 									/>
 								</div>
 							</div>
 						</div>
 
 						<div className="bg-gray-50 px-4 py-3 flex justify-between sm:px-6">
-							<button
-								type="submit"
-								className="btn-primary warning"
-							>Delete account</button>
-							<button
-								type="submit"
-								className="btn-primary"
-							>Save</button>
+							<Modal title="Warning !" description="This action is permanent and irreversible" type="danger" openButtonMessage="Delete Account" />
+							<Button type={"primary"} > Save </Button>
 						</div>
 					</div>
 				</form>

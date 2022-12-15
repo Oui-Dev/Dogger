@@ -4,13 +4,13 @@ import Modal from "../../Components/Organism/Modal";
 
 export default function ProjectsList() {
     const data = [
-        {id: 1, name: 'test1', created_at: 'test1'},
-        {id: 2, name: 'test2', created_at: 'test2'},
-        {id: 3, name: 'test3', created_at: 'test3'}
-    ];    return (
+        { id: 1, name: 'test1', created_at: 'test1' },
+        { id: 2, name: 'test2', created_at: 'test2' },
+        { id: 3, name: 'test3', created_at: 'test3' }
+    ]; return (
         <>
             <div className="flex justify-end mb-4">
-                <Modal title="Modal" description="Description" type="form" openButtonMessage="Add new project"/>
+                <Modal title="New Project" description="Add a new project?" type="form" openButtonMessage="Add new project" />
             </div>
             <Table
                 // Props
