@@ -19,12 +19,11 @@ code {
 }
 
 .btn-primary {
-    @apply bg-dogger-orange-500 text-white rounded font-bold px-8 py-3 hover:bg-black;
-    font-size: 16px;
-
-    &.warning{
-        @apply bg-red-500 hover:bg-red-700;
-    }
+    @apply w-fit flex justify-center rounded-md border border-transparent py-2 px-5 text-sm font-medium bg-dogger-orange-400 text-white shadow-sm hover:bg-dogger-orange-500;
+    
+    &.warning {
+            @apply bg-red-500 hover:bg-red-700;
+        }
 }
 
 .btn-secondary {
@@ -34,10 +33,6 @@ code {
     &.warning{
         @apply bg-red-500 hover:bg-red-700;
     }
-}
-
-.custom_button {
-    @apply flex w-full justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium bg-dogger-orange-400 text-white shadow-sm hover:bg-dogger-orange-500;
 }
 
 form {
@@ -52,24 +47,8 @@ form {
     input[type='phone'],
     input[type='text'],
     input[type='url'],
-    .v-select,
     select {
         @apply block w-full rounded-md border-gray-300 shadow-sm focus:border-dogger-orange-500 focus:ring-dogger-orange-500 sm:text-sm border py-3 px-3;
-    
-        .vs__dropdown-toggle {
-            @apply border-none p-0 h-5 flex items-center;
-    
-            .vs__selected-options {
-                @apply p-0;
-    
-                .vs__selected, .vs__search {
-                    @apply text-sm m-0 p-0;
-                }
-            }
-        }
-        &.vs--disabled, *:disabled {
-            @apply bg-gray-200 cursor-not-allowed;
-        }
     }
 
     label {
@@ -81,7 +60,7 @@ form {
             @apply text-red-500;
         }
 
-        input:not(.vs__search), textarea, select, .v-select {
+        input, textarea, select {
             @apply border-red-500;
         }
     }

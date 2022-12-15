@@ -12,7 +12,7 @@ export default function ProjectsList() {
     return (
         <>
             <div className="flex justify-end mb-4">
-                <Link to="/projects/add" className="bg-dogger-orange-400 hover:bg-dogger-orange-500 text-white font-semibold py-2 px-4 rounded-md">Add project</Link>
+                <Link to="/projects/add" className="btn-primary">Add project</Link>
             </div>
             <Table
                 // Props

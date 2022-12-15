@@ -47,7 +47,7 @@ function Navbar() {
                 </div>
 
                 <div className="button-side">
-                    <Link to="" className="menu-button">Déconnexion</Link>
+                    <Link to="" className="menu-button">Log out</Link>
                 </div>
             </nav>
 
