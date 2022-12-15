@@ -17,26 +17,6 @@ class UsersController extends Controller
             'user' => $user,
         ]);
     }
-    
-    public function create() {
-        $data = request()->validate([
-            'lastname' => ['required', 'string', 'max:255'],
-            'firstname' => ['required', 'string', 'max:255'],
-            'email' => ['required','email:rfc,dns,spoof','max:255', Rule::unique('users')],
-            'password' => ['required', 'confirmed', Password::min(8)->letters()->mixedCase()->numbers()],
-        ]);
-
-        $user = User::create([
-            'email' => $data['email'],
-            'password' => $data['password'],
-            'firstname' => $data['firstname'],
-            'lastname' => $data['lastname'],
-        ]);
-
-        return response()->json([
-            'state' => 'success',
-        ]);
-    }
 
     public function update() {
         $user = request()->user();

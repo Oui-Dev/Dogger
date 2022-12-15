@@ -21,6 +21,7 @@ Route::group([
     'controller' => TokenController::class
 ], function () {
     Route::post('/login', 'login');
+    Route::post('/register', 'register');
 });
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
@@ -56,7 +57,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         'controller' => UsersController::class
     ], function () {
         Route::get('/current', 'current');
-        Route::post('/create', 'create');
         Route::put('/edit', 'update');
         Route::delete('/delete', 'delete');
     });
