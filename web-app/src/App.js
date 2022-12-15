@@ -14,10 +14,10 @@ import Profile from './Pages/Profile';
 
 function App() {
   return (
-    <div>
+    <>
         <section className="min-h-screen">
             <Navbar />
-            <div className="max-w-6xl mx-auto px-4 mt-6 md:mt-8 lg:mt-10">
+            <div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-8 mt-6 md:mt-8 lg:mt-10">
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/projects">
@@ -34,7 +34,7 @@ function App() {
             </div>
         </section>
         <Footer />
-    </div>
+    </>
   );
 }
 
