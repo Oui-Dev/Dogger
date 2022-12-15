@@ -1,13 +1,22 @@
 import { Link } from "react-router-dom";
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
+import { useState, useEffect } from "react";
 import Table from '../../Components/Molecules/Table/Table';
+import axios from 'axios';
 
 export default function ProjectsList() {
-    const data = [
-        {id: 1, name: 'test1', created_at: 'test1'},
-        {id: 2, name: 'test2', created_at: 'test2'},
-        {id: 3, name: 'test3', created_at: 'test3'}
-    ];
+    const BASE_URL = process.env.REACT_APP_API_URL;
+    const [data, setData] = useState([]);
+    const config = {
+        headers: { Authorization: `Bearer 1|CXGj2BlZaAhLXenPRuuFetll6ywfwwshiAqTO3mS` }
+    };
+
+    useEffect(() => {
+        axios.get(BASE_URL + "/projects", config).then((res) => {
+            console.log(res);
+            if(res.status === 200 && res.data?.projects !== data) setData(res.data.projects);
+        });
+    }, []);
 
     return (
         <>

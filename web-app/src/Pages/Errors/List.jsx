@@ -1,15 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from "react";
 import Table from '../../Components/Molecules/Table/Table';
 import { BsPencilSquare, BsTrash, BsReceipt } from 'react-icons/bs';
+import axios from 'axios';
 
 export default function ErrorsList() {
-    const data = [
-        {id: 1, project: 'test', date: '12/12/2022', code: 500, status: 'viewed'},
-        {id: 2, project: 'test', date: '12/12/2022', code: 500, status: 'viewed'},
-        {id: 3, project: 'test', date: '12/12/2022', code: 500, status: 'viewed'},
-        {id: 4, project: 'test2', date: '12/12/2022', code: 500, status: 'viewed'},
-        {id: 5, project: 'test2', date: '12/12/2022', code: 500, status: 'viewed'},
-    ];
+    const BASE_URL = process.env.REACT_APP_API_URL;
+    const [data, setData] = useState([]);
+    const config = {
+        headers: { Authorization: `Bearer 1|CXGj2BlZaAhLXenPRuuFetll6ywfwwshiAqTO3mS` }
+    };
+
+    useEffect(() => {
+        axios.get(BASE_URL + "/errors", config).then((res) => {
+            console.log(res);
+            if(res.status === 200 && res.data?.errors !== data) setData(res.data.errors);
+        });
+    }, []);
 
     const projects = [...new Set(data.map(item => item.project))];
     const [selectedProject, setSelectedProject] = useState('All');
