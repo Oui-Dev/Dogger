@@ -7,6 +7,7 @@ import axios from 'axios';
 export default function ProjectsList() {
     const BASE_URL = process.env.REACT_APP_API_URL;
     const [data, setData] = useState([]);
+    // in the future, we will get the token from redux
     const config = {
         headers: { Authorization: `Bearer 1|CXGj2BlZaAhLXenPRuuFetll6ywfwwshiAqTO3mS` }
     };
@@ -17,18 +18,21 @@ export default function ProjectsList() {
         });
     }, []);
 
+    // fct to use in the future (with createModal)
     const createProject = (data) => {
         axios.post(BASE_URL + "/projects/new/", data, config).then((res) => {
             console.log(res);
             if(res.status === 200) setData([...data, res.data.project]);
         });
     };
+    // fct to use in the future (with editModal)
     const editProject = (id) => {
         axios.put(BASE_URL + "/projects/edit/" + id, {name: 'ouais'}, config).then((res) => {
             console.log(res);
             if(res.status === 200) setData(data.map(item => item.id === id ? res.data.project : item));
         });
     };
+    // fct to use in the future (with warningModal)
     const deleteProject = (id) => {
         axios.delete(BASE_URL + "/projects/delete/" + id, config).then((res) => {
             console.log(res);

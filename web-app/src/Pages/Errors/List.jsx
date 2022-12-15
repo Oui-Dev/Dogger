@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import Table from '../../Components/Organisms/Table/Table';
-import { BsPencilSquare, BsTrash, BsReceipt } from 'react-icons/bs';
+import { BsReceipt } from 'react-icons/bs';
 import axios from 'axios';
 
 export default function ErrorsList() {
     const BASE_URL = process.env.REACT_APP_API_URL;
+    // in the future, we will get the token from redux
     const config = {
         headers: { Authorization: `Bearer 1|CXGj2BlZaAhLXenPRuuFetll6ywfwwshiAqTO3mS` }
     };
@@ -25,13 +26,14 @@ export default function ErrorsList() {
         console.log(error);
     };
 
-    // fct to use in the future (showDetails)
+    // fct to use in the future (with showDetails slide-over)
     const changeStatus = (id) => {
         axios.put(BASE_URL + "/errors/status/" + id, {status: 1}, config).then((res) => {
             console.log(res);
             if(res.status === 200) setData(data.map(item => item.id === id ? res.data.error : item));
         });
     };
+    // fct to use in the future (with showDetails slide-over)
     const assignTo = (id, email) => {
         axios.put(BASE_URL + "/errors/assign/" + id, {email: email}, config).then((res) => {
             console.log(res);
