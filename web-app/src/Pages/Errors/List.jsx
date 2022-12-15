@@ -1,24 +1,50 @@
-import { useState } from 'react';
-import Table from '../../Components/Molecules/Table/Table';
-import { BsPencilSquare, BsTrash, BsReceipt } from 'react-icons/bs';
+import { useState, useEffect } from "react";
+import Table from '../../Components/Organisms/Table/Table';
+import { BsReceipt } from 'react-icons/bs';
+import axios from 'axios';
 
 export default function ErrorsList() {
-    const data = [
-        {id: 1, project: 'test', date: '12/12/2022', code: 500, status: 'viewed'},
-        {id: 2, project: 'test', date: '12/12/2022', code: 500, status: 'viewed'},
-        {id: 3, project: 'test', date: '12/12/2022', code: 500, status: 'viewed'},
-        {id: 4, project: 'test2', date: '12/12/2022', code: 500, status: 'viewed'},
-        {id: 5, project: 'test2', date: '12/12/2022', code: 500, status: 'viewed'},
-    ];
+    const BASE_URL = process.env.REACT_APP_API_URL;
+    // in the future, we will get the token from redux
+    const config = {
+        headers: { Authorization: `Bearer 1|CXGj2BlZaAhLXenPRuuFetll6ywfwwshiAqTO3mS` }
+    };
 
-    const projects = [...new Set(data.map(item => item.project))];
+    const [data, setData] = useState([]);
     const [selectedProject, setSelectedProject] = useState('All');
-    const filteredData = data.filter(item => item.project === selectedProject || selectedProject === 'All');
+    const projects = [...new Set(data.map(item => item.project.name))];
+    const filteredData = data.filter(item => item.project.name === selectedProject || selectedProject === 'All');
+
+    useEffect(() => {
+        axios.get(BASE_URL + "/errors", config).then((res) => {
+            if(res.status === 200 && res.data?.errors !== data) setData(res.data.errors);
+        });
+    }, []);
+
+    const showDetails = (id) => {
+        const error = data.find(item => item.id === id);
+        console.log(error);
+    };
+
+    // fct to use in the future (with showDetails slide-over)
+    const changeStatus = (id) => {
+        axios.put(BASE_URL + "/errors/status/" + id, {status: 1}, config).then((res) => {
+            console.log(res);
+            if(res.status === 200) setData(data.map(item => item.id === id ? res.data.error : item));
+        });
+    };
+    // fct to use in the future (with showDetails slide-over)
+    const assignTo = (id, email) => {
+        axios.put(BASE_URL + "/errors/assign/" + id, {email: email}, config).then((res) => {
+            console.log(res);
+            if(res.status === 200) setData(data.map(item => item.id === id ? res.data.error : item));
+        });
+    };
 
     return (
         <>
             <div className="flex justify-between mb-4 gap-4">
-                <select onChange={(e) => setSelectedProject(e.target.value)} className="capitalize">
+                <select onChange={(e) => setSelectedProject(e.target.value)} className="capitalize py-2">
                     <option value="All">All</option>
                     {projects.map((item, index) => (
                         <option value={item} key={index}>{item}</option>
@@ -26,19 +52,12 @@ export default function ErrorsList() {
                 </select>
             </div>
             <Table
-                // Props
                 tableTitles={['Project', 'Date', 'Code', 'Status']}
-                tableKeys={['project', 'date', 'code', 'status']}
+                tableKeys={[['project', 'name'], 'created_at', 'code', 'status']}
                 data={filteredData}
                 actions={[
-                    { emitName: 'showDetails', returnValue: 'id', icon: <BsReceipt /> },
-                    { emitName: 'edit', returnValue: 'id', icon: <BsPencilSquare /> },
-                    { emitName: 'delete', returnValue: 'id', icon: <BsTrash />, hover: 'hover:text-red-500' }
+                    { function: showDetails, fctParam: 'id', icon: <BsReceipt /> },
                 ]}
-                // Emits
-                showDetails={(id) => console.log("showDetails", id)}
-                edit={(id) => console.log("edit", id)}
-                delete={(id) => console.log("delete", id)}
             />
         </>
     );
