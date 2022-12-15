@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
@@ -23,7 +24,12 @@ class UsersController extends Controller
             'lastname' => ['nullable', 'string', 'max:255'],
             'firstname' => ['nullable', 'string', 'max:255'],
             'email' => ['nullable','email:rfc,dns,spoof','max:255', Rule::unique('users')->ignore($user->id)],
-            'password' => ['nullable', 'confirmed', Password::min(8)->letters()->mixedCase()->numbers()],
+            'old_password' => ['nullable', 'string', 'min:8', 'max:255', function($attribute, $value, $fail) use ($user) {
+                if(!Hash::check($value, $user->password)) {
+                    $fail('Current password is incorrect');
+                }
+            }],
+            'password' => ['required_with:old_password', 'confirmed', Password::min(8)->letters()->mixedCase()->numbers()],
         ]);
 
         $user->lastname = $data['lastname'] ?? $user->lastname;
