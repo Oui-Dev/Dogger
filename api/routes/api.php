@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\API\ErrorsController;
-use App\Http\Controllers\API\ProjectsController;
-use App\Http\Controllers\API\UsersController;
+use App\Http\Controllers\TokenController;
+use App\Http\Controllers\ErrorsController;
+use App\Http\Controllers\ProjectsController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
