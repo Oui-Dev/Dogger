@@ -68,6 +68,7 @@ export default function Modal({ title, description, type, openButtonMessage, ...
                                             </div>
                                         </div>
                                     </div>
+                                    {props.children}
                                     <div className="mt-5 sm:mt-4 flex sm:flex-row-reverse gap-2 w-full flex-col items-stretch">
                                         {type === "form" ? (
                                             <Button type={"primary"} onClick={() => setOpen(false)}>

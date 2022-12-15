@@ -9,9 +9,14 @@ export default function ProjectsList() {
         { id: 3, name: 'test3', created_at: 'test3' }
     ]; return (
         <>
-            <div className="flex justify-end mb-4">
-                <Modal title="New Project" description="Add a new project?" type="form" openButtonMessage="Add new project" />
-            </div>
+            <form className="flex justify-end mb-4">
+                <Modal title="New Project" description="Add a new project?" type="form" openButtonMessage="Add new project">
+                    <div className='w-full flex flex-col items-stretch my-3'>
+                    <label htmlFor="projectName" className="block text-sm font-medium text-gray-700"> Project Name </label>
+                    <input type="text" name="projectName" id="projectName" />
+                    </div>
+                </Modal>
+            </form>
             <Table
                 // Props
                 tableTitles={['Project', 'Created at']}
