@@ -34,6 +34,10 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function errors() {
+        return $this->hasMany(Error::class);
+    }
+
     public function projects() {
         return $this->hasMany(Project::class);
     }
