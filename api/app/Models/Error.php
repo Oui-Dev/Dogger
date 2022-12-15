@@ -21,6 +21,7 @@ class Error extends Model
         'path',
         'line',
         'status',
+        'assigned_to',
         'timestamp',
         'viewed_at',
     ];
