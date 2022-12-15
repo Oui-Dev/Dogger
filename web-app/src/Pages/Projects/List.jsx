@@ -24,8 +24,8 @@ export default function ProjectsList() {
             </div>
             <Table
                 // Props
-                tableTitles={['Project', 'Created at']}
-                tableKeys={['name', 'created_at']}
+                tableTitles={['Project', 'Created at', 'Project key']}
+                tableKeys={['name', 'created_at', 'key']}
                 data={data}
                 actions={[
                     { emitName: 'edit', returnValue: 'id', icon: <BsPencilSquare /> },

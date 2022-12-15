@@ -25,6 +25,10 @@ Route::group([
     Route::post('/register', 'register');
 });
 
+// DNS routes
+Route::post('/errors/new', [ErrorsController::class, 'create'])->middleware('project_key');
+
+// Authenticated routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/users/devices', [TokenController::class, 'devices']);
     Route::delete('/logout/{token?}', [TokenController::class, 'revoke']);
@@ -47,7 +51,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         'controller' => ErrorsController::class
     ], function () {
         Route::get('/', 'list');
-        Route::post('/create', 'create');
         Route::put('/status/{error}', 'updateStatus');
         Route::put('/assign/{error}', 'assignTo');
     });
