@@ -16,7 +16,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Public routes
+Route::group([
+    'controller' => TokenController::class
+], function () {
+    Route::post('/login', 'login');
+    Route::post('/register', 'register');
+});
+
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/users/devices', [TokenController::class, 'devices']);
+    Route::delete('/logout/{token?}', [TokenController::class, 'revoke']);
+    Route::delete('/logout/all', [TokenController::class, 'revokeAll']);
+
     // Projects
     Route::group([
         'prefix' => 'projects',
@@ -45,7 +57,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         'controller' => UsersController::class
     ], function () {
         Route::get('/current', 'current');
-        Route::post('/create', 'create');
         Route::put('/edit', 'update');
         Route::delete('/delete', 'delete');
     });
