@@ -15,7 +15,6 @@ class Error extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id',
         'project_id',
         'code',
         'message',
@@ -26,10 +25,6 @@ class Error extends Model
         'timestamp',
         'viewed_at',
     ];
-
-    public function user() {
-        return $this->belongsTo(User::class);
-    }
 
     public function project() {
         return $this->belongsTo(Project::class);
