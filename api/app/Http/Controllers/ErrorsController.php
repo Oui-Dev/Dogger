@@ -11,7 +11,9 @@ class ErrorsController extends Controller
 
     public function list() {
         $currentUser = request()->user();
-        $errors = Error::where('user_id', $currentUser->id)->get();
+        $errors = Error::whereHas('project', function($query) use ($currentUser) {
+            $query->where('user_id', $currentUser->id);
+        })->with('project')->get();
 
         return response()->json([
             'state' => 'success',
