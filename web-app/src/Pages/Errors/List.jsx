@@ -5,20 +5,20 @@ import axios from 'axios';
 
 export default function ErrorsList() {
     const BASE_URL = process.env.REACT_APP_API_URL;
-    const [data, setData] = useState([]);
-    const [selectedProject, setSelectedProject] = useState('All');
     const config = {
         headers: { Authorization: `Bearer 1|CXGj2BlZaAhLXenPRuuFetll6ywfwwshiAqTO3mS` }
     };
+
+    const [data, setData] = useState([]);
+    const [selectedProject, setSelectedProject] = useState('All');
+    const projects = [...new Set(data.map(item => item.project.name))];
+    const filteredData = data.filter(item => item.project.name === selectedProject || selectedProject === 'All');
 
     useEffect(() => {
         axios.get(BASE_URL + "/errors", config).then((res) => {
             if(res.status === 200 && res.data?.errors !== data) setData(res.data.errors);
         });
     }, []);
-
-    const projects = [...new Set(data.map(item => item.project.name))];
-    const filteredData = data.filter(item => item.project.name === selectedProject || selectedProject === 'All');
 
     const showDetails = (id) => {
         console.log("showDetails", id);
@@ -41,7 +41,6 @@ export default function ErrorsList() {
                 </select>
             </div>
             <Table
-                // Props
                 tableTitles={['Project', 'Date', 'Code', 'Status']}
                 tableKeys={[['project', 'name'], 'created_at', 'code', 'status']}
                 data={filteredData}

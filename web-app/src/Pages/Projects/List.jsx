@@ -30,7 +30,6 @@ export default function ProjectsList() {
                 <Link to="/projects/add" className="btn-primary">Add project</Link>
             </div>
             <Table
-                // Props
                 tableTitles={['Project', 'Created at', 'Project key']}
                 tableKeys={['name', 'created_at', 'key']}
                 data={data}
