@@ -7,7 +7,7 @@ trait ApiErrorTrait {
      * Return error if user is not allowed to access to the ressource
      *
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse|false
+     * @return \Illuminate\Http\JsonResponse|true
      */
     public function hasAccess(int $id) {
         if($id !== request()->user()->id) {
@@ -16,6 +16,6 @@ trait ApiErrorTrait {
                 'message' => 'You are not allowed to access to this ressource.',
             ], 403);
         }
-        return false;
+        return true;
     }
 }
