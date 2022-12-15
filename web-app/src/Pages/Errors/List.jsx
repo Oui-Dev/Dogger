@@ -21,13 +21,22 @@ export default function ErrorsList() {
     }, []);
 
     const showDetails = (id) => {
-        console.log("showDetails", id);
+        const error = data.find(item => item.id === id);
+        console.log(error);
     };
+
+    // fct to use in the future (showDetails)
     const changeStatus = (id) => {
-        console.log("changeStatus", id);
+        axios.put(BASE_URL + "/errors/status/" + id, {status: 1}, config).then((res) => {
+            console.log(res);
+            if(res.status === 200) setData(data.map(item => item.id === id ? res.data.error : item));
+        });
     };
-    const deleteError = (id) => {
-        console.log("deleteError", id);
+    const assignTo = (id, email) => {
+        axios.put(BASE_URL + "/errors/assign/" + id, {email: email}, config).then((res) => {
+            console.log(res);
+            if(res.status === 200) setData(data.map(item => item.id === id ? res.data.error : item));
+        });
     };
 
     return (
@@ -46,8 +55,6 @@ export default function ErrorsList() {
                 data={filteredData}
                 actions={[
                     { function: showDetails, fctParam: 'id', icon: <BsReceipt /> },
-                    { function: changeStatus, fctParam: 'id', icon: <BsPencilSquare /> },
-                    { function: deleteError, fctParam: 'id', icon: <BsTrash />, hover: 'hover:text-red-500' }
                 ]}
             />
         </>

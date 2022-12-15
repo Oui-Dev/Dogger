@@ -17,11 +17,23 @@ export default function ProjectsList() {
         });
     }, []);
 
+    const createProject = (data) => {
+        axios.post(BASE_URL + "/projects/new/", data, config).then((res) => {
+            console.log(res);
+            if(res.status === 200) setData([...data, res.data.project]);
+        });
+    };
     const editProject = (id) => {
-        console.log("editProject", id);
+        axios.put(BASE_URL + "/projects/edit/" + id, {name: 'ouais'}, config).then((res) => {
+            console.log(res);
+            if(res.status === 200) setData(data.map(item => item.id === id ? res.data.project : item));
+        });
     };
     const deleteProject = (id) => {
-        console.log("deleteProject", id);
+        axios.delete(BASE_URL + "/projects/delete/" + id, config).then((res) => {
+            console.log(res);
+            if(res.status === 200) setData(data.filter(item => item.id !== id));
+        });
     };
 
     return (
