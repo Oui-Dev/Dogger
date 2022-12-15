@@ -58,6 +58,7 @@ class ErrorsController extends Controller
 
         return response()->json([
             'state' => 'success',
+            'error' => $error,
         ]);
     }
 
@@ -75,6 +76,7 @@ class ErrorsController extends Controller
 
         return response()->json([
             'state' => 'success',
+            'error' => $error,
         ]);
     }
 }

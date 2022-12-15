@@ -28,7 +28,7 @@ class ProjectsController extends Controller
             'name' => ['required', 'string', 'max:255', Rule::unique('projects')],
         ]);
 
-        Project::create([
+        $project = Project::create([
             'user_id' => $currentUser->id,
             'name' => $data['name'],
             'key' => bin2hex(random_bytes(16)).'/'.Str::slug($data['name']),
@@ -36,6 +36,7 @@ class ProjectsController extends Controller
 
         return response()->json([
             'state' => 'success',
+            'project' => $project,
         ]);
     }
 
@@ -53,6 +54,7 @@ class ProjectsController extends Controller
 
         return response()->json([
             'state' => 'success',
+            'project' => $project,
         ]);
     }
 

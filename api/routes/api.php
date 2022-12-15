@@ -40,7 +40,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         'controller' => ProjectsController::class
     ], function () {
         Route::get('/', 'list');
-        Route::post('/create', 'create');
+        Route::post('/new', 'create');
         Route::put('/edit/{project}', 'update');
         Route::delete('/delete/{project}', 'delete');
     });
