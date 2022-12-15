@@ -47,7 +47,7 @@ class ErrorsController extends Controller
     }
 
     public function updateStatus(Error $error) {
-        $this->hasAccess($error->project()->user_id);
+        $this->hasAccess($error->project->user_id);
 
         $data = request()->validate([
             'status' => ['required', 'integer', 'min:0', 'max:3'],
@@ -55,10 +55,14 @@ class ErrorsController extends Controller
 
         $error->status = $data['status'];
         $error->save();
+
+        return response()->json([
+            'state' => 'success',
+        ]);
     }
 
     public function assignTo(Error $error) {
-        $this->hasAccess($error->project()->user_id);
+        $this->hasAccess($error->project->user_id);
 
         $data = request()->validate([
             'email' => ['required','email:rfc,dns,spoof','max:255'],
@@ -68,5 +72,9 @@ class ErrorsController extends Controller
 
         $error->assigned_to = $data['email'];
         $error->save();
+
+        return response()->json([
+            'state' => 'success',
+        ]);
     }
 }
