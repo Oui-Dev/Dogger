@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use App\Traits\ApiErrorTrait;
 use App\Models\Project;
 
@@ -23,12 +25,13 @@ class ProjectsController extends Controller
         $currentUser = request()->user();
 
         $data = request()->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255', Rule::unique('projects')],
         ]);
 
         Project::create([
             'user_id' => $currentUser->id,
             'name' => $data['name'],
+            'key' => bin2hex(random_bytes(16)).'/'.Str::slug($data['name']),
         ]);
 
         return response()->json([
@@ -40,7 +43,7 @@ class ProjectsController extends Controller
         $this->hasAccess($project->user_id);
 
         $data = request()->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255', Rule::unique('projects')->ignore($project->id)],
         ]);
 
         $project->name = $data['name'];
