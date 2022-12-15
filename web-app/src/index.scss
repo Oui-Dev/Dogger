@@ -21,18 +21,21 @@ code {
 .btn-primary {
     @apply w-fit flex justify-center rounded-md border border-transparent py-2 px-5 text-sm font-medium bg-dogger-orange-400 text-white shadow-sm hover:bg-dogger-orange-500;
     
-    &.warning {
-            @apply bg-red-500 hover:bg-red-700;
-        }
 }
 
 .btn-secondary {
     @apply bg-black text-white rounded font-bold px-4 py-2 hover:bg-dogger-orange-500;
     font-size: 16px;
+}
 
-    &.warning{
-        @apply bg-red-500 hover:bg-red-700;
-    }
+.btn-warning {
+    @apply w-fit flex justify-center rounded-md border border-transparent py-2 px-5 text-sm font-medium text-white shadow-sm bg-red-500 hover:bg-red-700;
+    font-size: 16px;
+}
+
+.btn-generic{
+    @apply bg-white border border-gray-600 text-gray-600 rounded font-bold px-4 py-2 hover:text-gray-500;
+    font-size: 16px;
 }
 
 form {
