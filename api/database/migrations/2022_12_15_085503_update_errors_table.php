@@ -14,8 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::table('errors', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained();
             $table->string('assigned_to')->nullable()->after('status');
+            $table->dropColumn('message');
+        });
+
+        Schema::table('errors', function (Blueprint $table) {
+            $table->text('message')->nullable()->after('code');
         });
     }
 
@@ -27,9 +31,12 @@ return new class extends Migration
     public function down()
     {
         Schema::table('errors', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-            $table->dropColumn('user_id');
             $table->dropColumn('assigned_to');
+            $table->dropColumn('message');
+        });
+
+        Schema::table('errors', function (Blueprint $table) {
+            $table->string('message')->nullable()->after('code');
         });
     }
 };
