@@ -76,6 +76,7 @@ export default function Profile() {
 								</div>
 							</div>
 						</div>
+						
 						<div className="bg-gray-50 px-4 py-3 flex justify-between sm:px-6">
 							<button
 								type="submit"
