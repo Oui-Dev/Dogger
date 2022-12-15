@@ -20,9 +20,11 @@ export default function Table({ ...props }) {
         props[action.emitName](item[action.returnValue]);
     }
     const formatedDate = (date) => {
-        const newDate = !isNaN(Date.parse(date + " GMT")) ? new Date(date + " GMT") : new Date(date);
-        if(newDate.toString() === "Invalid Date") return date;
-        return newDate.toLocaleDateString() + " " + newDate.toLocaleTimeString();
+        if(new Date(date).getTime() > 0) {
+            date = !isNaN(Date.parse(date + " GMT")) ? new Date(date + " GMT") : new Date(date);
+            return date.toLocaleDateString() + " " + date.toLocaleTimeString();
+        }
+        return date;
     };
 
     return (
