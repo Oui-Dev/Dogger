@@ -1,6 +1,6 @@
 export default function Thead({ ...props }) {
     return (
-        <thead className="bg-dogger-orange-400 text-white">
+        <thead className="bg-dogger-orange-400 text-white table table-fixed w-full">
             <tr>
                 { props.tableTitles.map((title, index) => (
                     <th scope="col" className="custom_th" key={index}>

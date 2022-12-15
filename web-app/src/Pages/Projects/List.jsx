@@ -1,13 +1,44 @@
 import { Link } from "react-router-dom";
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
-import Table from '../../Components/Molecules/Table/Table';
+import { useState, useEffect } from "react";
+import Table from '../../Components/Organisms/Table/Table';
+import axios from 'axios';
 
 export default function ProjectsList() {
-    const data = [
-        {id: 1, name: 'test1', created_at: 'test1'},
-        {id: 2, name: 'test2', created_at: 'test2'},
-        {id: 3, name: 'test3', created_at: 'test3'}
-    ];
+    const BASE_URL = process.env.REACT_APP_API_URL;
+    const [data, setData] = useState([]);
+    // in the future, we will get the token from redux
+    const config = {
+        headers: { Authorization: `Bearer 1|CXGj2BlZaAhLXenPRuuFetll6ywfwwshiAqTO3mS` }
+    };
+
+    useEffect(() => {
+        axios.get(BASE_URL + "/projects", config).then((res) => {
+            if(res.status === 200 && res.data?.projects !== data) setData(res.data.projects);
+        });
+    }, []);
+
+    // fct to use in the future (with createModal)
+    const createProject = (data) => {
+        axios.post(BASE_URL + "/projects/new/", data, config).then((res) => {
+            console.log(res);
+            if(res.status === 200) setData([...data, res.data.project]);
+        });
+    };
+    // fct to use in the future (with editModal)
+    const editProject = (id) => {
+        axios.put(BASE_URL + "/projects/edit/" + id, {name: 'ouais'}, config).then((res) => {
+            console.log(res);
+            if(res.status === 200) setData(data.map(item => item.id === id ? res.data.project : item));
+        });
+    };
+    // fct to use in the future (with warningModal)
+    const deleteProject = (id) => {
+        axios.delete(BASE_URL + "/projects/delete/" + id, config).then((res) => {
+            console.log(res);
+            if(res.status === 200) setData(data.filter(item => item.id !== id));
+        });
+    };
 
     return (
         <>
@@ -15,17 +46,13 @@ export default function ProjectsList() {
                 <Link to="/projects/add" className="btn-primary">Add project</Link>
             </div>
             <Table
-                // Props
-                tableTitles={['Project', 'Created at']}
-                tableKeys={['name', 'created_at']}
+                tableTitles={['Project', 'Created at', 'Project key']}
+                tableKeys={['name', 'created_at', 'key']}
                 data={data}
                 actions={[
-                    { emitName: 'edit', returnValue: 'id', icon: <BsPencilSquare /> },
-                    { emitName: 'delete', returnValue: 'id', icon: <BsTrash />, hover: 'hover:text-red-500' }
+                    { function: editProject, fctParam: 'id', icon: <BsPencilSquare /> },
+                    { function: deleteProject, fctParam: 'id', icon: <BsTrash />, hover: 'hover:text-red-500' }
                 ]}
-                // Emits
-                edit={(id) => console.log("edit", id)}
-                delete={(id) => console.log("delete", id)}
             />
         </>
     );

@@ -10,7 +10,7 @@ header {
     
         .logo-side {
             @screen lg {
-                width: 295px;
+                width: 110px;
             }
         }
     
@@ -21,7 +21,7 @@ header {
         .button-side {
             @apply flex items-center gap-3 md:gap-6 justify-end;
             @screen lg {
-                width: 295px;
+                width: 110px;
             }
 
             svg {

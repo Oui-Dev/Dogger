@@ -4,19 +4,19 @@ export default function Tbody({ ...props }) {
     }
 
     return (
-        <tbody className="divide-y divide-gray-200 bg-white">
+        <tbody className="divide-y divide-gray-200 bg-white block overflow-auto" style={{maxHeight: '650px'}}>
             { props.data.map((item, index) => (
-                <tr key={index}>
+                <tr key={index} className="table table-fixed w-full">
                     { props.tableKeys.map((key, index) => (
                         <td className="custom_td" key={index}>
-                            {item[key]}
+                            {props.formatedDate(item[key] ?? item[key[0]][key[1]])}
                         </td>
                     ))}
                     { props.hasActions &&
                         <td className="custom_actions">
                             {props.actions.map((action, index) => (
                                 <div className="action_btn" key={index}>
-                                    <button onClick={() => props.emitAction(action, item)} className={actionHover(action)}>
+                                    <button onClick={() => action.function(item[action.fctParam])} className={actionHover(action)}>
                                         {action.icon}
                                     </button>
                                 </div>
