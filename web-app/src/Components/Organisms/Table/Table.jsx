@@ -1,6 +1,6 @@
-import Li from '../../Atoms/Table/Li';
-import Thead from '../../Atoms/Table/Thead';
-import Tbody from '../../Atoms/Table/Tbody';
+import Li from '../../Molecules/Table/Li';
+import Thead from '../../Molecules/Table/Thead';
+import Tbody from '../../Molecules/Table/Tbody';
 import './Table.scss';
 
 export default function Table({ ...props }) {
@@ -29,7 +29,7 @@ export default function Table({ ...props }) {
         <section>
             {/* Table (smallest breakpoint only) */}
             <div className="shadow rounded-lg md:hidden">
-                <ul className="mt-4 divide-y divide-gray-200 overflow-hidden shadow rounded-lg md:hidden">
+                <ul className="mt-4 divide-y divide-gray-200 shadow rounded-lg md:hidden overflow-auto" style={{ maxHeight: '595px' }}>
                     { hasData() &&
                         <Li {...props} hasActions={hasActions} emitAction={emitAction} formatedDate={formatedDate} />
                     }

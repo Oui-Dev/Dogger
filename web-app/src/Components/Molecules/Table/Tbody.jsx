@@ -4,12 +4,12 @@ export default function Tbody({ ...props }) {
     }
 
     return (
-        <tbody className="divide-y divide-gray-200 bg-white">
+        <tbody className="divide-y divide-gray-200 bg-white block overflow-auto" style={{maxHeight: '650px'}}>
             { props.data.map((item, index) => (
-                <tr key={index}>
+                <tr key={index} className="table table-fixed w-full">
                     { props.tableKeys.map((key, index) => (
                         <td className="custom_td" key={index}>
-                            {props.formatedDate(item[key])}
+                            {props.formatedDate(item[key] ?? item[key[0]][key[1]])}
                         </td>
                     ))}
                     { props.hasActions &&

@@ -1,25 +1,24 @@
 import { useState, useEffect } from "react";
-import Table from '../../Components/Molecules/Table/Table';
+import Table from '../../Components/Organisms/Table/Table';
 import { BsPencilSquare, BsTrash, BsReceipt } from 'react-icons/bs';
 import axios from 'axios';
 
 export default function ErrorsList() {
     const BASE_URL = process.env.REACT_APP_API_URL;
     const [data, setData] = useState([]);
+    const [selectedProject, setSelectedProject] = useState('All');
     const config = {
         headers: { Authorization: `Bearer 1|CXGj2BlZaAhLXenPRuuFetll6ywfwwshiAqTO3mS` }
     };
 
     useEffect(() => {
         axios.get(BASE_URL + "/errors", config).then((res) => {
-            console.log(res);
             if(res.status === 200 && res.data?.errors !== data) setData(res.data.errors);
         });
     }, []);
 
-    const projects = [...new Set(data.map(item => item.project))];
-    const [selectedProject, setSelectedProject] = useState('All');
-    const filteredData = data.filter(item => item.project === selectedProject || selectedProject === 'All');
+    const projects = [...new Set(data.map(item => item.project.name))];
+    const filteredData = data.filter(item => item.project.name === selectedProject || selectedProject === 'All');
 
     return (
         <>
@@ -34,7 +33,7 @@ export default function ErrorsList() {
             <Table
                 // Props
                 tableTitles={['Project', 'Date', 'Code', 'Status']}
-                tableKeys={['project', 'date', 'code', 'status']}
+                tableKeys={[['project', 'name'], 'created_at', 'code', 'status']}
                 data={filteredData}
                 actions={[
                     { emitName: 'showDetails', returnValue: 'id', icon: <BsReceipt /> },

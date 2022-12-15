@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import { useState, useEffect } from "react";
-import Table from '../../Components/Molecules/Table/Table';
+import Table from '../../Components/Organisms/Table/Table';
 import axios from 'axios';
 
 export default function ProjectsList() {
@@ -13,7 +13,6 @@ export default function ProjectsList() {
 
     useEffect(() => {
         axios.get(BASE_URL + "/projects", config).then((res) => {
-            console.log(res);
             if(res.status === 200 && res.data?.projects !== data) setData(res.data.projects);
         });
     }, []);

@@ -8,7 +8,7 @@ export default function Li({ ...props }) {
                             { props.tableKeys.map((key, index) => (
                                 <span key={index}>
                                     <span className="font-medium text-gray-900 capitalize">{key} : </span>
-                                    {props.formatedDate(item[key])}
+                                    {props.formatedDate(item[key] ?? item[key[0]][key[1]])}
                                 </span>
                             ))}
                         </div>
