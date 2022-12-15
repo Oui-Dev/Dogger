@@ -23,7 +23,7 @@ export default function ErrorsList() {
     return (
         <>
             <div className="flex justify-between mb-4 gap-4">
-                <select onChange={(e) => setSelectedProject(e.target.value)} className="capitalize">
+                <select onChange={(e) => setSelectedProject(e.target.value)} className="capitalize py-2">
                     <option value="All">All</option>
                     {projects.map((item, index) => (
                         <option value={item} key={index}>{item}</option>
