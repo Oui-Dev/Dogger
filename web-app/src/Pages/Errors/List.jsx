@@ -20,6 +20,16 @@ export default function ErrorsList() {
     const projects = [...new Set(data.map(item => item.project.name))];
     const filteredData = data.filter(item => item.project.name === selectedProject || selectedProject === 'All');
 
+    const showDetails = (id) => {
+        console.log("showDetails", id);
+    };
+    const changeStatus = (id) => {
+        console.log("changeStatus", id);
+    };
+    const deleteError = (id) => {
+        console.log("deleteError", id);
+    };
+
     return (
         <>
             <div className="flex justify-between mb-4 gap-4">
@@ -36,14 +46,10 @@ export default function ErrorsList() {
                 tableKeys={[['project', 'name'], 'created_at', 'code', 'status']}
                 data={filteredData}
                 actions={[
-                    { emitName: 'showDetails', returnValue: 'id', icon: <BsReceipt /> },
-                    { emitName: 'edit', returnValue: 'id', icon: <BsPencilSquare /> },
-                    { emitName: 'delete', returnValue: 'id', icon: <BsTrash />, hover: 'hover:text-red-500' }
+                    { function: showDetails, fctParam: 'id', icon: <BsReceipt /> },
+                    { function: changeStatus, fctParam: 'id', icon: <BsPencilSquare /> },
+                    { function: deleteError, fctParam: 'id', icon: <BsTrash />, hover: 'hover:text-red-500' }
                 ]}
-                // Emits
-                showDetails={(id) => console.log("showDetails", id)}
-                edit={(id) => console.log("edit", id)}
-                delete={(id) => console.log("delete", id)}
             />
         </>
     );

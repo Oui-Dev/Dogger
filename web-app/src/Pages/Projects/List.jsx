@@ -17,6 +17,13 @@ export default function ProjectsList() {
         });
     }, []);
 
+    const editProject = (id) => {
+        console.log("editProject", id);
+    };
+    const deleteProject = (id) => {
+        console.log("deleteProject", id);
+    };
+
     return (
         <>
             <div className="flex justify-end mb-4">
@@ -28,12 +35,9 @@ export default function ProjectsList() {
                 tableKeys={['name', 'created_at', 'key']}
                 data={data}
                 actions={[
-                    { emitName: 'edit', returnValue: 'id', icon: <BsPencilSquare /> },
-                    { emitName: 'delete', returnValue: 'id', icon: <BsTrash />, hover: 'hover:text-red-500' }
+                    { function: editProject, fctParam: 'id', icon: <BsPencilSquare /> },
+                    { function: deleteProject, fctParam: 'id', icon: <BsTrash />, hover: 'hover:text-red-500' }
                 ]}
-                // Emits
-                edit={(id) => console.log("edit", id)}
-                delete={(id) => console.log("delete", id)}
             />
         </>
     );

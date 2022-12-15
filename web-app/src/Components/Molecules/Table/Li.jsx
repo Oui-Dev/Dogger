@@ -15,7 +15,7 @@ export default function Li({ ...props }) {
                         { props.hasActions &&
                             <div className="grid gap-4 text-xl pl-4">
                                 { props.actions.map((action, index) => (
-                                    <button onClick={() => props.emitAction(action, item)} key={index} className="p-1">
+                                    <button onClick={() => action.function(item[action.fctParam])} key={index} className="p-1">
                                         {action.icon}
                                     </button>
                                 ))}

@@ -16,7 +16,7 @@ export default function Tbody({ ...props }) {
                         <td className="custom_actions">
                             {props.actions.map((action, index) => (
                                 <div className="action_btn" key={index}>
-                                    <button onClick={() => props.emitAction(action, item)} className={actionHover(action)}>
+                                    <button onClick={() => action.function(item[action.fctParam])} className={actionHover(action)}>
                                         {action.icon}
                                     </button>
                                 </div>
