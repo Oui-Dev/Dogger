@@ -46,7 +46,9 @@ class ProjectsController extends Controller
             'name' => ['required', 'string', 'max:255', Rule::unique('projects')->ignore($project->id)],
         ]);
 
+        $newKey = str_replace(Str::slug($project->name), Str::slug($data['name']), $project->key);
         $project->name = $data['name'];
+        $project->key = $newKey;
         $project->save();
 
         return response()->json([
