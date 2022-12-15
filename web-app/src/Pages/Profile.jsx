@@ -61,7 +61,6 @@ export default function Profile() {
 										type="password"
 										name="password"
 										id="password"
-										className="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
 									/>
 								</div>
 
@@ -73,7 +72,6 @@ export default function Profile() {
 										type="password"
 										name="password_confirmation"
 										id="password_confirmation"
-										className="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
 									/>
 								</div>
 							</div>
