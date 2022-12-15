@@ -18,11 +18,32 @@ class ErrorsController extends Controller
     }
 
     public function create() {
-        
+        $data = request()->validate([
+            'project_id' => ['required', 'integer'],
+            'code' => ['nullable', 'string', 'max:255'],
+            'message' => ['nullable', 'string'],
+            'path' => ['nullable', 'string', 'max:255'],
+            'line' => ['nullable', 'string', 'max:255'],
+            'timestamp' => ['nullable'],
+        ]);
+
+        Error::create([
+            'project_id' => $data['project_id'],
+            'code' => $data['code'],
+            'message' => $data['message'],
+            'path' => $data['path'],
+            'line' => $data['line'],
+            'timestamp' => $data['timestamp'] ?? now(),
+            'status' => 0,
+        ]);
+
+        return response()->json([
+            'state' => 'success',
+        ]);
     }
 
     public function updateStatus(Error $error) {
-        if($error->user_id !== request()->user()->id) {
+        if($error->project()->user_id !== request()->user()->id) {
             return response()->json([
                 'state' => 'error',
                 'message' => 'You are not allowed to access to this ressource.',
@@ -38,7 +59,7 @@ class ErrorsController extends Controller
     }
 
     public function assignTo(Error $error) {
-        if($error->user_id !== request()->user()->id) {
+        if($error->project()->user_id !== request()->user()->id) {
             return response()->json([
                 'state' => 'error',
                 'message' => 'You are not allowed to access to this ressource.',
