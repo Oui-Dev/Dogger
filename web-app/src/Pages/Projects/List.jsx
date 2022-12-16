@@ -9,7 +9,7 @@ export default function ProjectsList() {
     const [data, setData] = useState([]);
     // in the future, we will get the token from redux
     const config = {
-        headers: { Authorization: `Bearer 1|EG4Ki7WSGQCgoGONlQMAN16AJXrW9P1C8VwEvwxZ` }
+        headers: { Authorization: process.env.REACT_APP_TOKEN }
     };
 
     useEffect(() => {
@@ -26,8 +26,8 @@ export default function ProjectsList() {
         });
     };
     // fct to use in the future (with editModal)
-    const editProject = (id) => {
-        axios.put(BASE_URL + "/projects/edit/" + id, {name: 'ouais'}, config).then((res) => {
+    const editProject = (id, data) => {
+        axios.put(BASE_URL + "/projects/edit/" + id, data, config).then((res) => {
             console.log(res);
             if(res.status === 200) setData(data.map(item => item.id === id ? res.data.project : item));
         });

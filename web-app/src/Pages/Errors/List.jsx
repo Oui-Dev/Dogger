@@ -7,7 +7,7 @@ export default function ErrorsList() {
     const BASE_URL = process.env.REACT_APP_API_URL;
     // in the future, we will get the token from redux
     const config = {
-        headers: { Authorization: `Bearer 1|EG4Ki7WSGQCgoGONlQMAN16AJXrW9P1C8VwEvwxZ` }
+        headers: { Authorization: process.env.REACT_APP_TOKEN }
     };
 
     const [data, setData] = useState([]);

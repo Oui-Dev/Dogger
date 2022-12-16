@@ -10,7 +10,7 @@ In the Web-App directory, you can run:
 
 ### `npm install`
 
-To install all necessaries depedancies.
+To install all necessary depedancies.
 
 ### `npm start`
 
@@ -36,7 +36,7 @@ In the API directory, you can run:
 
 ### `composer install`
 
-To install all necessaries depedancies.
+To install all necessary depedancies.
 
 ### `php artisan migrate`
 
