@@ -14,6 +14,7 @@ export default function ProjectsList() {
     const [modalTitle, setModalTitle] = useState("");
     const [modalContent, setModalContent] = useState("");
     const [projectId, setProjectId] = useState("");
+    const [newProject, setNewProject] = useState(true);
 
     const handleDangerModal = (id) => {
         setOpenDangerModal(true)
@@ -21,10 +22,22 @@ export default function ProjectsList() {
     };
 
     const handleEditModal = (id) => {
-        setOpenFormModal(true)
+        projectName.current = data.find(item => item.id === id).name
         setProjectId(id)
+        setNewProject(false)
+        setModalTitle("Edit Project")
+        setModalContent("Please enter a new name for your project")
+        setOpenFormModal(true)
+        createOrEdit()
     };
 
+    const createOrEdit = () => {
+        if (newProject) {
+            createProject()
+        } else {
+            editProject(projectId)
+        }
+    }
 
     // in the future, we will get the token from redux
     const config = {
@@ -48,10 +61,11 @@ export default function ProjectsList() {
     };
     // fct to use in the future (with editModal)
     const editProject = () => {
-        if (!projectName.current?.value || projectId ) return;
-        axios.put(BASE_URL + "/projects/edit/" + projectId, data, config).then((res) => {
+        const name = { name: projectName.current.value };
+        if (!name || !projectId) return;
+        axios.put(BASE_URL + "/projects/edit/" + projectId, name, config).then((res) => {
             console.log(res);
-            if(res.status === 200) setData(data.map(item => item.id === projectId ? res.data.project : item));
+            if (res.status === 200) setData(data.map(item => item.id === projectId ? res.data.project : item));
         });
     };
     // fct to use in the future (with warningModal)
@@ -66,10 +80,11 @@ export default function ProjectsList() {
     return (
         <>
             <div className="flex justify-end mb-4">
-                <Button 
+                <Button
                 type={"primary"}
                 onClick={() => {
                     setOpenFormModal(true)
+                    setNewProject(true)
                     setModalTitle("Create Project")
                     setModalContent("Please enter a name for your project")
                 }}>Create Project</Button>
@@ -84,15 +99,15 @@ export default function ProjectsList() {
                 ]}
             />
             {openFormModal &&
-            <Modal 
+            <Modal
                 title={modalTitle}
                 description={modalContent}
                 type="form"
                 open={openFormModal}
-                    actions={{ close: setOpenFormModal, submit: createProject}}>
+                    actions={{ close: setOpenFormModal, submit: createOrEdit }}>
                 <form className='flex flex-col items-stretch'>
                     <label htmlFor="projectName" className="block text-sm font-medium text-gray-700">Enter Name:</label>
-                    <input type="text" name="projectName" id="projectName" ref={projectName}  />
+                    <input type="text" name="projectName" id="projectName" ref={projectName} defaultValue={projectName.current} />
                 </form>
             </Modal>
             }
