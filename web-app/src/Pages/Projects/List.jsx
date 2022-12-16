@@ -3,12 +3,29 @@ import { useState, useEffect, useRef } from "react";
 import Table from '../../Components/Organisms/Table/Table';
 import Modal from "../../Components/Organism/Modal";
 import axios from 'axios';
+import Button from '../../Components/Atoms/Button';
 
 export default function ProjectsList() {
     const BASE_URL = process.env.REACT_APP_API_URL;
     const [data, setData] = useState([]);
     const projectName = useRef("");
-    const [editModal, setEditModal] = useState(false);
+    const [openFormModal, setOpenFormModal] = useState(false);
+    const [openDangerModal, setOpenDangerModal] = useState(false);
+    const [modalTitle, setModalTitle] = useState("");
+    const [modalContent, setModalContent] = useState("");
+    const [projectId, setProjectId] = useState("");
+
+    const handleDangerModal = (id) => {
+        setOpenDangerModal(true)
+        setProjectId(id)
+    };
+
+    const handleEditModal = (id) => {
+        setOpenFormModal(true)
+        setProjectId(id)
+    };
+
+
     // in the future, we will get the token from redux
     const config = {
         headers: { Authorization: process.env.REACT_APP_API_TOKEN }
@@ -30,56 +47,64 @@ export default function ProjectsList() {
         });
     };
     // fct to use in the future (with editModal)
-    const editProject = (id) => {
-        axios.put(BASE_URL + "/projects/edit/" + id, data, config).then((res) => {
+    const editProject = () => {
+        if (!projectName.current?.value || projectId ) return;
+        axios.put(BASE_URL + "/projects/edit/" + projectId, data, config).then((res) => {
             console.log(res);
-            if(res.status === 200) setData(data.map(item => item.id === id ? res.data.project : item));
+            if(res.status === 200) setData(data.map(item => item.id === projectId ? res.data.project : item));
         });
     };
     // fct to use in the future (with warningModal)
-    const deleteProject = (id) => {
-        axios.delete(BASE_URL + "/projects/delete/" + id, config).then((res) => {
+    const deleteProject = () => {
+        if (!projectId) return;
+        axios.delete(BASE_URL + "/projects/delete/" + projectId, config).then((res) => {
             console.log(res);
-            if(res.status === 200) setData(data.filter(item => item.id !== id));
+            if (res.status === 200) setData(data.filter(item => item.id !== projectId));
         });
     };
-
-    function modalHandling(type, id)  {
-        if (type === "edit") {
-            console.log("edit")
-            const project = data.find(item => item.id === id);
-            projectName.current = project.name;
-            setEditModal(true);
-            
-        }
-    }
 
     return (
         <>
             <div className="flex justify-end mb-4">
-                <Modal title="New Project" description="Add a new project?" type="form" openButtonMessage="Add new project" 
-                    function={createProject}>
-                    <form className='flex flex-col items-stretch'>
-                    <label htmlFor="projectName" className="block text-sm font-medium text-gray-700"> Project Name </label>
-                        <input type="text" name="projectName" id="projectName" ref={projectName} />
-                    </form>
-                </Modal>
+                <Button 
+                type={"primary"}
+                onClick={() => {
+                    setOpenFormModal(true)
+                    setModalTitle("Create Project")
+                    setModalContent("Please enter a name for your project")
+                }}>Create Project</Button>
             </div>
             <Table
                 tableTitles={['Project', 'Created At', 'Project Key']}
                 tableKeys={['name', 'created_at', 'key']}
                 data={data}
                 actions={[
-                    { function: editProject, fctParam: 'id', icon: <BsPencilSquare /> },
-                    { function: deleteProject, fctParam: 'id', icon: <BsTrash />, hover: 'hover:text-red-500' }
+                    { function: handleEditModal, fctParam: 'id', icon: <BsPencilSquare /> },
+                    { function: handleDangerModal, fctParam: 'id', icon: <BsTrash />, hover: 'hover:text-red-500' }
                 ]}
             />
-            <Modal title="Edit Project" description="Edit a project?" type="form" manualControl={{state: editModal, change: setEditModal}}>
+            {openFormModal &&
+            <Modal 
+                title={modalTitle}
+                description={modalContent}
+                type="form"
+                open={openFormModal}
+                    actions={{ close: setOpenFormModal, submit: createProject}}>
                 <form className='flex flex-col items-stretch'>
-                    <label htmlFor="projectName" className="block text-sm font-medium text-gray-700"> Project Name </label>
-                    <input type="text" name="projectName" id="projectName" ref={projectName} defaultValue={projectName.current} />
+                    <label htmlFor="projectName" className="block text-sm font-medium text-gray-700">Enter Name:</label>
+                    <input type="text" name="projectName" id="projectName" ref={projectName}  />
                 </form>
             </Modal>
+            }
+            {openDangerModal &&
+            <Modal
+                title="Warning !"
+                description="This action is irreversible. Are you sure you want to delete this project ?"
+                type="danger"
+                open={openDangerModal}
+                    actions={{ close: setOpenDangerModal, submit: deleteProject}}>
+            </Modal>
+            }
         </>
     );
 };
