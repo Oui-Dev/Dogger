@@ -1,8 +1,15 @@
+import { useRef } from 'react';
 import Avatar from '../Components/Atoms/Avatar'
 import Button from '../Components/Atoms/Button'
 import Modal from '../Components/Organism/Modal'
 
 export default function Profile() {
+	const firstName = useRef(null);
+	const lastName = useRef(null);
+	const email = useRef(null);
+	const oldPassword = useRef(null);
+	const password = useRef(null);
+	const passwordConfirm = useRef(null);
 	return (
 		<>
 			<div className="mt-16 mx-0 sm:mt-0">
@@ -22,6 +29,7 @@ export default function Profile() {
 										name="firstName"
 										id="firstName"
 										autoComplete='given-name'
+										ref={firstName}
 									/>
 								</div>
 
@@ -34,6 +42,7 @@ export default function Profile() {
 										name="lastName"
 										id="lastName"
 										autoComplete='family-name'
+										ref={lastName}
 									/>
 								</div>
 
@@ -46,6 +55,7 @@ export default function Profile() {
 										name="email"
 										id="email"
 										autoComplete='email'
+										ref={email}
 									/>
 								</div>
 
@@ -58,6 +68,7 @@ export default function Profile() {
 										name="old_password"
 										id="old_password"
 										autoComplete='current-password'
+										ref={oldPassword}
 									/>
 								</div>
 
@@ -70,6 +81,7 @@ export default function Profile() {
 										name="password"
 										id="password"
 										autoComplete='new-password'
+										ref={password}
 									/>
 								</div>
 
@@ -82,13 +94,14 @@ export default function Profile() {
 										name="password_confirmation"
 										id="password_confirmation"
 										autoComplete='new-password'
+										ref={passwordConfirm}
 									/>
 								</div>
 							</div>
 						</div>
 
 						<div className="bg-gray-50 px-4 py-3 flex justify-between sm:px-6">
-							<Modal title="Warning !" description="This action is permanent and irreversible" type="danger" openButtonMessage="Delete Account" />
+							<Modal title="Warning !" description="This action is permanent and irreversible" type="danger" openButtonMessage="Delete Account" openModal={false}/>
 							<Button type={"primary"} > Save </Button>
 						</div>
 					</div>

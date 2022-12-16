@@ -1,17 +1,32 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { BsFillExclamationTriangleFill, BsJournalPlus, BsX } from 'react-icons/bs'
 import Button from '../Atoms/Button'
 
 
 export default function Modal({ ...props }) {
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+        if (props.manualControl !== undefined) setOpen(props.manualControl.state);
+    }, [props.manualControl]);
+    useEffect(() => {
+        if (props.manualControl !== undefined && open === false) props.manualControl.change(false);
+    }, [open]);
+    
+    const submit = () => {
+        setOpen(false);
+        props.function();
+    }
+
     return (
         <>
+            {props.manualControl === undefined &&
             <Button type={props.type === "danger"? "warning":"primary"} onClick={(event) => {
                 event.preventDefault();
                 setOpen(true);
             }}>{props.openButtonMessage}</Button>
+            }
             <Transition.Root show={open} as={Fragment}>
                 <Dialog as="div" className="relative z-10" onClose={setOpen}>
                     <Transition.Child
@@ -70,7 +85,10 @@ export default function Modal({ ...props }) {
                                     </div>
                                     {props.children}
                                     <div className="mt-5 sm:mt-4 flex sm:flex-row-reverse gap-2 w-full flex-col items-stretch">
-                                        <Button type={props.type === "danger" ? "warning": "primary"} onClick={() => setOpen(false)}>
+                                        <Button type={props.type === "danger" ? "warning": "primary"} onClick={() => {
+                                            setOpen(false)
+                                            submit()
+                                        }}>
                                             { props.type === "danger" ? "Confirm" : "OK" }
                                         </Button>    
                                         <Button onClick={() => setOpen(false)}>
