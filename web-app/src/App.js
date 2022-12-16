@@ -24,9 +24,7 @@ function App() {
                         <Route path="add" element={<ProjectsAdd />} />
                         <Route path="edit/:id" element={<ProjectsEdit />} />
                     </Route>
-                    <Route path="/errors">
-                        <Route index element={<ErrorsList />} />
-                    </Route>
+                    <Route path="/errors" element={<ErrorsList />} />
                     <Route path="/profile" element={<Profile />} />
                 </Routes>
             </div>
