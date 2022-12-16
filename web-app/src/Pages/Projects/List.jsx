@@ -1,7 +1,7 @@
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import { useState, useEffect, useRef } from "react";
 import Table from '../../Components/Organisms/Table/Table';
-import Modal from "../../Components/Organism/Modal";
+import Modal from "../../Components/Organisms/Modal";
 import axios from 'axios';
 import Button from '../../Components/Atoms/Button';
 

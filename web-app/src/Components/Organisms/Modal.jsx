@@ -1,11 +1,11 @@
-import { Fragment, useState } from 'react'
+import { Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { BsFillExclamationTriangleFill, BsJournalPlus, BsX } from 'react-icons/bs'
-import Button from '../Atoms/Button'
+import Button from '../Atoms/Button';
+
 
 
 export default function Modal({ ...props }) {
-    console.log(props)
     const submit = () => {
         props.actions.submit();
     }
@@ -55,7 +55,7 @@ export default function Modal({ ...props }) {
                                         <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
                                             <BsFillExclamationTriangleFill className="h-6 w-6 text-red-600" aria-hidden="true" />
                                         </div>
-                                    ) : (                                  
+                                    ) : (
                                         <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-dogger-orange-100 sm:mx-0 sm:h-10 sm:w-10">
                                             <BsJournalPlus className="h-6 w-6 text-dogger-orange-600" aria-hidden="true" />
                                         </div>
@@ -78,7 +78,7 @@ export default function Modal({ ...props }) {
                                         submit();
                                     }}>
                                         { props.type === "danger" ? "Confirm" : "OK" }
-                                    </Button>    
+                                    </Button>
                                     <Button onClick={() => handleClose()}>
                                         Cancel
                                     </Button>

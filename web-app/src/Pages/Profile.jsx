@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import Avatar from '../Components/Atoms/Avatar'
 import Button from '../Components/Atoms/Button'
-import Modal from '../Components/Organism/Modal'
+import Modal from '../Components/Organisms/Modal'
 
 export default function Profile() {
 	const firstName = useRef(null);
