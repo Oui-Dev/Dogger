@@ -1,4 +1,5 @@
-import { useRef } from 'react';
+import axios from 'axios';
+import { useEffect, useRef, useState } from 'react';
 import Avatar from '../Components/Atoms/Avatar'
 import Button from '../Components/Atoms/Button'
 import Modal from '../Components/Organism/Modal'
@@ -10,6 +11,28 @@ export default function Profile() {
 	const oldPassword = useRef(null);
 	const password = useRef(null);
 	const passwordConfirm = useRef(null);
+	const [openDangerModal, setOpenDangerModal] = useState(false);
+	const BASE_URL = process.env.REACT_APP_API_URL;
+// 	const [data, setData] = useState([]);
+
+// 	const config = {
+// 		headers: { Authorization: process.env.REACT_APP_API_TOKEN }
+// 	};
+
+// 	useEffect(() => {
+// 		axios.get(BASE_URL + "/users/current", config).then((res) => { // 500 error
+// 				if(res.status === 200 && res.data?.projects !== data) setData(res.data.projects);
+// 		});
+// }, []);
+
+	const deleteAccount = () => {
+		console.log('delete account');
+	}
+
+	const updateProfile = () => {
+		console.log('update profile');
+	}
+
 	return (
 		<>
 			<div className="mt-16 mx-0 sm:mt-0">
@@ -101,12 +124,29 @@ export default function Profile() {
 						</div>
 
 						<div className="bg-gray-50 px-4 py-3 flex justify-between sm:px-6">
-							<Modal title="Warning !" description="This action is permanent and irreversible" type="danger" openButtonMessage="Delete Account" openModal={false}/>
-							<Button type={"primary"} > Save </Button>
+							<Button
+								type={"warning"}
+								onClick={(e) => {
+								setOpenDangerModal(true)
+								e.preventDefault()
+							}}> Delete Account </Button>
+							<Button
+								type={"primary"}
+								onClick={(e) => {
+									updateProfile()
+									e.preventDefault()
+								}}
+							> Save </Button>
 						</div>
 					</div>
 				</form>
 			</div>
+			<Modal
+						open={openDangerModal}
+            title="Delete Account"
+            description="Are you sure you want to delete your account? All of your data will be permanently removed. This action cannot be undone."
+            type="danger"
+            actions={{ close: setOpenDangerModal, submit: deleteAccount}} />
 		</>
 	)
 }
