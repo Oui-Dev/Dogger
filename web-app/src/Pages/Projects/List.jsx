@@ -62,7 +62,7 @@ export default function ProjectsList() {
     // fct to use in the future (with editModal)
     const editProject = () => {
         const name = { name: projectName.current.value };
-        if (!name || !projectId) return;
+        if (!name.name  || !projectId) return;
         axios.put(BASE_URL + "/projects/edit/" + projectId, name, config).then((res) => {
             console.log(res);
             if (res.status === 200) setData(data.map(item => item.id === projectId ? res.data.project : item));
