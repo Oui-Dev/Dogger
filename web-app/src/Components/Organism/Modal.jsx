@@ -4,14 +4,14 @@ import { BsFillExclamationTriangleFill, BsJournalPlus, BsX } from 'react-icons/b
 import Button from '../Atoms/Button'
 
 
-export default function Modal({ title, description, type, openButtonMessage, ...props }) {
+export default function Modal({ ...props }) {
     const [open, setOpen] = useState(false)
     return (
         <>
-            <Button type={"primary"} onClick={(event) => {
+            <Button type={props.type === "danger"? "warning":"primary"} onClick={(event) => {
                 event.preventDefault();
                 setOpen(true);
-            }}>{openButtonMessage}</Button>
+            }}>{props.openButtonMessage}</Button>
             <Transition.Root show={open} as={Fragment}>
                 <Dialog as="div" className="relative z-10" onClose={setOpen}>
                     <Transition.Child
@@ -48,37 +48,31 @@ export default function Modal({ title, description, type, openButtonMessage, ...
                                         </button>
                                     </div>
                                     <div className="sm:flex sm:items-start">
-                                        {type === "form" ? (
-                                            <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-dogger-orange-100 sm:mx-0 sm:h-10 sm:w-10">
-                                                <BsJournalPlus className="h-6 w-6 text-dogger-orange-600" aria-hidden="true" />
-                                            </div>
-                                        ) : (
+                                        {props.type === "danger" ? (
                                             <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
                                                 <BsFillExclamationTriangleFill className="h-6 w-6 text-red-600" aria-hidden="true" />
+                                            </div>
+                                        ) : (                                  
+                                            <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-dogger-orange-100 sm:mx-0 sm:h-10 sm:w-10">
+                                                <BsJournalPlus className="h-6 w-6 text-dogger-orange-600" aria-hidden="true" />
                                             </div>
                                         )}
                                         <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                             <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
-                                                {title}
+                                                {props.title}
                                             </Dialog.Title>
                                             <div className="mt-2">
                                                 <p className="text-sm text-gray-500">
-                                                    {description}
+                                                    {props.description}
                                                 </p>
                                             </div>
                                         </div>
                                     </div>
                                     {props.children}
                                     <div className="mt-5 sm:mt-4 flex sm:flex-row-reverse gap-2 w-full flex-col items-stretch">
-                                        {type === "form" ? (
-                                            <Button type={"primary"} onClick={() => setOpen(false)}>
-                                                Save
-                                            </Button>
-                                        ) : (
-                                            <Button type={"warning"} onClick={() => setOpen(false)}>
-                                                Delete
-                                            </Button>
-                                        )}
+                                        <Button type={props.type === "danger" ? "warning": "primary"} onClick={() => setOpen(false)}>
+                                            { props.type === "danger" ? "Confirm" : "OK" }
+                                        </Button>    
                                         <Button onClick={() => setOpen(false)}>
                                             Cancel
                                         </Button>
