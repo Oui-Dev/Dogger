@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { BsFillExclamationTriangleFill, BsJournalPlus, BsX } from 'react-icons/bs'
 import Button from '../Atoms/Button';
@@ -9,10 +9,27 @@ export default function Modal({ ...props }) {
     const submit = () => {
         props.actions.submit();
     }
-
     const handleClose = () => {
         props.actions.close(false);
     }
+
+    useEffect(() => {
+        const keyDownHandler = event => {
+            if (event.key === 'Enter' && props.open) {
+                event.preventDefault();
+                submit();
+                handleClose();
+            } else if (event.key === 'Escape') {
+                event.preventDefault();
+                handleClose();
+            }
+        };
+        document.addEventListener('keydown', keyDownHandler);
+
+        return () => {
+            document.removeEventListener('keydown', keyDownHandler);
+        };
+    }, [props.open]);
 
     return (
         <Transition.Root show={props.open} as={Fragment}>
