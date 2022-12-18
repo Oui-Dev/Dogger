@@ -22,6 +22,10 @@ export default function Table({ ...props }) {
             return newDate.toLocaleDateString() + " " + newDate.toLocaleTimeString();
         } else if(typeof key === 'object') {
             return item[key[0]][key[1]];
+        } else if(key === 'status') {
+            return item[key] === 0 ? 'New'
+                : item[key] === 1 ? 'In progress'
+                : 'Resolved';
         }
 
         return item[key];

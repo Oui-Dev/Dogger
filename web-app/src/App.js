@@ -8,8 +8,7 @@ import Home from './Pages/Home';
 import ProjectsList from './Pages/Projects/List';
 import ProjectsAdd from './Pages/Projects/Add';
 import ProjectsEdit from './Pages/Projects/Edit';
-import ErrorsList from './Pages/Errors/List';
-import ErrorsDetails from './Pages/Errors/Details';
+import ErrorsList from './Pages/Errors';
 import Profile from './Pages/Profile';
 
 function App() {
@@ -25,10 +24,7 @@ function App() {
                         <Route path="add" element={<ProjectsAdd />} />
                         <Route path="edit/:id" element={<ProjectsEdit />} />
                     </Route>
-                    <Route path="/errors">
-                        <Route index element={<ErrorsList />} />
-                        <Route path="details/:id" element={<ErrorsDetails />} />
-                    </Route>
+                    <Route path="/errors" element={<ErrorsList />} />
                     <Route path="/profile" element={<Profile />} />
                 </Routes>
             </div>
