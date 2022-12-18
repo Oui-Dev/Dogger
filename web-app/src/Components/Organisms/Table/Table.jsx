@@ -16,12 +16,19 @@ export default function Table({ ...props }) {
     const hasActions = () => {
         return props.actions.length > 0;
     }
-    const formatedDate = (date) => {
-        if(new Date(date).getTime() > 0) {
-            date = !isNaN(Date.parse(date + " GMT")) ? new Date(date + " GMT") : new Date(date);
-            return date.toLocaleDateString() + " " + date.toLocaleTimeString();
+    const formatedData = (item, key) => {
+        if(key.slice(-3) === '_at') {
+            const newDate = !isNaN(Date.parse(item[key] + " GMT")) ? new Date(item[key] + " GMT") : new Date(item[key]);
+            return newDate.toLocaleDateString() + " " + newDate.toLocaleTimeString();
+        } else if(typeof key === 'object') {
+            return item[key[0]][key[1]];
+        } else if(key === 'status') {
+            return item[key] === 0 ? 'New'
+                : item[key] === 1 ? 'In progress'
+                : 'Resolved';
         }
-        return date;
+
+        return item[key];
     };
 
     return (
@@ -30,7 +37,7 @@ export default function Table({ ...props }) {
             <div className="shadow rounded-lg md:hidden">
                 <ul className="mt-4 divide-y divide-gray-200 shadow rounded-lg md:hidden overflow-auto" style={{ maxHeight: '595px' }}>
                     { hasData() &&
-                        <Li {...props} hasActions={hasActions} formatedDate={formatedDate} />
+                        <Li {...props} hasActions={hasActions} formatedData={formatedData} />
                     }
                     {!hasData() && 
                         <li className="text-center py-3">
@@ -47,7 +54,7 @@ export default function Table({ ...props }) {
                         <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                             <table className="min-w-full divide-y divide-gray-300">
                                 <Thead tableTitles={props.tableTitles} hasActions={hasActions} />
-                                <Tbody {...props} hasActions={hasActions} formatedDate={formatedDate} />
+                                <Tbody {...props} hasActions={hasActions} formatedData={formatedData} />
                             </table>
                         </div>
                     }

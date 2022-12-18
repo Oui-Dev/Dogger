@@ -22,6 +22,7 @@ class TokenController extends Controller
         return response()->json([
             'state' => $logged ? 'Logged' : 'Error',
             'token' => $logged ? $user->createToken($data['device_name'])->plainTextToken : null,
+            'user' => $logged ? $user : null,
         ], $logged ? 200 : 204);
     }
 
@@ -44,6 +45,7 @@ class TokenController extends Controller
         return response()->json([
             'state' => 'success',
             'token' => $user->createToken($data['device_name'])->plainTextToken,
+            'user' => $user,
         ]);
     }
 
