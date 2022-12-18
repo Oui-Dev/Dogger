@@ -1,9 +1,10 @@
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import { useState, useEffect, useRef } from "react";
-import Table from '../../Components/Organisms/Table/Table';
-import Modal from "../../Components/Organisms/Modal";
 import axios from 'axios';
-import Button from '../../Components/Atoms/Button';
+import Button from '../Components/Atoms/Button';
+import Table from '../Components/Organisms/Table/Table';
+import Modal from '../Components/Organisms/Modal';
+
 
 export default function ProjectsList() {
     const BASE_URL = process.env.REACT_APP_API_URL;
