@@ -13,7 +13,7 @@ export default function Login() {
             password: form.get('password')
         }
 
-        axios.put(BASE_URL + "/login", data)
+        axios.post(BASE_URL + "/login", data)
             .then((res) => {
                 console.log(res);
                 if(res.status === 200) console.log('ok');

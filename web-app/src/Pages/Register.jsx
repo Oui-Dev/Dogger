@@ -1,6 +1,7 @@
 import axios from 'axios';
 import logo from '../images/logo_full.png';
 import { Link } from "react-router-dom";
+import { browserName, browserVersion, osName, osVersion } from "react-device-detect";
 
 export default function Login() {
     const BASE_URL = process.env.REACT_APP_API_URL;
@@ -13,10 +14,11 @@ export default function Login() {
             lastname: form.get('last_name'),
             email: form.get('email'),
             password: form.get('password'),
-            password_confirmation: form.get('password_confirmation')
+            password_confirmation: form.get('password_confirmation'),
+            device_name: `${osName} ${osVersion}, ${browserName} ${browserVersion}`
         }
 
-        axios.put(BASE_URL + "/register", data)
+        axios.post(BASE_URL + "/register", data)
             .then((res) => {
                 console.log(res);
                 if(res.status === 200) console.log('ok');
