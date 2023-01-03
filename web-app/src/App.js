@@ -5,9 +5,7 @@ import Navbar from './Components/Molecules/Navbar/Navbar';
 import Footer from './Components/Molecules/Footer';
 // Pages
 import Home from './Pages/Home';
-import ProjectsList from './Pages/Projects/List';
-import ProjectsAdd from './Pages/Projects/Add';
-import ProjectsEdit from './Pages/Projects/Edit';
+import Projects from './Pages/Projects';
 import ErrorsList from './Pages/Errors';
 import Profile from './Pages/Profile';
 
@@ -19,11 +17,7 @@ function App() {
             <div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-8 mt-6 md:mt-8 lg:mt-10">
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/projects">
-                        <Route index element={<ProjectsList />} />
-                        <Route path="add" element={<ProjectsAdd />} />
-                        <Route path="edit/:id" element={<ProjectsEdit />} />
-                    </Route>
+                    <Route path="/projects" element={<Projects />} />
                     <Route path="/errors" element={<ErrorsList />} />
                     <Route path="/profile" element={<Profile />} />
                 </Routes>
