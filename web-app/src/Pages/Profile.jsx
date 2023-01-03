@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import Avatar from '../Components/Atoms/Avatar'
 import Button from '../Components/Atoms/Button'
 import Modal from '../Components/Organisms/Modal'
@@ -32,10 +33,10 @@ export default function Profile() {
             axios.put(BASE_URL + "/users/edit", data, config)
             .then((res) => {
                 console.log(res);
-                if (res.status === 200) console.log('ok');
+                if (res.status === 200) toast.success('Profile updated !');
             })
             .catch((err) => {
-                // TODO: handle API validators errors (maybe un toast ?)
+                // TODO: form errors handling
                 console.log(err.response.data)
             });
         }

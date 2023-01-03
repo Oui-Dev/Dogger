@@ -1,5 +1,6 @@
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import { useState, useEffect, useRef } from "react";
+import { toast } from 'react-toastify';
 import axios from 'axios';
 import Button from '../Components/Atoms/Button';
 import Table from '../Components/Organisms/Table/Table';
@@ -8,6 +9,11 @@ import Modal from '../Components/Organisms/Modal';
 
 export default function ProjectsList() {
     const BASE_URL = process.env.REACT_APP_API_URL;
+    // in the future, we will get the token from redux
+    const config = {
+        headers: { Authorization: process.env.REACT_APP_TOKEN }
+    };
+
     const [data, setData] = useState([]);
     const projectName = useRef("");
     const [openFormModal, setOpenFormModal] = useState(false);
@@ -17,64 +23,64 @@ export default function ProjectsList() {
     const [projectId, setProjectId] = useState("");
     const [newProject, setNewProject] = useState(true);
 
-    const handleDangerModal = (id) => {
-        setOpenDangerModal(true)
-        setProjectId(id)
-    };
-
-    const handleEditModal = (id) => {
-        projectName.current = data.find(item => item.id === id).name
-        setProjectId(id)
-        setNewProject(false)
-        setModalTitle("Edit Project")
-        setModalContent("Please enter a new name for your project")
-        setOpenFormModal(true)
-        createOrEdit()
-    };
-
-    const createOrEdit = () => {
-        if (newProject) {
-            createProject()
-        } else {
-            editProject(projectId)
-        }
-    }
-
-    // in the future, we will get the token from redux
-    const config = {
-        headers: { Authorization: process.env.REACT_APP_TOKEN }
-    };
-
     useEffect(() => {
         axios.get(BASE_URL + "/projects", config).then((res) => {
             if(res.status === 200 && res.data?.projects !== data) setData(res.data.projects);
         });
     }, []);
 
-    // fct to use in the future (with createModal)
+    const handleDangerModal = (id) => {
+        setOpenDangerModal(true);
+        setProjectId(id);
+    };
+
+    const handleEditModal = (id) => {
+        projectName.current = data.find(item => item.id === id).name;
+        setProjectId(id);
+        setNewProject(false);
+        setModalTitle("Edit Project");
+        setModalContent("Please enter a new name for your project");
+        setOpenFormModal(true);
+        createOrEdit();
+    };
+
+    const createOrEdit = () => {
+        if (newProject) createProject();
+        else editProject(projectId);
+    }
+    
     const createProject = () => {
         if (!projectName.current?.value) return;
         const name = { name: projectName.current.value };
         axios.post(BASE_URL + "/projects/new/", name, config).then((res) => {
             console.log(res);
-            if(res.status === 200) setData([...data, res.data.project]);
+            if(res.status === 200) {
+                setData([...data, res.data.project]);
+                toast.success('Project created !');
+            }
         });
     };
-    // fct to use in the future (with editModal)
+    
     const editProject = () => {
         const name = { name: projectName.current.value };
         if (!name.name  || !projectId) return;
         axios.put(BASE_URL + "/projects/edit/" + projectId, name, config).then((res) => {
             console.log(res);
-            if (res.status === 200) setData(data.map(item => item.id === projectId ? res.data.project : item));
+            if (res.status === 200) {
+                setData(data.map(item => item.id === projectId ? res.data.project : item));
+                toast.success('Project edited !');
+            };
         });
     };
-    // fct to use in the future (with warningModal)
+    
     const deleteProject = () => {
         if (!projectId) return;
         axios.delete(BASE_URL + "/projects/delete/" + projectId, config).then((res) => {
             console.log(res);
-            if (res.status === 200) setData(data.filter(item => item.id !== projectId));
+            if (res.status === 200) {
+                setData(data.filter(item => item.id !== projectId));
+                toast.success('Project deleted !');
+            };
         });
     };
 

@@ -1,5 +1,7 @@
 import React from 'react';
 import { Route, Routes } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // Components
 import Navbar from './Components/Molecules/Navbar/Navbar';
 import Footer from './Components/Molecules/Footer';
@@ -15,6 +17,18 @@ function App() {
   return (
     <>
         <section className="min-h-screen">
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
             <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
