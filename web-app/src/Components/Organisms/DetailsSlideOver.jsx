@@ -47,7 +47,7 @@ export default function SlideOver({ ...props }) {
 
                 <div className="fixed inset-0 overflow-hidden">
                     <div className="absolute inset-0 overflow-hidden">
-                        <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10 sm:pl-16">
+                        <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full md:pl-16">
                             <Transition.Child
                                 as={Fragment}
                                 enter="transform transition ease-in-out duration-500 sm:duration-700"
@@ -59,9 +59,9 @@ export default function SlideOver({ ...props }) {
                             >
                                 <Dialog.Panel className="pointer-events-auto w-screen max-w-2xl">
                                     <div className="flex h-full flex-col bg-white shadow-xl">
-                                        <div className="divide-y divide-gray-200 border-t border-gray-200">
+                                        <div className="divide-y divide-gray-200 border-t border-gray-200 overflow-y-auto">
                                             <div className="flex items-start justify-between">
-                                                <div className="py-6 flow-root px-4 md:flex md:items-end md:px-6">
+                                                <div className="py-4 md:py-6 px-4 md:px-6 flow-root md:flex md:items-end">
                                                     <div className="flex gap-6">
                                                         <div className={bgIconClass()}>
                                                             { props.icon}
@@ -83,7 +83,7 @@ export default function SlideOver({ ...props }) {
                                                 </div>
                                             </div>
                                             <div className="px-4 py-5 sm:px-0 sm:py-0">
-                                                <dl className="space-y-8 sm:space-y-0 sm:divide-y sm:divide-gray-200">
+                                                <dl className="space-y-6 sm:space-y-0 sm:divide-y sm:divide-gray-200">
                                                     {/* Content */}
                                                     {error.map((item, index) => (
                                                         <div className="sm:flex sm:px-6 sm:py-5" key={index}>
@@ -96,7 +96,7 @@ export default function SlideOver({ ...props }) {
                                                         </div>
                                                     ))}
                                                     <form onSubmit={submitForm}>
-                                                        <div className="sm:flex sm:px-6 sm:py-5">
+                                                        <div className="md:flex md:px-6 md:py-5">
                                                             <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">
                                                                 Assign_to
                                                             </dt>
@@ -104,7 +104,7 @@ export default function SlideOver({ ...props }) {
                                                                 <input type="email" name="email" defaultValue={props.error?.assigned_to ?? ""} />
                                                             </dd>
                                                         </div>
-                                                        <div className="sm:flex sm:px-6 sm:py-5">
+                                                        <div className="md:flex md:px-6 py-3 md:py-5">
                                                             <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">
                                                                 Status
                                                             </dt>
@@ -116,7 +116,7 @@ export default function SlideOver({ ...props }) {
                                                                 </select>
                                                             </dd>
                                                         </div>
-                                                        <div className="sm:flex sm:px-6 sm:py-5">
+                                                        <div className="md:flex md:px-6 py-1 md:py-5">
                                                             <button className="btn-primary" type="submit">Enregistrer</button>
                                                         </div>
                                                     </form>
