@@ -20,18 +20,16 @@ export default function Profile() {
     const submitForm = (e) => {
         e.preventDefault();
         const form = new FormData(e.target);
-        const data = {
-            firstName: !!form.get('firstName') ? form.get('firstName') : null,
-            lastName: !!form.get('lastName') ? form.get('lastName') : null,
-            email: !!form.get('email') ? form.get('email') : null,
-            old_password: !!form.get('old_password') ? form.get('old_password') : null,
-            password: !!form.get('password') ? form.get('password') : null,
-            password_confirmation: !!form.get('password_confirmation') ? form.get('password_confirmation') : null,
-        }
-        console.log(form.get('firstName'));
-        console.log(data)
+        const data = {};
+        if (!!form.get('firstName')) Object.assign(data, { firstName: form.get('firstName') });
+        if (!!form.get('lastName')) Object.assign(data, { lastName: form.get('lastName') });
+        if (!!form.get('email')) Object.assign(data, { email: form.get('email') });
+        if (!!form.get('old_password')) Object.assign(data, { old_password: form.get('old_password') });
+        if (!!form.get('password')) Object.assign(data, { password: form.get('password') });
+        if (!!form.get('password_confirmation')) Object.assign(data, { password_confirmation: form.get('password_confirmation') })
 
-        axios.put(BASE_URL + "/users/edit", data, config)
+        if (Object.keys(data).length > 0) {
+            axios.put(BASE_URL + "/users/edit", data, config)
             .then((res) => {
                 console.log(res);
                 if (res.status === 200) console.log('ok');
@@ -40,6 +38,7 @@ export default function Profile() {
                 // TODO: handle API validators errors (maybe un toast ?)
                 console.log(err.response.data)
             });
+        }
     }
 
     return (
