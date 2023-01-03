@@ -3,7 +3,7 @@
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\ErrorsController;
 use App\Http\Controllers\ProjectsController;
-use App\Http\Controllers\UsersController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -58,7 +58,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Users
     Route::group([
         'prefix' => 'users',
-        'controller' => UsersController::class
+        'controller' => UserController::class
     ], function () {
         Route::get('/current', 'current');
         Route::put('/edit', 'update');
