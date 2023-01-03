@@ -4,6 +4,8 @@ import { Route, Routes } from "react-router-dom";
 import Navbar from './Components/Molecules/Navbar/Navbar';
 import Footer from './Components/Molecules/Footer';
 // Pages
+import Login from './Pages/Login';
+import Register from './Pages/Register';
 import Home from './Pages/Home';
 import Projects from './Pages/Projects';
 import ErrorsList from './Pages/Errors';
@@ -13,6 +15,10 @@ function App() {
   return (
     <>
         <section className="min-h-screen">
+            <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+            </Routes>
             <Navbar />
             <div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-8 mt-6 md:mt-8 lg:mt-10">
                 <Routes>
