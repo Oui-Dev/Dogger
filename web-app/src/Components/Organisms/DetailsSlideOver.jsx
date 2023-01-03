@@ -2,7 +2,6 @@ import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { BsX } from 'react-icons/bs'
 import { useEffect } from 'react';
-import { useRef } from 'react';
 
 export default function SlideOver({ ...props }) {
     const [open, setOpen] = useState(false);
