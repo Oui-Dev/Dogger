@@ -24,7 +24,7 @@ class UserController extends Controller
             'lastname' => ['nullable', 'string', 'max:255'],
             'firstname' => ['nullable', 'string', 'max:255'],
             'email' => ['nullable','email:rfc,dns,spoof','max:255', Rule::unique('users')->ignore($user->id)],
-            'old_password' => ['nullable', 'string', function($attribute, $value, $fail) use ($user) {
+            'old_password' => ['required_with:password', 'string', function($attribute, $value, $fail) use ($user) {
                 if(!Hash::check($value, $user->password)) {
                     $fail('Current password is incorrect');
                 }
