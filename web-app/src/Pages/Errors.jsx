@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
+import { BsReceipt, BsFillExclamationCircleFill } from 'react-icons/bs';
+import { toast } from 'react-toastify';
 import Table from '../Components/Organisms/Table/Table';
 import DetailsSlideOver from '../Components/Organisms/DetailsSlideOver';
-import { BsReceipt, BsFillExclamationCircleFill } from 'react-icons/bs';
 import axios from 'axios';
 
 export default function Errors() {
@@ -40,10 +41,13 @@ export default function Errors() {
         axios.put(BASE_URL + "/errors/status/" + id, {status: status}, config)
             .then((res) => {
                 console.log(res);
-                if(res.status === 200) setData(data.map(item => item.id === id ? res.data.error : item));
+                if(res.status === 200) {
+                    setData(data.map(item => item.id === id ? res.data.error : item));
+                    toast.success('Status changed !');
+                }
             })
             .catch((err) => {
-                // TODO: handle API validators errors (maybe un toast ?)
+                // TODO: form errors handling
                 console.log(err.response.data)
             });
     };
@@ -51,10 +55,13 @@ export default function Errors() {
         axios.put(BASE_URL + "/errors/assign/" + id, {email: email}, config)
             .then((res) => {
                 console.log(res);
-                if(res.status === 200) setData(data.map(item => item.id === id ? res.data.error : item));
+                if(res.status === 200) {
+                    setData(data.map(item => item.id === id ? res.data.error : item));
+                    toast.success('Assigned to ' + email);
+                }
             })
             .catch((err) => {
-                // TODO: handle API validators errors (maybe un toast ?)
+                // TODO: form errors handling
                 console.log(err.response.data)
             });
     };
