@@ -32,9 +32,9 @@ export default function SlideOver({ ...props }) {
         const status = form.get('status');
         const email = form.get('email');
 
-        if(status && status != props.error.status)
+        if(status && status !== props.error.status)
             props.actions.changeStatus(props.error.id, status);
-        if(email && email != props.error.email)
+        if(email && email !== props.error.email)
             props.actions.assignTo(props.error.id, email);
         handleClose();
     }
