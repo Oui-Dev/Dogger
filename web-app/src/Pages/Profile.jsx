@@ -21,13 +21,15 @@ export default function Profile() {
         e.preventDefault();
         const form = new FormData(e.target);
         const data = {
-            firstName: form.get('firstName'),
-            lastName: form.get('lastName'),
-            email: form.get('email'),
-            old_password: form.get('oldPassword'),
-            password: form.get('password'),
-            password_confirmation: form.get('passwordConfirm'),
+            firstName: !!form.get('firstName') ? form.get('firstName') : null,
+            lastName: !!form.get('lastName') ? form.get('lastName') : null,
+            email: !!form.get('email') ? form.get('email') : null,
+            old_password: !!form.get('old_password') ? form.get('old_password') : null,
+            password: !!form.get('password') ? form.get('password') : null,
+            password_confirmation: !!form.get('password_confirmation') ? form.get('password_confirmation') : null,
         }
+        console.log(form.get('firstName'));
+        console.log(data)
 
         axios.put(BASE_URL + "/users/edit", data, config)
             .then((res) => {
