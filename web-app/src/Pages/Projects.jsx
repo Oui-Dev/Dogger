@@ -82,13 +82,15 @@ export default function ProjectsList() {
         <>
             <div className="flex justify-end mb-4">
                 <Button
-                type={"primary"}
-                onClick={() => {
-                    setOpenFormModal(true)
-                    setNewProject(true)
-                    setModalTitle("Create Project")
-                    setModalContent("Please enter a name for your project")
-                }}>Create Project</Button>
+                    type={"primary"}
+                    onClick={() => {
+                        setOpenFormModal(true)
+                        setNewProject(true)
+                        setModalTitle("Create Project")
+                        setModalContent("Please enter a name for your project")
+                    }}>
+                    Create Project
+                </Button>
             </div>
             <Table
                 tableTitles={['Project', 'Created At', 'Project Key']}
@@ -100,26 +102,26 @@ export default function ProjectsList() {
                 ]}
             />
             {openFormModal &&
-            <Modal
-                title={modalTitle}
-                description={modalContent}
-                type="form"
-                open={openFormModal}
-                actions={{ close: setOpenFormModal, submit: createOrEdit }}>
-                <form className='flex flex-col items-stretch'>
-                    <label htmlFor="projectName" className="block text-sm font-medium text-gray-700">Enter Name:</label>
-                    <input type="text" name="projectName" id="projectName" ref={projectName} defaultValue={projectName.current} />
-                </form>
-            </Modal>
+                <Modal
+                    title={modalTitle}
+                    description={modalContent}
+                    type="form"
+                    open={openFormModal}
+                    actions={{ close: setOpenFormModal, submit: createOrEdit }}>
+                    <form className='flex flex-col items-stretch'>
+                        <label htmlFor="projectName" className="block text-sm font-medium text-gray-700">Enter Name:</label>
+                        <input type="text" name="projectName" id="projectName" ref={projectName} defaultValue={projectName.current} />
+                    </form>
+                </Modal>
             }
             {openDangerModal &&
-            <Modal
-                title="Warning !"
-                description="This action is irreversible. Are you sure you want to delete this project ?"
-                type="danger"
-                open={openDangerModal}
-                actions={{ close: setOpenDangerModal, submit: deleteProject}}>
-            </Modal>
+                <Modal
+                    title="Warning !"
+                    description="This action is irreversible. Are you sure you want to delete this project ?"
+                    type="danger"
+                    open={openDangerModal}
+                    actions={{ close: setOpenDangerModal, submit: deleteProject }}>
+                </Modal>
             }
         </>
     );
