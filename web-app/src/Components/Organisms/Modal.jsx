@@ -3,8 +3,6 @@ import { Dialog, Transition } from '@headlessui/react'
 import { BsFillExclamationTriangleFill, BsJournalPlus, BsX } from 'react-icons/bs'
 import Button from '../Atoms/Button';
 
-
-
 export default function Modal({ ...props }) {
     const submit = () => {
         props.actions.submit();

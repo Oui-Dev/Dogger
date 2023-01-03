@@ -16,7 +16,6 @@ export default function Button({ children, type, ...props }) {
             break;
     }
 
-
     return (
         <button className={buttonStyle} {...props}>
             {children}

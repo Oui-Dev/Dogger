@@ -42,7 +42,7 @@ export default function ProjectsList() {
 
     // in the future, we will get the token from redux
     const config = {
-        headers: { Authorization: process.env.REACT_APP_API_TOKEN }
+        headers: { Authorization: process.env.REACT_APP_TOKEN }
     };
 
     useEffect(() => {

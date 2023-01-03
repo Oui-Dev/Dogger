@@ -117,7 +117,7 @@ export default function SlideOver({ ...props }) {
                                                             </dd>
                                                         </div>
                                                         <div className="sm:flex sm:px-6 sm:py-5">
-                                                            <button className="btn-primary" type="submit">Enregistrer</button>
+                                                            <button className="btn-primary" type="submit">Save</button>
                                                         </div>
                                                     </form>
                                                 </dl>
