@@ -6,6 +6,8 @@ import Button from '../Components/Atoms/Button';
 import Table from '../Components/Organisms/Table/Table';
 import Modal from '../Components/Organisms/Modal';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProjects, postProject } from '../Redux/Store/index';
 
 export default function ProjectsList() {
     const BASE_URL = process.env.REACT_APP_API_URL;
@@ -14,7 +16,7 @@ export default function ProjectsList() {
         headers: { Authorization: process.env.REACT_APP_TOKEN }
     };
 
-    const [data, setData] = useState([]);
+    const [projects, setProjects] = useState([]);
     const projectName = useRef("");
     const [openFormModal, setOpenFormModal] = useState(false);
     const [openDangerModal, setOpenDangerModal] = useState(false);
@@ -23,11 +25,18 @@ export default function ProjectsList() {
     const [projectId, setProjectId] = useState("");
     const [newProject, setNewProject] = useState(true);
 
+    const { data, status } = useSelector((state) => state.projects);
+
+    const dispatch = useDispatch();
+
     useEffect(() => {
-        axios.get(BASE_URL + "/projects", config).then((res) => {
-            if(res.status === 200 && res.data?.projects !== data) setData(res.data.projects);
-        });
+        dispatch(fetchProjects());
     }, []);
+
+    useEffect(() => {
+        if (status === "idle" || status === "loading") return;
+        if (data[0].projects.length > 0) setProjects(data[0].projects);
+    }, [data, status]);
 
     const handleDangerModal = (id) => {
         setOpenDangerModal(true);
@@ -52,13 +61,7 @@ export default function ProjectsList() {
     const createProject = () => {
         if (!projectName.current?.value) return;
         const name = { name: projectName.current.value };
-        axios.post(BASE_URL + "/projects/new/", name, config).then((res) => {
-            console.log(res);
-            if(res.status === 200) {
-                setData([...data, res.data.project]);
-                toast.success('Project created !');
-            }
-        });
+        dispatch(postProject(name));
     };
     
     const editProject = () => {
@@ -67,7 +70,7 @@ export default function ProjectsList() {
         axios.put(BASE_URL + "/projects/edit/" + projectId, name, config).then((res) => {
             console.log(res);
             if (res.status === 200) {
-                setData(data.map(item => item.id === projectId ? res.data.project : item));
+                setProjects(data.map(item => item.id === projectId ? res.data.project : item));
                 toast.success('Project edited !');
             };
         });
@@ -78,7 +81,7 @@ export default function ProjectsList() {
         axios.delete(BASE_URL + "/projects/delete/" + projectId, config).then((res) => {
             console.log(res);
             if (res.status === 200) {
-                setData(data.filter(item => item.id !== projectId));
+                setProjects(data.filter(item => item.id !== projectId));
                 toast.success('Project deleted !');
             };
         });
@@ -101,7 +104,7 @@ export default function ProjectsList() {
             <Table
                 tableTitles={['Project', 'Created At', 'Project Key']}
                 tableKeys={['name', 'created_at', 'key']}
-                data={data}
+                data={projects}
                 actions={[
                     { function: handleEditModal, fctParam: 'id', icon: <BsPencilSquare /> },
                     { function: handleDangerModal, fctParam: 'id', icon: <BsTrash />, hover: 'hover:text-red-500' }
