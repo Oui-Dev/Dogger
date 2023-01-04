@@ -70,7 +70,7 @@ export default function Home() {
                 ))}
             </div>
             <div className="overflow-hidden rounded-lg bg-white shadow flex flex-col items-center p-5 mt-8">
-                <h3 className="text-xl mb-3">Errors evolution</h3>
+                <h3 className="text-lg md:text-xl mb-3">Errors evolution</h3>
                 { chartData === null && <p className="text-gray-600 font-light">No values to display</p>}
                 { chartData !== null &&
                     <Line options={{ responsive: true }} data={chartData} />
