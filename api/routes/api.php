@@ -25,7 +25,7 @@ Route::group([
     Route::post('/register', 'register');
 });
 
-// DNS routes
+// Project Keys routes
 Route::post('/errors/new', [ErrorsController::class, 'create'])->middleware('project_key');
 
 // Authenticated routes
@@ -60,7 +60,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         'prefix' => 'users',
         'controller' => UserController::class
     ], function () {
-        Route::get('/current', 'current');
         Route::put('/edit', 'update');
         Route::delete('/delete', 'delete');
     });

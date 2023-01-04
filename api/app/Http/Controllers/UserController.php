@@ -8,15 +8,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function current() {
-        $user = request()->user();
-
-        return response()->json([
-            'state' => 'success',
-            'user' => $user,
-        ]);
-    }
-
     public function update() {
         $user = request()->user();
 
