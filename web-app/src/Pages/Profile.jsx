@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { redirect } from "react-router-dom";
 import Avatar from '../Components/Atoms/Avatar'
 import Button from '../Components/Atoms/Button'
 import Modal from '../Components/Organisms/Modal'
@@ -16,7 +17,11 @@ export default function Profile() {
     const [openDangerModal, setOpenDangerModal] = useState(false);
 
     const deleteAccount = () => {
-        console.log('delete account');
+        // get profile id from redux
+        // axios.delete(BASE_URL + "/users/delete" + id, config).then((res) => {
+        //     if (res.status === 200) toast.success('Profile deleted !');
+        //     return redirect("/login");
+        // })
     }
 
     const submitForm = (e) => {
