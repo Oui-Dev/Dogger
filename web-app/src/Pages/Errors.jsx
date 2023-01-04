@@ -32,7 +32,7 @@ export default function Errors() {
 
     const showDetails = (id) => {
         const error = data.find(item => item.id === id);
-        error.date = formatedDate(error.created_at);
+        error.date = formatedDate(error.timestamp);
         setSelectedError(error);
         setOpenSlideOver(true);
     };
@@ -78,7 +78,7 @@ export default function Errors() {
             </div>
             <Table
                 tableTitles={['Project', 'Date', 'Code', 'Status']}
-                tableKeys={[['project', 'name'], 'created_at', 'code', 'status']}
+                tableKeys={[['project', 'name'], 'timestamp', 'code', 'status']}
                 data={filteredData}
                 actions={[
                     { function: showDetails, fctParam: 'id', icon: <BsReceipt /> },
