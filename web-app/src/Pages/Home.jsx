@@ -20,11 +20,11 @@ export default function Home() {
     };
 
     const [chartData, setChartData] = useState(null);
-    const items = [
-        { title: "Projects", value: "1", icon: <BsBag />, iconBg: "bg-blue-500", clickable: true, path: "/projects" },
-        { title: "Errors", value: "1", icon: <BsFillExclamationTriangleFill />, iconBg: "bg-dogger-orange-400", clickable: true, path: "/errors" },
-        { title: "Last 24h errors", value: "1", icon: <BsFillExclamationCircleFill />, iconBg: "bg-red-500", clickable: true, percentage: '+50', path: "/errors" },
-    ];
+    const [statsCardsData, setStatsCardsData] = useState([
+        { title: "Total Projects", value: null, icon: <BsBag />, iconBg: "bg-blue-500", clickable: true, percentage: null, path: "/projects" },
+        { title: "Total Errors", value: null, icon: <BsFillExclamationTriangleFill />, iconBg: "bg-dogger-orange-400", clickable: true, percentage: null, path: "/errors" },
+        { title: "Last 24h errors", value: null, icon: <BsFillExclamationCircleFill />, iconBg: "bg-red-500", clickable: true, percentage: null, path: "/errors" },
+    ]);
 
     ChartJS.register(
         CategoryScale,
@@ -35,24 +35,27 @@ export default function Home() {
     );
 
     useEffect(() => {
-        axios.get(BASE_URL + "/errors", config).then((res) => {
-            if(res.status === 200 && res.data?.errors.length > 0) {
-                let errors = res.data.errors.filter(error => new Date(error.timestamp) > new Date().getTime() - 1000 * 60 * 60 * 24 * 7);
-                errors.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+        axios.get(BASE_URL + "/stats", config).then((res) => {
+            if(res.status === 200 && res.data.data) {
+                const cardsData = res.data.data.cards;
+                const graphData = res.data.data.graph;
 
-                const data = errors.reduce((acc, error) => {
-                    const errorDate = new Date(error.timestamp);
-                    const dayOfWeek = errorDate.toLocaleString('default', {day: '2-digit', month: '2-digit', year: 'numeric'});
-                    acc[dayOfWeek] = acc[dayOfWeek] ? acc[dayOfWeek]+1 : 1;
-                    return acc;
-                }, {});
+                statsCardsData.map((item, index) => {
+                    if(item.title === cardsData[index].title) {
+                        item.value = cardsData[index].value;
+                        if(cardsData[index].percentage) {
+                            item.percentage = cardsData[index].percentage;
+                        }
+                    }
+                });
+                setStatsCardsData(statsCardsData);
 
                 setChartData({
-                    labels: Object.keys(data),
+                    labels: Object.keys(graphData),
                     datasets: [
                         {
                             label: 'Errors',
-                            data: Object.values(data),
+                            data: Object.values(graphData),
                             borderColor: '#ff8437',
                             cubicInterpolationMode: 'monotone',
                         }
@@ -65,8 +68,8 @@ export default function Home() {
     return (
         <>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {items.map((item, index) => (
-                    <StatsCard key={index} {...item} />
+                {statsCardsData.map((item, index) => (
+                    <StatsCard key={index} { ...item } />
                 ))}
             </div>
             <div className="overflow-hidden rounded-lg bg-white shadow flex flex-col items-center p-5 mt-8">
