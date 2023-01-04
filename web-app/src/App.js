@@ -25,7 +25,7 @@ function App() {
     return (
         <>
             { !isAuthenticated() && 
-                <section className="min-h-screen">
+                <section className="min-h-screen p-4">
                     <Routes>
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
@@ -49,7 +49,7 @@ function App() {
                         theme="light"
                     />
                     <Navbar />
-                    <div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-8 mt-6 md:mt-8 lg:mt-10">
+                    <div className="max-w-6xl mx-auto p-4 md:p-6 lg:p-8 mt-2 md:mt-4 lg:mt-6">
                         <Routes>
                             <Route path="/" element={<Home />} />
                             <Route path="/projects" element={<Projects />} />

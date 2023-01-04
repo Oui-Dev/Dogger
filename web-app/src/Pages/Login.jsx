@@ -25,7 +25,7 @@ export default function Login() {
             });
     }
     return (
-        <div className="flex justify-center items-center h-screen p-4">
+        <div className="flex justify-center items-center h-screen">
             <div className="max-w-md w-full mb-8 flex flex-col gap-10 md:gap-14">
                 <div>
                     <img
