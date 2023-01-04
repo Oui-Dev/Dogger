@@ -45,10 +45,6 @@ export default function Errors() {
                     setData(data.map(item => item.id === id ? res.data.error : item));
                     toast.success('Status changed !');
                 }
-            })
-            .catch((err) => {
-                // TODO: form errors handling
-                console.log(err.response.data)
             });
     };
     const assignTo = (id, email) => {
@@ -59,10 +55,6 @@ export default function Errors() {
                     setData(data.map(item => item.id === id ? res.data.error : item));
                     toast.success('Assigned to ' + email);
                 }
-            })
-            .catch((err) => {
-                // TODO: form errors handling
-                console.log(err.response.data)
             });
     };
 

@@ -6,7 +6,6 @@ use App\Models\Error;
 use App\Models\Project;
 use Illuminate\Support\Carbon;
 
-
 class StatsController extends Controller
 {
     public function create() {
@@ -52,22 +51,22 @@ class StatsController extends Controller
 
 
         // Get graph data
+        $graphData = [];
+        for ($i = 0; $i < 7; $i++) {
+            $graphData[date('d-m-Y', strtotime('-'.$i.' day', strtotime('today midnight')))] = 0;
+        }
+
         $errors = Error::where('timestamp', '>=', now()->subDays(7))->get();
-        $errors = $errors->sort(function ($a, $b) {
-            return strtotime($a->timestamp) - strtotime($b->timestamp);
-        });
         
-        $graphData = $errors->reduce(function ($acc, $error) {
-            $errorDate = new Carbon($error->timestamp);
-            $dayOfWeek = $errorDate->format('d-m-Y');
-            $acc[$dayOfWeek] = isset($acc[$dayOfWeek]) ? $acc[$dayOfWeek] + 1 : 1;
-            return $acc;
-        }, []);
+        foreach ($errors as $error) {
+            $date = date('d-m-Y', strtotime($error->timestamp));
+            if(isset($graphData[$date])) $graphData[$date]++;
+        }
 
         return response()->json([
             'state' => 'success',
             'data' => [
-                'graph' => $graphData,
+                'graph' => array_reverse($graphData),
                 'cards' => [
                     $projectsStats,
                     $errorsStats,

@@ -69,7 +69,7 @@ class ErrorsController extends Controller
             'email' => ['required','email:rfc,dns,spoof','max:255'],
         ]);
 
-        // TODO : send un email to the user to notify him that he has been assigned to this error
+        // TODO: send un email to the user to notify him that he has been assigned to this error
 
         $error->assigned_to = $data['email'];
         $error->save();

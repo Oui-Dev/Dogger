@@ -51,11 +51,10 @@ export default function Home() {
                 setStatsCardsData(statsCardsData);
 
                 setChartData({
-                    labels: Object.keys(graphData),
                     datasets: [
                         {
                             label: 'Errors',
-                            data: Object.values(graphData),
+                            data: graphData,
                             borderColor: '#ff8437',
                             cubicInterpolationMode: 'monotone',
                         }
@@ -72,11 +71,18 @@ export default function Home() {
                     <StatsCard key={index} { ...item } />
                 ))}
             </div>
-            <div className="overflow-hidden rounded-lg bg-white shadow flex flex-col items-center p-5 mt-8">
-                <h3 className="text-lg md:text-xl mb-3">Errors evolution</h3>
+            <div className="overflow-hidden rounded-lg bg-white shadow flex flex-col items-center p-3 md:p-5 mt-8">
+                <h3 className="text-md md:text-lg mb-3">Errors in the past 7 days</h3>
                 { chartData === null && <p className="text-gray-600 font-light">No values to display</p>}
                 { chartData !== null &&
-                    <Line options={{ responsive: true }} data={chartData} />
+                    <Line options={{
+                        responsive: true,
+                        scale: {
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    }} data={chartData} />
                 }
             </div>
         </>
