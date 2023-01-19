@@ -19,12 +19,12 @@ function App() {
         if (token) {
             return true;
         }
-        return false;
+        return true;
     }
 
     return (
         <>
-            { !isAuthenticated() && 
+            { !isAuthenticated() &&
                 <section className="min-h-screen p-4">
                     <Routes>
                         <Route path="/login" element={<Login />} />
