@@ -32,7 +32,7 @@ export default function Errors() {
 
     const showDetails = (id) => {
         const error = data.find(item => item.id === id);
-        error.date = formatedDate(error.created_at);
+        error.date = formatedDate(error.timestamp);
         setSelectedError(error);
         setOpenSlideOver(true);
     };
@@ -45,10 +45,6 @@ export default function Errors() {
                     setData(data.map(item => item.id === id ? res.data.error : item));
                     toast.success('Status changed !');
                 }
-            })
-            .catch((err) => {
-                // TODO: form errors handling
-                console.log(err.response.data)
             });
     };
     const assignTo = (id, email) => {
@@ -59,10 +55,6 @@ export default function Errors() {
                     setData(data.map(item => item.id === id ? res.data.error : item));
                     toast.success('Assigned to ' + email);
                 }
-            })
-            .catch((err) => {
-                // TODO: form errors handling
-                console.log(err.response.data)
             });
     };
 
@@ -78,7 +70,7 @@ export default function Errors() {
             </div>
             <Table
                 tableTitles={['Project', 'Date', 'Code', 'Status']}
-                tableKeys={[['project', 'name'], 'created_at', 'code', 'status']}
+                tableKeys={[['project', 'name'], 'timestamp', 'code', 'status']}
                 data={filteredData}
                 actions={[
                     { function: showDetails, fctParam: 'id', icon: <BsReceipt /> },

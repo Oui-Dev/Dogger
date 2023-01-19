@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\StatsController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\ErrorsController;
 use App\Http\Controllers\ProjectsController;
@@ -25,11 +26,12 @@ Route::group([
     Route::post('/register', 'register');
 });
 
-// DNS routes
+// Project Keys routes
 Route::post('/errors/new', [ErrorsController::class, 'create'])->middleware('project_key');
 
 // Authenticated routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/stats', [StatsController::class, 'create']);
     Route::get('/users/devices', [TokenController::class, 'devices']);
     Route::delete('/logout/{token?}', [TokenController::class, 'revoke']);
     Route::delete('/logout/all', [TokenController::class, 'revokeAll']);
@@ -60,7 +62,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         'prefix' => 'users',
         'controller' => UserController::class
     ], function () {
-        Route::get('/current', 'current');
         Route::put('/edit', 'update');
         Route::delete('/delete', 'delete');
     });

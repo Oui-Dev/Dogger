@@ -2,12 +2,15 @@ import axios from 'axios';
 import logo from '../images/logo_full.png';
 import { Link } from "react-router-dom";
 import { browserName, browserVersion, osName, osVersion } from "react-device-detect";
+import { useState } from "react";
 
 export default function Login() {
     const BASE_URL = process.env.REACT_APP_API_URL;
+    const [formErrorsBag, setFormErrorsBag] = useState(null);
 
     const submitForm = (e) => {
         e.preventDefault();
+        setFormErrorsBag(null);
         const form = new FormData(e.target);
         const data = {
             firstname: form.get('first_name'),
@@ -24,13 +27,12 @@ export default function Login() {
                 if(res.status === 200) console.log('ok');
             })
             .catch((err) => {
-                // TODO: handle API validators errors
-                console.log(err.response.data)
+                if(err.response.status === 422) setFormErrorsBag(err.response.data.errors);
             });
     }
 
     return (
-        <div className="flex justify-center items-center h-screen p-4">
+        <div className="flex justify-center items-center h-screen">
             <div className="max-w-md w-full mb-8 flex flex-col gap-6 md:gap-12">
                 <div>
                     <img
@@ -48,23 +50,27 @@ export default function Login() {
                 </div>
                 <form onSubmit={submitForm}>
                     <div className="grid grid-cols-1 md:grid-cols-2 md:gap-5">
-                        <div>
+                        <div className={formErrorsBag?.firstname ? "form-error-div" : ""}>
                             <label htmlFor="first_name">First Name</label>
                             <input id="first_name" name="first_name" />
+                            { formErrorsBag?.firstname && <div className="form-error-field">{ formErrorsBag.firstname[0] }</div> }
                         </div>
-                        <div>
+                        <div className={formErrorsBag?.lastname ? "form-error-div" : ""}>
                             <label htmlFor="last_name">Last Name</label>
                             <input id="last_name" name="last_name" />
+                            { formErrorsBag?.lastname && <div className="form-error-field">{ formErrorsBag.lastname[0] }</div> }
                         </div>
                     </div>
-                    <div className="md:pt-2">
+                    <div className={`md:pt-2 ${formErrorsBag?.email ? "form-error-div" : ""}`}>
                         <label htmlFor="email">Email</label>
                         <input id="email" type="email" name="email" />
+                        { formErrorsBag?.email && <div className="form-error-field">{ formErrorsBag.email[0] }</div> }
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 md:gap-5">
-                        <div className="md:pt-2">
+                        <div className={`md:pt-2 ${formErrorsBag?.password ? "form-error-div" : ""}`}>
                             <label htmlFor="password">Password</label>
                             <input id="password" type="password" name="password" />
+                            { formErrorsBag?.password && <div className="form-error-field">{ formErrorsBag.password[0] }</div> }
                         </div>
                         <div className="md:pt-2">
                             <label htmlFor="password_confirmation">Confirm Password</label>

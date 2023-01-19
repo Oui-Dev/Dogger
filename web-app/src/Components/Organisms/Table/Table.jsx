@@ -17,7 +17,7 @@ export default function Table({ ...props }) {
         return props.actions.length > 0;
     }
     const formatedData = (item, key) => {
-        if(key.slice(-3) === '_at') {
+        if(key.slice(-3) === '_at' || key === 'timestamp') {
             const newDate = !isNaN(Date.parse(item[key] + " GMT")) ? new Date(item[key] + " GMT") : new Date(item[key]);
             return newDate.toLocaleDateString() + " " + newDate.toLocaleTimeString();
         } else if(typeof key === 'object') {
