@@ -5,7 +5,7 @@ const getAll = () => {
 };
 
 const create = data => {
-  return http.post("/projects/new", data);
+  return http.post(`/projects/new`, data);
 };
 
 const update = (id, data) => {

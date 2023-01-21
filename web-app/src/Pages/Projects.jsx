@@ -2,7 +2,7 @@ import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import { useState, useEffect, useRef } from "react";
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from "react-redux";
-import { retrieveProjects } from "../Redux/Actions/projects";
+import { retrieveProjects, createProject, deleteProject, updateProject } from "../Redux/Actions/projects";
 import Button from '../Components/Atoms/Button';
 import Table from '../Components/Organisms/Table/Table';
 import Modal from '../Components/Organisms/Modal';
@@ -10,7 +10,6 @@ import Modal from '../Components/Organisms/Modal';
 
 export default function ProjectsList() {
 
-    const [projects, setProjects] = useState([]);
     const projectName = useRef("");
     const [openFormModal, setOpenFormModal] = useState(false);
     const [openDangerModal, setOpenDangerModal] = useState(false);
@@ -18,14 +17,12 @@ export default function ProjectsList() {
     const [modalContent, setModalContent] = useState("");
     const [projectId, setProjectId] = useState("");
     const [newProject, setNewProject] = useState(true);
-
     const data = useSelector(state => state.projects);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(retrieveProjects())
     }, []);
-
 
     const handleDangerModal = (id) => {
         setOpenDangerModal(true);
@@ -39,41 +36,33 @@ export default function ProjectsList() {
         setModalTitle("Edit Project");
         setModalContent("Please enter a new name for your project");
         setOpenFormModal(true);
-        createOrEdit();
     };
 
     const createOrEdit = () => {
-        if (newProject) createProject();
-        else editProject(projectId);
+        if (newProject) _createProject();
+        else _editProject();
     }
 
-    const createProject = () => {
+    const _createProject = () => {
         if (!projectName.current?.value) return;
-        const name = { name: projectName.current.value };
-        // dispatch(postProject(name));
+        dispatch(createProject({name: projectName.current.value}))
+            .then(() => toast.success('Project created !'))
+            .catch(() => toast.error('Project creation failed !'));
     };
 
-    const editProject = () => {
-        const name = { name: projectName.current.value };
-        if (!name.name  || !projectId) return;
-        // axios.put(BASE_URL + "/projects/edit/" + projectId, name, config).then((res) => {
-        //     console.log(res);
-        //     if (res.status === 200) {
-        //         setProjects(data.map(item => item.id === projectId ? res.data.project : item));
-        //         toast.success('Project edited !');
-        //     };
-        // });
+    const _editProject = () => {
+        const name = {name: projectName.current.value};
+        if (!name.name || !projectId) return;
+        dispatch(updateProject(projectId , name))
+            .then(() => toast.success('Project edited !'))
+            .catch(() => toast.error('Project edition failed !'));
     };
 
-    const deleteProject = () => {
+    const _deleteProject = () => {
         if (!projectId) return;
-        // axios.delete(BASE_URL + "/projects/delete/" + projectId, config).then((res) => {
-        //     console.log(res);
-        //     if (res.status === 200) {
-        //         setProjects(data.filter(item => item.id !== projectId));
-        //         toast.success('Project deleted !');
-        //     };
-        // });
+        dispatch(deleteProject(projectId))
+            .then(() => toast.success('Project deleted !'))
+            .catch(() =>  toast.error('Project deletion failed !'));
     };
 
     return (
@@ -83,7 +72,7 @@ export default function ProjectsList() {
                     type={"primary"}
                     onClick={() => {
                         setOpenFormModal(true)
-                        setNewProject(true)
+                        createProject()
                         setModalTitle("Create Project")
                         setModalContent("Please enter a name for your project")
                     }}>
@@ -93,7 +82,7 @@ export default function ProjectsList() {
             <Table
                 tableTitles={['Project', 'Created At', 'Project Key']}
                 tableKeys={['name', 'created_at', 'key']}
-                data={data.projects || []}
+                data={data}
                 actions={[
                     { function: handleEditModal, fctParam: 'id', icon: <BsPencilSquare /> },
                     { function: handleDangerModal, fctParam: 'id', icon: <BsTrash />, hover: 'hover:text-red-500' }
@@ -118,7 +107,7 @@ export default function ProjectsList() {
                     description="This action is irreversible. Are you sure you want to delete this project ?"
                     type="danger"
                     open={openDangerModal}
-                    actions={{ close: setOpenDangerModal, submit: deleteProject }}>
+                    actions={{ close: setOpenDangerModal, submit: _deleteProject }}>
                 </Modal>
             }
         </>
