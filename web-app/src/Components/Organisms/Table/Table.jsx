@@ -26,6 +26,13 @@ export default function Table({ ...props }) {
             return item[key] === 0 ? 'New'
                 : item[key] === 1 ? 'In progress'
                 : 'Resolved';
+        } else if(key === 'key') {
+            const resumeLength = 40;
+            const content = item[key].length > resumeLength
+                ? item[key].substring(0, resumeLength) + '...'
+                : item[key];
+        
+            return `<div title="${item[key]}">${content}</div>`;
         }
 
         return item[key];
