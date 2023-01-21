@@ -1,6 +1,7 @@
 import Li from '../../Molecules/Table/Li';
 import Thead from '../../Molecules/Table/Thead';
 import Tbody from '../../Molecules/Table/Tbody';
+import { toast } from 'react-toastify';
 import './Table.scss';
 
 export default function Table({ ...props }) {
@@ -27,12 +28,17 @@ export default function Table({ ...props }) {
                 : item[key] === 1 ? 'In progress'
                 : 'Resolved';
         } else if(key === 'key') {
-            const resumeLength = 40;
+            const resumeLength = 30;
             const content = item[key].length > resumeLength
                 ? item[key].substring(0, resumeLength) + '...'
                 : item[key];
         
-            return `<div title="${item[key]}">${content}</div>`;
+            const copyToClipboard = () => {
+                navigator.clipboard.writeText(item[key]);
+                toast.success('Key copied !');
+            }
+
+            return (<div title={item[key]} onClick={copyToClipboard} className="cursor-pointer">{content}</div>);
         }
 
         return item[key];
