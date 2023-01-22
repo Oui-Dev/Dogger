@@ -4,13 +4,13 @@ import {
 
 import StatsDataService from "../Services/StatsService";
 
-export const retrieveStatss = () => async (dispatch) => {
+export const retrieveStats = () => async (dispatch) => {
   try {
     const res = await StatsDataService.getAll();
 
     dispatch({
       type: GET_STATS,
-      payload: res.data,
+      payload: res.data.data,
     });
   } catch (err) {
     console.log(err);

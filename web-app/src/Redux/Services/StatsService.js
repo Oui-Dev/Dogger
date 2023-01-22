@@ -1,7 +1,7 @@
-import { secureRequest } from '../../http-common';
+import http from '../../http-common';
 
 const getAll = () => {
-  return secureRequest.get("/stats");
+  return http.get("/stats");
 };
 
 
