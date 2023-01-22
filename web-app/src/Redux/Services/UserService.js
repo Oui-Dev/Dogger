@@ -1,5 +1,8 @@
 import http  from '../../http-common';
 
+const current = () => {
+  return http.get(`/users/current`);
+};
 
 const devices = (data) => {
   return http.get(`/users/devices`, data);
@@ -30,6 +33,7 @@ const logoutAll = () => {
 };
 
 const UserService = {
+  current,
   login,
   register,
   update,

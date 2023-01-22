@@ -7,6 +7,7 @@ export const GET_ERRORS = "GET_ERRORS";
 export const UPDATE_ERROR_STATUS = "UPDATE_ERROR_STATUS";
 export const UPDATE_ERROR_ASSIGN = "UPDATE_ERROR_ASSIGN";
 
+export const GET_CURRENT_USER = "GET_CURRENT_USER";
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 export const LOGOUT_ALL = "LOGOUT_ALL";

@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import Avatar from '../Components/Atoms/Avatar'
 import Button from '../Components/Atoms/Button'
 import Modal from '../Components/Organisms/Modal'
-import { updateUser, deleteUser } from '../Redux/Actions/users';
+import { retrieveCurrentUser, updateUser, deleteUser } from '../Redux/Actions/users';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function Profile() {
@@ -16,13 +16,21 @@ export default function Profile() {
     const [openDangerModal, setOpenDangerModal] = useState(false);
     const [initials, setInitials] = useState('');
 
+    useEffect(() => {
+        dispatch(retrieveCurrentUser())
+    }, []);
+
+    useEffect(() => {
+        if(user) setInitials(user.firstname[0] + user.lastname[0]);
+    }, [user]);
+
     const deleteAccount = () => {
         dispatch(deleteUser())
-            .then(() => {
-                toast.success('Account deleted !');
+            .then((res) => {
+                toast.success(res.message);
                 redirect('/login');
             })
-            .catch(() => toast.error('Something went wrong !'))
+            .catch((err) => toast.error(err.response.data.message));
     }
 
     const submitForm = (e) => {
@@ -39,15 +47,14 @@ export default function Profile() {
 
         if (Object.keys(data).length > 0) {
             dispatch(updateUser(data))
-                .then(() => {
-                    toast.success('Profile updated !')
-                    setInitials(data.firstname[0].toUpperCase() + data.lastname[0].toUpperCase());
+                .then((res) => {
+                    toast.success(res.message);
+                    setInitials(data.firstname[0] + data.lastname[0]);
                 })
                 .catch((err) => {
-                        setFormErrorsBag(err.response.data.errors);
-                        toast.error('Something went wrong !');
-                    }
-                )
+                    setFormErrorsBag(err.response.data.errors);
+                    toast.error('Something went wrong !');
+                })
         }
     }
 
@@ -63,32 +70,42 @@ export default function Profile() {
                                 </div>
                                 <div className={`col-span-6 md:col-span-3 ${formErrorsBag?.firstname ? "form-error-div" : ""}`}>
                                     <label htmlFor="firstName">First name</label>
-                                    <input name="firstName" id="firstName" autoComplete='given-name'/>
-                                    { formErrorsBag?.firstname && <div className="form-error-field">{ formErrorsBag.firstname[0] }</div> }
+                                    <input name="firstName" id="firstName" autoComplete='given-name' defaultValue={user?.firstname} />
+                                    {formErrorsBag?.firstname &&
+                                        <div className="form-error-field">{formErrorsBag.firstname[0]}</div>
+                                    }
                                 </div>
 
                                 <div className={`col-span-6 md:col-span-3 ${formErrorsBag?.lastname ? "form-error-div" : ""}`}>
                                     <label htmlFor="lastName">Last name</label>
-                                    <input name="lastName" id="lastName" autoComplete='family-name'/>
-                                    { formErrorsBag?.lastname && <div className="form-error-field">{ formErrorsBag.lastname[0] }</div> }
+                                    <input name="lastName" id="lastName" autoComplete='family-name' defaultValue={user?.lastname}/>
+                                    {formErrorsBag?.lastname &&
+                                        <div className="form-error-field">{formErrorsBag.lastname[0]}</div>
+                                    }
                                 </div>
 
                                 <div className={`col-span-6 ${formErrorsBag?.email ? "form-error-div" : ""}`}>
                                     <label htmlFor="email">Email address</label>
-                                    <input name="email" id="email" autoComplete='email'/>
-                                    { formErrorsBag?.email && <div className="form-error-field">{ formErrorsBag.email[0] }</div> }
+                                    <input name="email" id="email" autoComplete='email' defaultValue={user?.email}/>
+                                    {formErrorsBag?.email &&
+                                        <div className="form-error-field">{formErrorsBag.email[0]}</div>
+                                    }
                                 </div>
 
                                 <div className={`col-span-6 md:col-span-6 lg:col-span-2 ${formErrorsBag?.old_password ? "form-error-div" : ""}`}>
                                     <label htmlFor="old_password">Current Password</label>
                                     <input type="password" name="old_password" id="old_password" autoComplete='current-password'/>
-                                    { formErrorsBag?.old_password && <div className="form-error-field">{ formErrorsBag.old_password[0] }</div> }
+                                    {formErrorsBag?.old_password &&
+                                        <div className="form-error-field">{formErrorsBag.old_password[0]}</div>
+                                    }
                                 </div>
 
                                 <div className={`col-span-6 md:col-span-3 lg:col-span-2 ${formErrorsBag?.password ? "form-error-div" : ""}`}>
                                     <label htmlFor="password">New Password</label>
                                     <input type="password" name="password" id="password" autoComplete='new-password'/>
-                                    { formErrorsBag?.password && <div className="form-error-field">{ formErrorsBag.password[0] }</div> }
+                                    {formErrorsBag?.password &&
+                                        <div className="form-error-field">{formErrorsBag.password[0]}</div>
+                                    }
                                 </div>
 
                                 <div className="col-span-6 md:col-span-3 lg:col-span-2">

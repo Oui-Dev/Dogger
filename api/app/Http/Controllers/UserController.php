@@ -51,7 +51,7 @@ class UserController extends Controller
             return response()->json([
                 'type' => 'error',
                 'message' => 'You can\'t delete your account because you have projects.',
-            ]);
+            ], 422);
         }
 
         $user->delete();

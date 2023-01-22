@@ -1,4 +1,5 @@
 import {
+  GET_CURRENT_USER,
   LOGIN,
   LOGOUT,
   LOGOUT_ALL,
@@ -9,6 +10,19 @@ import {
 } from "../types";
 
 import UserDataService from "../Services/UserService";
+
+export const retrieveCurrentUser = () => async (dispatch) => {
+  try {
+    const res = await UserDataService.current();
+
+    dispatch({
+      type: GET_CURRENT_USER,
+      payload: res.data.user,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 export const login = (data) => async (dispatch) => {
   try {
@@ -57,13 +71,15 @@ export const updateUser = (data) => async (dispatch) => {
 
 export const deleteUser = () => async (dispatch) => {
   try {
-    await UserDataService.remove();
+    const res = await UserDataService.remove();
 
     dispatch({
       type: DELETE_USER,
     });
+
+    return Promise.resolve(res.data);
   } catch (err) {
-    console.log(err);
+    return Promise.reject(err);
   }
 };
 
