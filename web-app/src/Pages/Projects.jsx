@@ -46,7 +46,7 @@ export default function ProjectsList() {
     const _createProject = () => {
         if (!projectName.current?.value) return;
         dispatch(createProject({name: projectName.current.value}))
-            .then(() => toast.success('Project created !'))
+            .then((res) => toast.success(res.message))
             .catch(() => toast.error('Project creation failed !'));
     };
 
@@ -54,14 +54,14 @@ export default function ProjectsList() {
         const name = {name: projectName.current.value};
         if (!name.name || !projectId) return;
         dispatch(updateProject(projectId , name))
-            .then(() => toast.success('Project edited !'))
+            .then((res) => toast.success(res.message))
             .catch(() => toast.error('Project edition failed !'));
     };
 
     const _deleteProject = () => {
         if (!projectId) return;
         dispatch(deleteProject(projectId))
-            .then(() => toast.success('Project deleted !'))
+            .then((res) => toast.success(res.message))
             .catch(() => toast.error('Project deletion failed !'));
     };
 

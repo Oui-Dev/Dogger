@@ -15,7 +15,7 @@ export const createProject = (data) => async (dispatch) => {
       payload: res.data.project,
     });
 
-    return Promise.resolve();
+    return Promise.resolve(res.data);
   } catch (err) {
     return Promise.reject();
   }
@@ -41,9 +41,8 @@ export const updateProject = (id, data) => async (dispatch) => {
       payload: res.data.project,
     });
 
-    return Promise.resolve();
+    return Promise.resolve(res.data);
   } catch (err) {
-    console.log(err);
     return Promise.reject();
   }
 };
@@ -52,12 +51,14 @@ export const updateProject = (id, data) => async (dispatch) => {
 //TODO:
 export const deleteProject = (id) => async (dispatch) => {
   try {
-    await ProjectDataService.remove(id);
+    const res = await ProjectDataService.remove(id);
     dispatch({
       type: DELETE_PROJECT,
       payload: { id },
     });
+
+    return Promise.resolve(res.data);
   } catch (err) {
-    console.log(err);
+    return Promise.reject();
   }
 };
