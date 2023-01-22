@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ErrorAssignEmail;
 use App\Traits\ApiErrorTrait;
 use App\Models\Error;
+use Illuminate\Support\Facades\Mail;
 
 class ErrorsController extends Controller
 {
@@ -69,8 +71,9 @@ class ErrorsController extends Controller
             'email' => ['required','email:rfc,dns,spoof','max:255'],
         ]);
 
-        // TODO: send un email to the user to notify him that he has been assigned to this error
-
+        // Email sending
+        Mail::to($data["email"])->send(new ErrorAssignEmail($error->project->name, $error->code, $error->message));
+        
         $error->assigned_to = $data['email'];
         $error->save();
 
