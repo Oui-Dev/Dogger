@@ -12,7 +12,7 @@ export const retrieveErrors = () => async (dispatch) => {
 
     dispatch({
       type: GET_ERRORS,
-      payload: res.data,
+      payload: res.data.errors,
     });
   } catch (err) {
     console.log(err);
