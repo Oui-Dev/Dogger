@@ -40,7 +40,7 @@ export default function Home() {
                 const cardsData = res.data.data.cards;
                 const graphData = res.data.data.graph;
 
-                statsCardsData.map((item, index) => {
+                statsCardsData.forEach((item, index) => {
                     if(item.title === cardsData[index].title) {
                         item.value = cardsData[index].value;
                         if(cardsData[index].percentage) {
