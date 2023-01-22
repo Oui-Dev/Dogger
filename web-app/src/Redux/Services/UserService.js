@@ -1,32 +1,32 @@
-import { secureRequest, unsecureRequest } from '../../http-common';
+import http  from '../../http-common';
 
 
 const devices = (data) => {
-  return secureRequest.get(`/users/devices`, data);
+  return http.get(`/users/devices`, data);
 };
 
 const login = (data) => {
-  return unsecureRequest.post(`/login`, data);
+  return http.post(`/login`, data);
 };
 
 const register = (data) => {
-  return unsecureRequest.post(`/register`, data);
+  return http.post(`/register`, data);
 };
 
 const update = (data) => {
-  return secureRequest.put(`/users/edit`, data);
+  return http.put(`/users/edit`, data);
 };
 
 const remove = () => {
-  return secureRequest.delete(`/users/delete`);
+  return http.delete(`/users/delete`);
 };
 
 const logout = (token) => {
-  return secureRequest.delete(`/logout/${token}`);
+  return http.delete(`/logout/${token}`);
 };
 
 const logoutAll = () => {
-  return secureRequest.delete(`/logout/all`);
+  return http.delete(`/logout/all`);
 };
 
 const UserService = {

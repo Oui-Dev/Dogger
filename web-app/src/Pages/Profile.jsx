@@ -1,27 +1,28 @@
 import axios from 'axios';
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
-import { redirect } from "react-router-dom";
 import Avatar from '../Components/Atoms/Avatar'
 import Button from '../Components/Atoms/Button'
 import Modal from '../Components/Organisms/Modal'
+import { updateUser, deleteUser } from '../Redux/Actions/users';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Profile() {
-    const BASE_URL = process.env.REACT_APP_API_URL;
-    // in the future, we will get the token from redux
-    const config = {
-        headers: { Authorization: process.env.REACT_APP_TOKEN }
-    };
-
+    const redirect = useNavigate();
+    const user = useSelector(state => state.user);
+    const dispatch = useDispatch();
     const [formErrorsBag, setFormErrorsBag] = useState(null);
     const [openDangerModal, setOpenDangerModal] = useState(false);
+    const [initials, setInitials] = useState('');
 
     const deleteAccount = () => {
-        // get profile id from redux
-        // axios.delete(BASE_URL + "/users/delete" + id, config).then((res) => {
-        //     if (res.status === 200) toast.success('Profile deleted !');
-        //     return redirect("/login");
-        // })
+        dispatch(deleteUser())
+            .then(() => {
+                toast.success('Account deleted !');
+                redirect('/login');
+            })
+            .catch(() => toast.error('Something went wrong !'))
     }
 
     const submitForm = (e) => {
@@ -29,21 +30,24 @@ export default function Profile() {
         setFormErrorsBag(null);
         const form = new FormData(e.target);
         const data = {};
-        if (!!form.get('firstName')) Object.assign(data, { firstName: form.get('firstName') });
-        if (!!form.get('lastName')) Object.assign(data, { lastName: form.get('lastName') });
+        if (!!form.get('firstName')) Object.assign(data, { firstname: form.get('firstName') });
+        if (!!form.get('lastName')) Object.assign(data, { lastname: form.get('lastName') });
         if (!!form.get('email')) Object.assign(data, { email: form.get('email') });
         if (!!form.get('old_password')) Object.assign(data, { old_password: form.get('old_password') });
         if (!!form.get('password')) Object.assign(data, { password: form.get('password') });
         if (!!form.get('password_confirmation')) Object.assign(data, { password_confirmation: form.get('password_confirmation') })
 
         if (Object.keys(data).length > 0) {
-            axios.put(BASE_URL + "/users/edit", data, config)
-                .then((res) => {
-                    if (res.status === 200) toast.success('Profile updated !');
+            dispatch(updateUser(data))
+                .then(() => {
+                    toast.success('Profile updated !')
+                    setInitials(data.firstname[0].toUpperCase() + data.lastname[0].toUpperCase());
                 })
                 .catch((err) => {
-                    if(err.response.status === 422) setFormErrorsBag(err.response.data.errors);
-                });
+                        setFormErrorsBag(err.response.data.errors);
+                        toast.error('Something went wrong !');
+                    }
+                )
         }
     }
 
@@ -55,7 +59,7 @@ export default function Profile() {
                         <div className="bg-white px-4 py-5 md:p-6">
                             <div className="grid grid-cols-6 gap-6">
                                 <div className="inline-grid col-span-6 md:col-span-6 justify-items-center md:justify-items-start">
-                                    <Avatar initials='KB' />
+                                    <Avatar initials={initials} />
                                 </div>
                                 <div className={`col-span-6 md:col-span-3 ${formErrorsBag?.firstname ? "form-error-div" : ""}`}>
                                     <label htmlFor="firstName">First name</label>

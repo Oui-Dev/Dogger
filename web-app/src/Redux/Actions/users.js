@@ -67,7 +67,6 @@ export const deleteUser = () => async (dispatch) => {
   }
 };
 
-
 export const logout = (data) => async (dispatch) => {
   try {
     await UserDataService.logout(data);
