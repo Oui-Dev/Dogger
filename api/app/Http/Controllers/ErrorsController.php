@@ -61,6 +61,7 @@ class ErrorsController extends Controller
         return response()->json([
             'state' => 'success',
             'error' => $error,
+            'message' => 'Error status updated !',
         ]);
     }
 
@@ -71,8 +72,7 @@ class ErrorsController extends Controller
             'email' => ['required','email:rfc,dns,spoof','max:255'],
         ]);
 
-        // Email sending
-        Mail::to($data["email"])->send(new ErrorAssignEmail($error->project->name, $error->code, $error->message));
+        Mail::to($data["email"])->send(new ErrorAssignEmail($error->project->name, $error->message));
         
         $error->assigned_to = $data['email'];
         $error->save();
@@ -80,6 +80,7 @@ class ErrorsController extends Controller
         return response()->json([
             'state' => 'success',
             'error' => $error,
+            'message' => 'Error assigned to '.$data['email'].' !',
         ]);
     }
 }

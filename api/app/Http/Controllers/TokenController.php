@@ -66,6 +66,7 @@ class TokenController extends Controller
 
         return response()->json([
             'state' => 'success',
+            'message' => 'Logged out',
         ]);
     }
 
@@ -74,6 +75,7 @@ class TokenController extends Controller
 
         return response()->json([
             'state' => 'success',
+            'message' => 'Logged out from all devices !',
         ]);
     }
 }

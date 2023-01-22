@@ -11,20 +11,17 @@ class ErrorAssignEmail extends Mailable
     use Queueable, SerializesModels;
 
     public $projectName;
-    public $errorCode;
     public $errorMessage;
 
     /**
      * Create a new message instance.
      *
      * @param string|number $projectName
-     * @param string $errorCode
      * @param string $errorMessage
      * @return void
      */
-    public function __construct($projectName, $errorCode, $errorMessage){
+    public function __construct($projectName, $errorMessage){
         $this->projectName = $projectName;
-        $this->errorCode = $errorCode;
         $this->errorMessage = $errorMessage;
     }
 
@@ -38,7 +35,6 @@ class ErrorAssignEmail extends Mailable
             ->view('emails.errorAssign')
             ->with([
                 'projectName' => $this->projectName,
-                'errorCode' => $this->errorCode,
                 'errorMessage' => $this->errorMessage,
             ]);
     }

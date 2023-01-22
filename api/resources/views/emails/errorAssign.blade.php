@@ -211,15 +211,11 @@
                                 <tr>
                                     <td style="text-align: center;">
                                         <div style="padding-bottom: 15px;">
-                                            <p>Hello, you have just been assigned an error on Dogger.</p>
-                                            <p>Please get to know it and deal with it as soon as possible.</p>
-                                            <p>Thank you for your help.</p>
+                                            <p>New issue assigned to you found on {{ $projectName }}.</p>
                                         </div>
 
                                         <div style="padding-top: 15px; border-top: 1px solid rgb(65, 65, 65);">
-                                            <p>The error is on <span style="color: red">{{ $projectName }}</span> project.</p>
-                                            <p>It is a <span style="color: red">{{ $errorCode }}</span> code error.</p>
-                                            <p>And the error message is : <span style="color: #383838">{{ $errorMessage }}</span></p>
+                                            <p style="color: #383838">{{ $errorMessage }}</p>
                                         </div>
                                     </td>
                                 </tr>

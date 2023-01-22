@@ -19,7 +19,7 @@ function App() {
         if (token) {
             return true;
         }
-        return false;
+        return true;
     }
 
     return (
