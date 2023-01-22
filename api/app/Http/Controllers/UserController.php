@@ -8,6 +8,15 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function get() {
+        $user = request()->user();
+
+        return response()->json([
+            'state' => 'success',
+            'user' => $user,
+        ]);
+    }
+
     public function update() {
         $user = request()->user();
 
@@ -31,16 +40,25 @@ class UserController extends Controller
 
         return response()->json([
             'state' => 'success',
+            'message' => 'User updated !',
         ]);
     }
 
     public function delete() {
         $user = request()->user();
+
+        if($user->projects()->count() > 0) {
+            return response()->json([
+                'type' => 'error',
+                'message' => 'You can\'t delete your account because you have projects.',
+            ]);
+        }
+
         $user->delete();
 
         return response()->json([
             'type' => 'success',
-            'message' => 'L\'utilisateur a été supprimé.',
+            'message' => 'User deleted !',
         ]);
     }
 }
