@@ -28,7 +28,7 @@ export default function Table({ ...props }) {
                 : item[key] === 1 ? 'In progress'
                 : 'Resolved';
         } else if(key === 'key') {
-            const resumeLength = 30;
+            const resumeLength = 20;
             const content = item[key].length > resumeLength
                 ? item[key].substring(0, resumeLength) + '...'
                 : item[key];
@@ -48,7 +48,7 @@ export default function Table({ ...props }) {
         <section>
             {/* Table (smallest breakpoint only) */}
             <div className="shadow rounded-lg md:hidden">
-                <ul className="mt-4 divide-y divide-gray-200 shadow rounded-lg md:hidden overflow-auto" style={{ maxHeight: '595px' }}>
+                <ul className="mt-4 divide-y divide-gray-200 shadow rounded-lg md:hidden overflow-auto" style={{ maxHeight: '75vh' }}>
                     { hasData() &&
                         <Li {...props} hasActions={hasActions} formatedData={formatedData} />
                     }

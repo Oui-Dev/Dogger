@@ -16,7 +16,7 @@ export default function StatsCard ({ ...props }) {
                         <dt className="truncate text-sm font-medium text-gray-500">{ props.title }</dt>
                         <dd>
                             <div className="text-lg font-medium text-gray-900">{ props.value }
-                                { props.percentage && <span className={`ml-2 text-sm ${isNegative() ? 'text-red-500' : 'text-green-500'}`}>{ props.percentage }%</span> }
+                                { props.percentage && <span className={`ml-2 text-sm ${isNegative() ? 'text-red-500' : 'text-green-500'}`}>{ props.percentage }</span> }
                             </div>
                         </dd>
                     </dl>

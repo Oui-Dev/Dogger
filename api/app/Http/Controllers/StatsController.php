@@ -30,14 +30,14 @@ class StatsController extends Controller
         ];
         $newErrorsStats = [
             'title' => 'Last 24h errors',
-            'value' => Error::with('project')->whereHas('project', function ($query) use ($currentUser) {
+            'value' => Error::whereBetween('created_at', [$startDate, $endDate])
+                ->with('project')->whereHas('project', function ($query) use ($currentUser) {
                     $query->where('user_id', $currentUser->id);
-                })->whereBetween('created_at', [$startDate, $endDate])
-                ->count(),
-            'percentage' => Error::with('project')->whereHas('project', function ($query) use ($currentUser) {
+                })->count(),
+            'percentage' => Error::whereBetween('created_at', [$startDateMinusOne, $endDateMinusOne])
+                ->with('project')->whereHas('project', function ($query) use ($currentUser) {
                     $query->where('user_id', $currentUser->id);
-                })->whereBetween('created_at', [$startDateMinusOne, $endDateMinusOne])
-                ->count(),
+                })->count(),
         ];
 
         // Calculate percentage

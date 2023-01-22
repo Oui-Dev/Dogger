@@ -4,7 +4,7 @@ export default function Tbody({ ...props }) {
     }
 
     return (
-        <tbody className="divide-y divide-gray-200 bg-white block overflow-auto" style={{maxHeight: '650px'}}>
+        <tbody className="divide-y divide-gray-200 bg-white block overflow-auto" style={{maxHeight: '70vh'}}>
             { props.data.map((item, index) => (
                 <tr key={index} className="table table-fixed w-full">
                     { props.tableKeys.map((key, index) => (
