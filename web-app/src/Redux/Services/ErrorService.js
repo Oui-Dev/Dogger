@@ -1,15 +1,15 @@
-import { secureRequest } from '../../http-common';
+import http from '../../http-common';
 
 const getAll = () => {
-  return secureRequest.get("/errors");
+  return http.get("/errors");
 };
 
 const updateStatus = (id, data) => {
-  return secureRequest.put(`/errors/status/${id}`, data);
+  return http.put(`/errors/status/${id}`, data);
 };
 
 const updateAssign = (id, data) => {
-  return secureRequest.put(`/errors/assign/${id}`, data);
+  return http.put(`/errors/assign/${id}`, data);
 };
 
 const ErrorService = {
