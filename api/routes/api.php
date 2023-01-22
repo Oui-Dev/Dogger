@@ -62,6 +62,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         'prefix' => 'users',
         'controller' => UserController::class
     ], function () {
+        Route::get('/current', 'get');
         Route::put('/edit', 'update');
         Route::delete('/delete', 'delete');
     });

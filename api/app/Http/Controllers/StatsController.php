@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Error;
 use App\Models\Project;
-use Illuminate\Support\Carbon;
 
 class StatsController extends Controller
 {
