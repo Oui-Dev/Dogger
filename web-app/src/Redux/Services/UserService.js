@@ -1,4 +1,5 @@
-import http  from '../../http-common';
+import http from '../../http-auth';
+import http2 from '../../http-common';
 
 const current = () => {
   return http.get(`/users/current`);
@@ -9,11 +10,11 @@ const devices = (data) => {
 };
 
 const login = (data) => {
-  return http.post(`/login`, data);
+  return http2.post(`/login`, data);
 };
 
 const register = (data) => {
-  return http.post(`/register`, data);
+  return http2.post(`/register`, data);
 };
 
 const update = (data) => {

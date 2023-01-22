@@ -30,8 +30,8 @@ return new class extends Migration
         Schema::create('errors', function (Blueprint $table) {
             $table->id();
             $table->foreignId('project_id')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+                ->constrained()
+                ->onDelete('cascade');
             $table->string('code')->nullable();
             $table->string('message')->nullable();
             $table->string('path')->nullable();

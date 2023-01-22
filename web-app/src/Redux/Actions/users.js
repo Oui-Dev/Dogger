@@ -30,7 +30,7 @@ export const login = (data) => async (dispatch) => {
 
     dispatch({
       type: LOGIN,
-      payload: res.data,
+      payload: res.data.token,
     });
 
     return Promise.resolve(res.data);

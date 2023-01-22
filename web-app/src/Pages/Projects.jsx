@@ -62,7 +62,7 @@ export default function ProjectsList() {
         if (!projectId) return;
         dispatch(deleteProject(projectId))
             .then(() => toast.success('Project deleted !'))
-            .catch(() =>  toast.error('Project deletion failed !'));
+            .catch(() => toast.error('Project deletion failed !'));
     };
 
     return (

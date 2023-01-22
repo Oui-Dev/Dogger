@@ -36,6 +36,7 @@ export default function Home() {
     );
 
     useEffect(() => {
+        if(stats.length === 0) return;
         const cardsData = stats.cards;
         const graphData = stats.graph;
 

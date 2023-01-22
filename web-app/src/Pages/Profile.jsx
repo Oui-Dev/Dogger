@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import Avatar from '../Components/Atoms/Avatar'
 import Button from '../Components/Atoms/Button'
@@ -8,7 +7,6 @@ import { retrieveCurrentUser, updateUser, deleteUser } from '../Redux/Actions/us
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function Profile() {
-    const redirect = useNavigate();
     const user = useSelector(state => state.user);
     const dispatch = useDispatch();
     const [formErrorsBag, setFormErrorsBag] = useState(null);
@@ -25,9 +23,9 @@ export default function Profile() {
 
     const deleteAccount = () => {
         dispatch(deleteUser())
-            .then((res) => {
-                toast.success(res.message);
-                redirect('/login');
+            .then(() => {
+                window.localStorage.removeItem('token');
+                window.location.href = '/login';
             })
             .catch((err) => toast.error(err.response.data.message));
     }
