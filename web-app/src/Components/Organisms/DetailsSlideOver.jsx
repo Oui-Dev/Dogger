@@ -33,9 +33,9 @@ export default function SlideOver({ ...props }) {
         const email = form.get('email');
 
         if(status && status !== props.error.status)
-            props.actions.changeStatus(props.error.id, status);
+            props.actions.changeStatus(Number(props.error.id), Number(status));
         if(email && email !== props.error.email)
-            props.actions.assignTo(props.error.id, email);
+            props.actions.assignTo(Number(props.error.id), email);
         handleClose();
     }
 

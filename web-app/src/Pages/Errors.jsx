@@ -41,20 +41,21 @@ export default function Errors() {
     };
 
     const changeStatus = (id, status) => {
-        if (filteredData.find(item => item.id == id).status == status) return;
+        if (filteredData.find(item => item.id === id).status === status) return;
         dispatch(updateErrorStatus(id, {status: status}))
             .then(() => {
                 toast.success('Status changed !');
-                setFilteredData(filteredData.map(item => item.id == id ? {...item, status: status} : item));
+                console.log(id, status);
+                setFilteredData(filteredData.map(item => item.id === id ? {...item, status: status} : item));
             })
             .catch(() => toast.error('Status change failed !'));
     };
     const assignTo = (id, email) => {
-        if (filteredData.find(item => item.id == id).assigned_to == email) return;
+        if (filteredData.find(item => item.id === id).assigned_to === email) return;
         dispatch(updateErrorAssign(id, {email: email}))
             .then(() => {
                 toast.success('Assigned to ' + email);
-                setFilteredData(filteredData.map(item => item.id == id ? {...item, assigned_to: email} : item));
+                setFilteredData(filteredData.map(item => item.id === id ? {...item, assigned_to: email} : item));
             })
             .catch(() => toast.error('Assignment failed !'));
     };
