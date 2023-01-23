@@ -49,3 +49,17 @@ To setup the database.
 ### `php artisan serve`
 
 To run the api.
+
+## How to connect Dogger to your projects
+
+Axios example :
+
+```js
+axios.post("http://localhost:8000/errors/new", {
+  message: "Error message", // optional
+  code: 500, // optional
+  path: "/", // optional
+  line: 1, // optional
+  timestamp: "2023-01-01 00:00:00" // optional (default: now)
+}, { Authorization: `Bearer yourProjectKey` })
+```
