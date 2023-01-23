@@ -13,7 +13,9 @@ class ProjectsController extends Controller
 
     public function list() {
         $currentUser = request()->user();
-        $projects = Project::where('user_id', $currentUser->id)->get();
+        $projects = Project::where('user_id', $currentUser->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return response()->json([
             'state' => 'success',
@@ -25,7 +27,9 @@ class ProjectsController extends Controller
         $currentUser = request()->user();
 
         $data = request()->validate([
-            'name' => ['required', 'string', 'max:255', Rule::unique('projects')],
+            'name' => ['required', 'string', 'max:255', Rule::unique('projects')->where(function ($query) {
+                return $query->where('user_id', request()->user()->id);
+            })], 
         ]);
 
         $project = Project::create([
@@ -45,7 +49,9 @@ class ProjectsController extends Controller
         $this->hasAccess($project->user_id);
 
         $data = request()->validate([
-            'name' => ['required', 'string', 'max:255', Rule::unique('projects')->ignore($project->id)],
+            'name' => ['required', 'string', 'max:255', Rule::unique('projects')->where(function ($query) {
+                return $query->where('user_id', request()->user()->id);
+            })->ignore($project->id)],
         ]);
 
         $newKey = str_replace(Str::slug($project->name), Str::slug($data['name']), $project->key);

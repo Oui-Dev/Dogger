@@ -56,18 +56,17 @@ class TokenController extends Controller
 
     public function devices() {
         $user = request()->user();
+        $devices = $user->tokens()->orderBy('last_used_at', 'desc')->get();
 
         return response()->json([
             'state' => 'success',
-            'devices' => $user->tokens()->get(),
+            'devices' => $devices,
         ]);
     }
 
-    public function revoke($token = null) {
+    public function revoke($id) {
         $user = request()->user();
-        $token = $token ? hash('sha256', substr($token, 2)) : $user->currentAccessToken()->token;
-
-        $user->tokens()->where('token', $token)->delete();
+        $user->tokens()->where('id', $id)->delete();
 
         return response()->json([
             'state' => 'success',

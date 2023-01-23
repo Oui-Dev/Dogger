@@ -55,7 +55,11 @@ class StatsController extends Controller
             $graphData[date('d-m-Y', strtotime('-'.$i.' day', strtotime('today midnight')))] = 0;
         }
 
-        $errors = Error::where('timestamp', '>=', now()->subDays(7))->get();
+        $errors = Error::with('project')->whereHas('project', function ($query) use ($currentUser) {
+                $query->where('user_id', $currentUser->id);
+            })
+            ->where('timestamp', '>=', now()->subDays(7))
+            ->get();
         
         foreach ($errors as $error) {
             $date = date('d-m-Y', strtotime($error->timestamp));
