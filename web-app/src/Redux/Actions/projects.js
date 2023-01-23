@@ -47,8 +47,6 @@ export const updateProject = (id, data) => async (dispatch) => {
   }
 };
 
-
-//TODO:
 export const deleteProject = (id) => async (dispatch) => {
   try {
     const res = await ProjectDataService.remove(id);
