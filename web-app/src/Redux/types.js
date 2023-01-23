@@ -10,7 +10,6 @@ export const UPDATE_ERROR_ASSIGN = "UPDATE_ERROR_ASSIGN";
 export const GET_CURRENT_USER = "GET_CURRENT_USER";
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
-export const LOGOUT_ALL = "LOGOUT_ALL";
 export const REGISTER = "REGISTER";
 export const UPDATE_USER = "UPDATE_USER";
 export const DELETE_USER = "DELETE_USER";

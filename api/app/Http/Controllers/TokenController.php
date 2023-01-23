@@ -73,13 +73,4 @@ class TokenController extends Controller
             'message' => 'Logged out',
         ]);
     }
-
-    public function revokeAll() {
-        request()->user()->tokens()->delete();
-
-        return response()->json([
-            'state' => 'success',
-            'message' => 'Logged out from all devices !',
-        ]);
-    }
 }

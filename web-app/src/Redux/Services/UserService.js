@@ -29,10 +29,6 @@ const logout = (token) => {
   return http.delete(`/logout/${token}`);
 };
 
-const logoutAll = () => {
-  return http.delete(`/logout/all`);
-};
-
 const UserService = {
   current,
   login,
@@ -40,7 +36,6 @@ const UserService = {
   update,
   remove,
   logout,
-  logoutAll,
   devices
 };
 

@@ -2,7 +2,6 @@ import {
   GET_CURRENT_USER,
   LOGIN,
   LOGOUT,
-  LOGOUT_ALL,
   REGISTER,
   UPDATE_USER,
   DELETE_USER,
@@ -90,18 +89,6 @@ export const logout = (data) => async (dispatch) => {
     dispatch({
       type: LOGOUT,
       payload: data,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-export const logoutAll = () => async (dispatch) => {
-  try {
-    await UserDataService.logoutAll();
-
-    dispatch({
-      type: LOGOUT_ALL,
     });
   } catch (err) {
     console.log(err);

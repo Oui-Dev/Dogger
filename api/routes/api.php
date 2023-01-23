@@ -34,7 +34,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/stats', [StatsController::class, 'create']);
     Route::get('/users/devices', [TokenController::class, 'devices']);
     Route::delete('/logout/{token}', [TokenController::class, 'revoke']);
-    Route::delete('/logout/all', [TokenController::class, 'revokeAll']);
 
     // Projects
     Route::group([

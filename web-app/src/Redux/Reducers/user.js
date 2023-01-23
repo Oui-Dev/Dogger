@@ -2,7 +2,6 @@ import {
   GET_CURRENT_USER,
   LOGIN,
   LOGOUT,
-  LOGOUT_ALL,
   REGISTER,
   UPDATE_USER,
   DELETE_USER,
@@ -20,8 +19,6 @@ function userReducer(user = initialState, action) {
     case LOGIN:
       return payload;
     case LOGOUT:
-      return payload;
-    case LOGOUT_ALL:
       return payload;
     case REGISTER:
       return payload;
