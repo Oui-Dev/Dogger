@@ -9,6 +9,11 @@ import {
 } from "../types";
 
 import UserDataService from "../Services/UserService";
+import { toast } from 'react-toastify';
+
+const isOffline = () => {
+  return !navigator.onLine;
+};
 
 export const retrieveCurrentUser = () => async (dispatch) => {
   try {
@@ -25,6 +30,10 @@ export const retrieveCurrentUser = () => async (dispatch) => {
 
 export const login = (data) => async (dispatch) => {
   try {
+    if(isOffline()) {
+      toast.error('You cannot perform this action while offline !');
+      return Promise.reject();
+    }
     const res = await UserDataService.login(data);
 
     dispatch({
@@ -40,6 +49,10 @@ export const login = (data) => async (dispatch) => {
 
 export const register = (data) => async (dispatch) => {
   try {
+    if(isOffline()) {
+      toast.error('You cannot perform this action while offline !');
+      return Promise.reject();
+    }
     const res = await UserDataService.register(data);
 
     dispatch({
@@ -55,6 +68,10 @@ export const register = (data) => async (dispatch) => {
 
 export const updateUser = (data) => async (dispatch) => {
   try {
+    if(isOffline()) {
+      toast.error('You cannot perform this action while offline !');
+      return Promise.reject();
+    }
     const res = await UserDataService.update(data);
 
     dispatch({
@@ -70,6 +87,10 @@ export const updateUser = (data) => async (dispatch) => {
 
 export const deleteUser = () => async (dispatch) => {
   try {
+    if(isOffline()) {
+      toast.error('You cannot perform this action while offline !');
+      return Promise.reject();
+    }
     const res = await UserDataService.remove();
 
     dispatch({
@@ -84,6 +105,10 @@ export const deleteUser = () => async (dispatch) => {
 
 export const logout = (data) => async (dispatch) => {
   try {
+    if(isOffline()) {
+      toast.error('You cannot perform this action while offline !');
+      return Promise.reject();
+    }
     await UserDataService.logout(data);
 
     dispatch({

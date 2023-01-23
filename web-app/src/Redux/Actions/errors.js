@@ -5,6 +5,11 @@ import {
 } from "../types";
 
 import ErrorDataService from "../Services/ErrorService";
+import { toast } from 'react-toastify';
+
+const isOffline = () => {
+  return !navigator.onLine;
+};
 
 export const retrieveErrors = () => async (dispatch) => {
   try {
@@ -21,6 +26,10 @@ export const retrieveErrors = () => async (dispatch) => {
 
 export const updateErrorStatus = (id, data) => async (dispatch) => {
   try {
+    if(isOffline()) {
+      toast.error('You cannot perform this action while offline !');
+      return Promise.reject();
+    }
     const res = await ErrorDataService.updateStatus(id, data);
 
     dispatch({
@@ -36,6 +45,10 @@ export const updateErrorStatus = (id, data) => async (dispatch) => {
 
 export const updateErrorAssign = (id, data) => async (dispatch) => {
   try {
+    if(isOffline()) {
+      toast.error('You cannot perform this action while offline !');
+      return Promise.reject();
+    }
     const res = await ErrorDataService.updateAssign(id, data);
 
     dispatch({

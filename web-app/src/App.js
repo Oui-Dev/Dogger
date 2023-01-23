@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Routes, Navigate } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // Components
 import Navbar from './Components/Molecules/Navbar/Navbar';
@@ -21,6 +22,13 @@ function App() {
         }
         return false;
     }
+
+    window.addEventListener('offline', () => {
+        toast.info('You\'re now offline !');
+    });
+    window.addEventListener('online', () => {
+        toast.info('You\'re back online !');
+    });
 
     return (
         <>

@@ -44,7 +44,7 @@ export default function Profile() {
                 window.localStorage.removeItem('token');
                 window.location.href = '/login';
             })
-            .catch((err) => toast.error(err.response.data.message));
+            .catch((err) => { if(err?.response) toast.error(err.response.data.message); });
     }
 
     const submitForm = (e) => {
