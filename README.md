@@ -32,10 +32,9 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ## How to run the API
 
-In the API directory, you need to :
+First, you need to create an empty database.
 
-Create an empty database.
-Create '.env' file based on '.env.example'.
+In the API directory, you need to create '.env' file based on '.env.example'.
 
 After that, you can run :
 
