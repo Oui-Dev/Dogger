@@ -19,13 +19,25 @@ function App() {
         if (token) {
             return true;
         }
-        return true;
+        return false;
     }
 
     return (
         <>
-            { !isAuthenticated() && 
-                <section className="min-h-screen p-4">
+            { !isAuthenticated() &&
+                <section>
+                    <ToastContainer
+                        position="top-right"
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="light"
+                    />
                     <Routes>
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />

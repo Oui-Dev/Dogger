@@ -31,8 +31,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('project_id')
                 ->constrained()
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+                ->onDelete('cascade');
             $table->string('code')->nullable();
             $table->string('message')->nullable();
             $table->string('path')->nullable();

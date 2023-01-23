@@ -1,32 +1,33 @@
-import axios from 'axios';
 import logo from '../images/logo_full.png';
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { login } from "../Redux/Actions/users";
+import { useDispatch } from "react-redux";
+import { toast } from 'react-toastify';
+import { browserName, browserVersion, osName, osVersion } from "react-device-detect";
 
 export default function Login() {
-    const BASE_URL = process.env.REACT_APP_API_URL;
-    const [formErrorsBag, setFormErrorsBag] = useState(null);
+    const dispatch = useDispatch();
 
     const submitForm = (e) => {
         e.preventDefault();
-        setFormErrorsBag(null);
         const form = new FormData(e.target);
         const data = {
             email: form.get('email'),
-            password: form.get('password')
+            password: form.get('password'),
+            device_name: `${osName} ${osVersion}, ${browserName} ${browserVersion}`
         }
 
-        axios.post(BASE_URL + "/login", data)
+        dispatch(login(data))
             .then((res) => {
-                if(res.status === 200) console.log('ok');
+                console.log(res);
+                localStorage.setItem('token', res.token);
+                window.location.href = '/';
             })
-            .catch((err) => {
-                if(err.response.status === 422) setFormErrorsBag(err.response.data.errors);
-            });
+            .catch((err) => toast.error(err.response.data.message));
     }
     return (
-        <div className="flex justify-center items-center h-screen">
-            <div className="max-w-md w-full mb-8 flex flex-col gap-10 md:gap-14">
+        <div className="flex justify-center items-center h-screen p-4">
+            <div className="max-w-md w-full mb-24 flex flex-col gap-10 md:gap-14">
                 <div>
                     <img
                         className="mx-auto w-24"
@@ -37,20 +38,18 @@ export default function Login() {
                     <p className="mt-2 text-center text-sm text-gray-600">
                         Or{' '}
                         <Link to="/register" className="font-medium text-dogger-orange-400 hover:text-dogger-orange-500">
-                            create your account
+                            create a new account
                         </Link>
                     </p>
                 </div>
                 <form onSubmit={submitForm}>
-                    <div className={formErrorsBag?.email ? "form-error-div" : ""}>
+                    <div>
                         <label htmlFor="email">Email</label>
                         <input id="email" type="email" name="email" />
-                        { formErrorsBag?.email && <div className="form-error-field">{ formErrorsBag.email[0] }</div> }
                     </div>
-                    <div className={`mt-5 ${formErrorsBag?.password ? "form-error-div" : ""}`}>
+                    <div>
                         <label htmlFor="password">Password</label>
                         <input id="password" type="password" name="password" />
-                        { formErrorsBag?.password && <div className="form-error-field">{ formErrorsBag.password[0] }</div> }
                     </div>
                     <button className="btn-primary mt-6 w-full" type="submit">Login</button>
                 </form>

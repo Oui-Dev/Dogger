@@ -97,10 +97,10 @@ export default function SlideOver({ ...props }) {
                                                     <form onSubmit={submitForm}>
                                                         <div className="md:flex md:px-6 md:py-5">
                                                             <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">
-                                                                Assign_to
+                                                                Assign to
                                                             </dt>
                                                             <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0 sm:ml-6 w-full">
-                                                                <input type="email" name="email" defaultValue={props.error?.assigned_to ?? ""} />
+                                                                <input type="email" name="email" placeholder='example@email.com' defaultValue={props.error?.assigned_to ?? ""} />
                                                             </dd>
                                                         </div>
                                                         <div className="md:flex md:px-6 py-3 md:py-5">

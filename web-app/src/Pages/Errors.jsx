@@ -3,27 +3,30 @@ import { BsReceipt, BsFillExclamationCircleFill } from 'react-icons/bs';
 import { toast } from 'react-toastify';
 import Table from '../Components/Organisms/Table/Table';
 import DetailsSlideOver from '../Components/Organisms/DetailsSlideOver';
-import axios from 'axios';
+import { retrieveErrors, updateErrorAssign, updateErrorStatus } from "../Redux/Actions/errors";
+import { retrieveProjects } from "../Redux/Actions/projects";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Errors() {
-    const BASE_URL = process.env.REACT_APP_API_URL;
-    // in the future, we will get the token from redux
-    const config = {
-        headers: { Authorization: process.env.REACT_APP_TOKEN }
-    };
 
-    const [data, setData] = useState([]);
     const [selectedProject, setSelectedProject] = useState('All');
     const [openSlideOver, setOpenSlideOver] = useState(false);
     const [selectedError, setSelectedError] = useState(null);
-    const projects = [...new Set(data.map(item => item.project.name))];
-    const filteredData = data.filter(item => item.project.name === selectedProject || selectedProject === 'All');
+    const [filteredData, setFilteredData] = useState([]);
+
+    const errors = useSelector(state => state.errors);
+    const projects = useSelector(state => state.projects);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        axios.get(BASE_URL + "/errors", config).then((res) => {
-            if(res.status === 200 && res.data?.errors !== data) setData(res.data.errors);
-        });
+        dispatch(retrieveErrors())
+        dispatch(retrieveProjects())
     }, []);
+
+    useEffect(() => {
+        if (selectedProject === 'All') setFilteredData(errors);
+        else setFilteredData(errors.filter(error => error.project_id == selectedProject));
+    }, [selectedProject, errors]);
 
     const formatedDate = (date) => {
         const newdate = !isNaN(Date.parse(date + " GMT")) ? new Date(date + " GMT") : new Date(date);
@@ -31,31 +34,29 @@ export default function Errors() {
     };
 
     const showDetails = (id) => {
-        const error = data.find(item => item.id === id);
+        const error = filteredData.find(item => item.id === id);
         error.date = formatedDate(error.timestamp);
         setSelectedError(error);
         setOpenSlideOver(true);
     };
 
     const changeStatus = (id, status) => {
-        axios.put(BASE_URL + "/errors/status/" + id, {status: status}, config)
-            .then((res) => {
-                console.log(res);
-                if(res.status === 200) {
-                    setData(data.map(item => item.id === id ? res.data.error : item));
-                    toast.success('Status changed !');
-                }
-            });
+        if (filteredData.find(item => item.id == id).status == status) return;
+        dispatch(updateErrorStatus(id, {status: status}))
+            .then(() => {
+                toast.success('Status changed !');
+                setFilteredData(filteredData.map(item => item.id == id ? {...item, status: status} : item));
+            })
+            .catch(() => toast.error('Status change failed !'));
     };
     const assignTo = (id, email) => {
-        axios.put(BASE_URL + "/errors/assign/" + id, {email: email}, config)
-            .then((res) => {
-                console.log(res);
-                if(res.status === 200) {
-                    setData(data.map(item => item.id === id ? res.data.error : item));
-                    toast.success('Assigned to ' + email);
-                }
-            });
+        if (filteredData.find(item => item.id == id).assigned_to == email) return;
+        dispatch(updateErrorAssign(id, {email: email}))
+            .then(() => {
+                toast.success('Assigned to ' + email);
+                setFilteredData(filteredData.map(item => item.id == id ? {...item, assigned_to: email} : item));
+            })
+            .catch(() => toast.error('Assignment failed !'));
     };
 
     return (
@@ -63,8 +64,8 @@ export default function Errors() {
             <div className="flex justify-between mb-4 gap-4">
                 <select onChange={(e) => setSelectedProject(e.target.value)} className="capitalize py-2">
                     <option value="All">All</option>
-                    {projects.map((item, index) => (
-                        <option value={item} key={index}>{item}</option>
+                    {projects.map((project) => (
+                        <option key={project.id} value={project.id}>{project.name}</option>
                     ))}
                 </select>
             </div>

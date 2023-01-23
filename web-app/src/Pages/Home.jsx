@@ -1,7 +1,7 @@
 import StatsCard from "../Components/Molecules/StatsCard";
 import { BsFillExclamationTriangleFill, BsFillExclamationCircleFill, BsBag } from "react-icons/bs";
 import { useState, useEffect } from "react";
-import axios from 'axios';
+import { retrieveStats } from "../Redux/Actions/stats";
 import { Line } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -11,20 +11,21 @@ import {
     LineElement,
     Tooltip,
 } from 'chart.js';
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Home() {
-    const BASE_URL = process.env.REACT_APP_API_URL;
-    // in the future, we will get the token from redux
-    const config = {
-        headers: { Authorization: process.env.REACT_APP_TOKEN }
-    };
-
     const [chartData, setChartData] = useState(null);
     const [statsCardsData, setStatsCardsData] = useState([
         { title: "Total Projects", value: null, icon: <BsBag />, iconBg: "bg-blue-500", clickable: true, percentage: null, path: "/projects" },
         { title: "Total Errors", value: null, icon: <BsFillExclamationTriangleFill />, iconBg: "bg-dogger-orange-400", clickable: true, percentage: null, path: "/errors" },
         { title: "Last 24h errors", value: null, icon: <BsFillExclamationCircleFill />, iconBg: "bg-red-500", clickable: true, percentage: null, path: "/errors" },
     ]);
+    const dispatch = useDispatch();
+    const stats = useSelector(state => state.stats);
+
+    useEffect(() => {
+        dispatch(retrieveStats())
+    }, []);
 
     ChartJS.register(
         CategoryScale,
@@ -35,34 +36,31 @@ export default function Home() {
     );
 
     useEffect(() => {
-        axios.get(BASE_URL + "/stats", config).then((res) => {
-            if(res.status === 200 && res.data.data) {
-                const cardsData = res.data.data.cards;
-                const graphData = res.data.data.graph;
+        if(stats.length === 0) return;
+        const cardsData = stats.cards;
+        const graphData = stats.graph;
 
-                statsCardsData.forEach((item, index) => {
-                    if(item.title === cardsData[index].title) {
-                        item.value = cardsData[index].value;
-                        if(cardsData[index].percentage) {
-                            item.percentage = cardsData[index].percentage;
-                        }
-                    }
-                });
-                setStatsCardsData(statsCardsData);
-
-                setChartData({
-                    datasets: [
-                        {
-                            label: 'Errors',
-                            data: graphData,
-                            borderColor: '#ff8437',
-                            cubicInterpolationMode: 'monotone',
-                        }
-                    ],
-                });
+        statsCardsData.forEach((item, index) => {
+            if(item.title === cardsData[index].title) {
+                item.value = cardsData[index].value;
+                if(cardsData[index].percentage) {
+                    item.percentage = cardsData[index].percentage;
+                }
             }
         });
-    }, []);
+        setStatsCardsData(statsCardsData);
+
+        setChartData({
+            datasets: [
+                {
+                    label: 'Errors',
+                    data: graphData,
+                    borderColor: '#ff8437',
+                    cubicInterpolationMode: 'monotone',
+                }
+            ],
+        });
+    }, [stats]);
 
     return (
         <>

@@ -1,27 +1,33 @@
-import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { redirect } from "react-router-dom";
 import Avatar from '../Components/Atoms/Avatar'
 import Button from '../Components/Atoms/Button'
 import Modal from '../Components/Organisms/Modal'
+import { retrieveCurrentUser, updateUser, deleteUser } from '../Redux/Actions/users';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Profile() {
-    const BASE_URL = process.env.REACT_APP_API_URL;
-    // in the future, we will get the token from redux
-    const config = {
-        headers: { Authorization: process.env.REACT_APP_TOKEN }
-    };
-
+    const user = useSelector(state => state.user);
+    const dispatch = useDispatch();
     const [formErrorsBag, setFormErrorsBag] = useState(null);
     const [openDangerModal, setOpenDangerModal] = useState(false);
+    const [initials, setInitials] = useState('');
+
+    useEffect(() => {
+        dispatch(retrieveCurrentUser())
+    }, []);
+
+    useEffect(() => {
+        if(user) setInitials(user.firstname[0] + user.lastname[0]);
+    }, [user]);
 
     const deleteAccount = () => {
-        // get profile id from redux
-        // axios.delete(BASE_URL + "/users/delete" + id, config).then((res) => {
-        //     if (res.status === 200) toast.success('Profile deleted !');
-        //     return redirect("/login");
-        // })
+        dispatch(deleteUser())
+            .then(() => {
+                window.localStorage.removeItem('token');
+                window.location.href = '/login';
+            })
+            .catch((err) => toast.error(err.response.data.message));
     }
 
     const submitForm = (e) => {
@@ -29,21 +35,23 @@ export default function Profile() {
         setFormErrorsBag(null);
         const form = new FormData(e.target);
         const data = {};
-        if (!!form.get('firstName')) Object.assign(data, { firstName: form.get('firstName') });
-        if (!!form.get('lastName')) Object.assign(data, { lastName: form.get('lastName') });
+        if (!!form.get('firstName')) Object.assign(data, { firstname: form.get('firstName') });
+        if (!!form.get('lastName')) Object.assign(data, { lastname: form.get('lastName') });
         if (!!form.get('email')) Object.assign(data, { email: form.get('email') });
         if (!!form.get('old_password')) Object.assign(data, { old_password: form.get('old_password') });
         if (!!form.get('password')) Object.assign(data, { password: form.get('password') });
         if (!!form.get('password_confirmation')) Object.assign(data, { password_confirmation: form.get('password_confirmation') })
 
         if (Object.keys(data).length > 0) {
-            axios.put(BASE_URL + "/users/edit", data, config)
+            dispatch(updateUser(data))
                 .then((res) => {
-                    if (res.status === 200) toast.success('Profile updated !');
+                    toast.success(res.message);
+                    setInitials(data.firstname[0] + data.lastname[0]);
                 })
                 .catch((err) => {
-                    if(err.response.status === 422) setFormErrorsBag(err.response.data.errors);
-                });
+                    setFormErrorsBag(err.response.data.errors);
+                    toast.error('Something went wrong !');
+                })
         }
     }
 
@@ -55,36 +63,46 @@ export default function Profile() {
                         <div className="bg-white px-4 py-5 md:p-6">
                             <div className="grid grid-cols-6 gap-6">
                                 <div className="inline-grid col-span-6 md:col-span-6 justify-items-center md:justify-items-start">
-                                    <Avatar initials='KB' />
+                                    <Avatar initials={initials} />
                                 </div>
                                 <div className={`col-span-6 md:col-span-3 ${formErrorsBag?.firstname ? "form-error-div" : ""}`}>
                                     <label htmlFor="firstName">First name</label>
-                                    <input name="firstName" id="firstName" autoComplete='given-name'/>
-                                    { formErrorsBag?.firstname && <div className="form-error-field">{ formErrorsBag.firstname[0] }</div> }
+                                    <input name="firstName" id="firstName" autoComplete='given-name' defaultValue={user?.firstname} />
+                                    {formErrorsBag?.firstname &&
+                                        <div className="form-error-field">{formErrorsBag.firstname[0]}</div>
+                                    }
                                 </div>
 
                                 <div className={`col-span-6 md:col-span-3 ${formErrorsBag?.lastname ? "form-error-div" : ""}`}>
                                     <label htmlFor="lastName">Last name</label>
-                                    <input name="lastName" id="lastName" autoComplete='family-name'/>
-                                    { formErrorsBag?.lastname && <div className="form-error-field">{ formErrorsBag.lastname[0] }</div> }
+                                    <input name="lastName" id="lastName" autoComplete='family-name' defaultValue={user?.lastname}/>
+                                    {formErrorsBag?.lastname &&
+                                        <div className="form-error-field">{formErrorsBag.lastname[0]}</div>
+                                    }
                                 </div>
 
                                 <div className={`col-span-6 ${formErrorsBag?.email ? "form-error-div" : ""}`}>
                                     <label htmlFor="email">Email address</label>
-                                    <input name="email" id="email" autoComplete='email'/>
-                                    { formErrorsBag?.email && <div className="form-error-field">{ formErrorsBag.email[0] }</div> }
+                                    <input name="email" id="email" autoComplete='email' defaultValue={user?.email}/>
+                                    {formErrorsBag?.email &&
+                                        <div className="form-error-field">{formErrorsBag.email[0]}</div>
+                                    }
                                 </div>
 
                                 <div className={`col-span-6 md:col-span-6 lg:col-span-2 ${formErrorsBag?.old_password ? "form-error-div" : ""}`}>
                                     <label htmlFor="old_password">Current Password</label>
                                     <input type="password" name="old_password" id="old_password" autoComplete='current-password'/>
-                                    { formErrorsBag?.old_password && <div className="form-error-field">{ formErrorsBag.old_password[0] }</div> }
+                                    {formErrorsBag?.old_password &&
+                                        <div className="form-error-field">{formErrorsBag.old_password[0]}</div>
+                                    }
                                 </div>
 
                                 <div className={`col-span-6 md:col-span-3 lg:col-span-2 ${formErrorsBag?.password ? "form-error-div" : ""}`}>
                                     <label htmlFor="password">New Password</label>
                                     <input type="password" name="password" id="password" autoComplete='new-password'/>
-                                    { formErrorsBag?.password && <div className="form-error-field">{ formErrorsBag.password[0] }</div> }
+                                    {formErrorsBag?.password &&
+                                        <div className="form-error-field">{formErrorsBag.password[0]}</div>
+                                    }
                                 </div>
 
                                 <div className="col-span-6 md:col-span-3 lg:col-span-2">

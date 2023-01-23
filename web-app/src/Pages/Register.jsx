@@ -1,12 +1,13 @@
-import axios from 'axios';
 import logo from '../images/logo_full.png';
 import { Link } from "react-router-dom";
 import { browserName, browserVersion, osName, osVersion } from "react-device-detect";
 import { useState } from "react";
+import { useDispatch } from 'react-redux';
+import { register } from '../Redux/Actions/users';
 
 export default function Login() {
-    const BASE_URL = process.env.REACT_APP_API_URL;
     const [formErrorsBag, setFormErrorsBag] = useState(null);
+    const dispatch = useDispatch();
 
     const submitForm = (e) => {
         e.preventDefault();
@@ -21,10 +22,11 @@ export default function Login() {
             device_name: `${osName} ${osVersion}, ${browserName} ${browserVersion}`
         }
 
-        axios.post(BASE_URL + "/register", data)
+        dispatch(register(data))
             .then((res) => {
                 console.log(res);
-                if(res.status === 200) console.log('ok');
+                localStorage.setItem('token', res.token);
+                window.location.href = '/';
             })
             .catch((err) => {
                 if(err.response.status === 422) setFormErrorsBag(err.response.data.errors);
@@ -32,8 +34,8 @@ export default function Login() {
     }
 
     return (
-        <div className="flex justify-center items-center h-screen">
-            <div className="max-w-md w-full mb-8 flex flex-col gap-6 md:gap-12">
+        <div className="flex justify-center items-center h-screen p-4">
+            <div className="max-w-md w-full mb-14 flex flex-col gap-6 md:gap-12">
                 <div>
                     <img
                         className="mx-auto w-24"

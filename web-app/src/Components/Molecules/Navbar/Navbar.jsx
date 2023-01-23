@@ -3,10 +3,14 @@ import { Link, NavLink } from "react-router-dom";
 import logo from '../../../images/logo.png';
 import { BsList, BsX } from "react-icons/bs";
 import './Navbar.scss';
+import { logout } from '../../../Redux/Actions/users';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 
 function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [navBarBg, setNavbarBg] = useState('light');
+    const dispatch = useDispatch();
 
     const switchState = () => () => {
         setIsOpen(!isOpen);
@@ -30,6 +34,15 @@ function Navbar() {
         setNavbarBg(window.scrollY > 10 ? 'dark' : 'light');
     };
 
+    const _logout = () => {
+        dispatch(logout(localStorage.getItem('token')))
+            .then(() => {
+                localStorage.removeItem('token');
+                window.location.href = '/login';
+            })
+            .catch((err) => toast.error("Something went wrong"));
+    }
+
     return (
         <header className={navBarBg}>
             {/* Laptop */}
@@ -48,7 +61,7 @@ function Navbar() {
                 </div>
 
                 <div className="button-side">
-                    <Link to="" className="menu-button">Log out</Link>
+                    <button onClick={_logout} className="menu-button">Log out</button>
                 </div>
             </nav>
 
@@ -73,7 +86,7 @@ function Navbar() {
                             <NavLink to="/profile" className={({ isActive }) => (isActive ? 'text-dogger-orange-500' : '')}>Profile</NavLink>
                         </div>
                         <div className="px-5 py-5 grid grid-cols-2 gap-5">
-                            <Link to="" className="menu-button orange">Déconnexion</Link>
+                            <button onClick={_logout} className="menu-button orange">Log out</button>
                         </div>
                     </div>
                 </div>
