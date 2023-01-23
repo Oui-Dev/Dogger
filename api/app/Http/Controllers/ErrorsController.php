@@ -38,10 +38,10 @@ class ErrorsController extends Controller
 
         Error::create([
             'project_id' => $data['project_id'],
-            'code' => $data['code'],
-            'message' => $data['message'],
-            'path' => $data['path'],
-            'line' => $data['line'],
+            'code' => $data['code'] ?? null,
+            'message' => $data['message'] ?? null,
+            'path' => $data['path'] ?? null,
+            'line' => $data['line'] ?? null,
             'timestamp' => $data['timestamp'] ?? now(),
             'status' => 0,
         ]);
