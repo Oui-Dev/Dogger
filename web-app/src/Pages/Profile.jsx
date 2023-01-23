@@ -3,23 +3,40 @@ import { toast } from 'react-toastify';
 import Avatar from '../Components/Atoms/Avatar'
 import Button from '../Components/Atoms/Button'
 import Modal from '../Components/Organisms/Modal'
-import { retrieveCurrentUser, updateUser, deleteUser } from '../Redux/Actions/users';
+import Table from '../Components/Organisms/Table/Table';
+import { retrieveCurrentUser, updateUser, deleteUser, retrieveUserDevices, logout } from '../Redux/Actions/users';
+import { BsBoxArrowRight } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function Profile() {
-    const user = useSelector(state => state.user);
-    const dispatch = useDispatch();
     const [formErrorsBag, setFormErrorsBag] = useState(null);
     const [openDangerModal, setOpenDangerModal] = useState(false);
     const [initials, setInitials] = useState('');
+    const [devices, setDevices] = useState([]);
+    const [user, setUser] = useState({});
+    const data = useSelector(state => state.user);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(retrieveCurrentUser())
+        dispatch(retrieveCurrentUser());
+        dispatch(retrieveUserDevices());
     }, []);
 
     useEffect(() => {
-        if(user) setInitials(user.firstname[0] + user.lastname[0]);
-    }, [user]);
+        if(typeof data === 'object' && data?.firstname) {
+            setInitials(data.firstname[0] + data.lastname[0]);
+            setUser(data);
+        }
+        else if(Array.isArray(data) && data.length > 0) {
+            const currentTokenId = localStorage.getItem('token')[0];
+            data.forEach(device => {
+                if(device.id == currentTokenId) {
+                    device.name = 'Current Device';
+                }
+            });
+            setDevices(data);
+        };
+    }, [data]);
 
     const deleteAccount = () => {
         dispatch(deleteUser())
@@ -53,6 +70,20 @@ export default function Profile() {
                     toast.error('Something went wrong !');
                 })
         }
+    }
+
+    const _logout = (id) => {
+        dispatch(logout(id))
+            .then(() => {
+                if(id == localStorage.getItem('token')[0]) {
+                    window.localStorage.removeItem('token');
+                    window.location.href = '/login';
+                } else {
+                    toast.success('This device has been logged out successfully !')
+                    setDevices(devices.filter(device => device.id !== id));
+                }
+            })
+            .catch(() => toast.error("Something went wrong"));
     }
 
     return (
@@ -118,18 +149,32 @@ export default function Profile() {
                                 onClick={(e) => {
                                     setOpenDangerModal(true)
                                     e.preventDefault()
-                                }}> Delete Account </Button>
+                                }}>
+                                Delete Account
+                            </Button>
                             <button className="btn-primary" type="submit">Save</button>
                         </div>
                     </div>
                 </form>
+                <div className="mt-12">
+                    <h2 className="text-xl font-medium mb-4">Connected Devices</h2>
+                    <Table
+                        tableTitles={['Name', 'Created At', 'Last used at']}
+                        tableKeys={['name', 'created_at', 'last_used_at']}
+                        data={devices}
+                        actions={[
+                            { function: _logout, fctParam: 'id', icon: <BsBoxArrowRight />, hover: 'hover:text-red-500' }
+                        ]}
+                    />
+                </div>
             </div>
             <Modal
                 open={openDangerModal}
                 title="Delete Account"
                 description="Are you sure you want to delete your account? All of your data will be permanently removed. This action cannot be undone."
                 type="danger"
-                actions={{ close: setOpenDangerModal, submit: deleteAccount }} />
+                actions={{ close: setOpenDangerModal, submit: deleteAccount }}
+            />
         </>
     )
 }

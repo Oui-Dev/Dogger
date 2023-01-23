@@ -28,7 +28,7 @@ function App() {
                 <section>
                     <ToastContainer
                         position="top-right"
-                        autoClose={5000}
+                        autoClose={4000}
                         hideProgressBar={false}
                         newestOnTop={false}
                         closeOnClick
@@ -50,7 +50,7 @@ function App() {
                 <section className="min-h-screen">
                     <ToastContainer
                         position="top-right"
-                        autoClose={5000}
+                        autoClose={4000}
                         hideProgressBar={false}
                         newestOnTop={false}
                         closeOnClick

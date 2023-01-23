@@ -114,7 +114,7 @@ export const retrieveUserDevices = () => async (dispatch) => {
 
     dispatch({
       type: GET_USER_DEVICES,
-      payload: res.data,
+      payload: res.data.devices,
     });
   } catch (err) {
     console.log(err);

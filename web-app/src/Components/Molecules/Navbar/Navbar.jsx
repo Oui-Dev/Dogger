@@ -35,12 +35,13 @@ function Navbar() {
     };
 
     const _logout = () => {
-        dispatch(logout(localStorage.getItem('token')))
+        const tokenID = localStorage.getItem('token')[0];
+        dispatch(logout(tokenID))
             .then(() => {
                 localStorage.removeItem('token');
                 window.location.href = '/login';
             })
-            .catch((err) => toast.error("Something went wrong"));
+            .catch(() => toast.error("Something went wrong"));
     }
 
     return (

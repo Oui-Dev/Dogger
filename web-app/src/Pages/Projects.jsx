@@ -53,6 +53,7 @@ export default function ProjectsList() {
     const _editProject = () => {
         const name = {name: projectName.current.value};
         if (!name.name || !projectId) return;
+        if (name.name === data.find(item => item.id === projectId).name) return;
         dispatch(updateProject(projectId , name))
             .then((res) => toast.success(res.message))
             .catch(() => toast.error('Project edition failed !'));
