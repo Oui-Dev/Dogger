@@ -55,7 +55,7 @@ To run the api.
 Axios example :
 
 ```js
-axios.post("http://localhost:8000/errors/new", {
+axios.post("http://localhost:8000/api/errors/new", {
   message: "Error message", // optional
   code: 500, // optional
   path: "/", // optional
