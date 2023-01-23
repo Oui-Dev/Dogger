@@ -23,7 +23,7 @@ export default function Login() {
                 localStorage.setItem('token', res.token);
                 window.location.href = '/';
             })
-            .catch((err) => toast.error(err.response.data.message));
+            .catch((err) => { if(err?.response) toast.error(err.response.data.message); });
     }
     return (
         <div className="flex justify-center items-center h-screen p-4">
